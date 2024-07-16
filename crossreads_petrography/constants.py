@@ -4,4 +4,7 @@ PATH_HERE = Path(__file__).parent.resolve()
 PATH_REPO = PATH_HERE.parent.resolve()
 PATH_DATA = PATH_REPO / 'data'
 PATH_INPUT_DATA = PATH_DATA / 'input'
+PATH_OUTPUT_DATA = PATH_DATA / 'output'
 
+for path in [PATH_INPUT_DATA, PATH_OUTPUT_DATA]:
+    path.mkdir(parents=True, exist_ok=True)
