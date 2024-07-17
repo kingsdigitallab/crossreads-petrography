@@ -2,3 +2,12 @@ pandas
 gspread
 google-auth
 loguru
+shapely
+plotly
+scipy
+openpyxl
+nbformat>=4.2.0
+ipython
+kaleido
+scikit-learn
+plotnine
