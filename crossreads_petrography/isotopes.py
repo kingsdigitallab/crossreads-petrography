@@ -17,7 +17,7 @@ class IsotopeConverter:
         logger.info("Reading isotope curve data from Google Sheets")
         df = read_input_data_folder(PATH_ISOTOPE_INPUT_DATA if not IN_COLAB else PATH_ISOTOPE_INPUT_COLAB)
         df = df.replace({'':np.nan})
-        types = {x.split('_')[0] for x in df.columns}
+        types = {'_'.join(x.split('_')[:-1]) for x in df.columns}
         reshaped_data = []
         for _, row in df.iterrows():
             for typename in types:
