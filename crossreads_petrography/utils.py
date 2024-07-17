@@ -1,5 +1,17 @@
 from .imports import *
 
+# Add these lines at the top of the file
+auth = None
+drive = None
+default = None
+
+if IN_COLAB:
+    try:
+        from google.colab import auth, drive
+        from google.auth import default
+    except ImportError:
+        pass
+
 def get_crossreads_spreadsheet():
     return get_spreadsheet(SPREADSHEET_URL)
 
@@ -16,6 +28,8 @@ def get_spreadsheet(spreadsheet_url, credentials_path: Optional[str] = None):
     logger.debug("Authenticating and accessing Google Spreadsheet")
     
     if IN_COLAB:
+        if auth is None:
+            raise ImportError("Failed to import google.colab.auth")
         auth.authenticate_user()
         creds, _ = default()
     else:
@@ -121,6 +135,8 @@ def read_input_data_folder(folder: str) -> pd.DataFrame:
     logger.debug(f"Reading spreadsheet data from {folder}")
 
     if IN_COLAB:
+        if drive is None:
+            raise ImportError("Failed to import google.colab.drive")
         drive.mount('/content/drive')
         folder = os.path.join('/content/drive/MyDrive', folder)
 
@@ -140,6 +156,8 @@ def read_input_data_folder_txt(folder:str) -> str:
     logger.debug(f"Reading txt data from {folder}")
 
     if IN_COLAB:
+        if drive is None:
+            raise ImportError("Failed to import google.colab.drive")
         drive.mount('/content/drive')
         folder = os.path.join('/content/drive/MyDrive', folder)
 
