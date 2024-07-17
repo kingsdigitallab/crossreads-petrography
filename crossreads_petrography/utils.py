@@ -90,8 +90,20 @@ def read_df(filename: str) -> pd.DataFrame:
         if file_extension == '.csv':
             # Detect separator for CSV files
             with open(filename, 'r') as f:
-                dialect = csv.Sniffer().sniff(f.read(1024))
-            return pd.read_csv(filename, sep=dialect.delimiter)
+                sample = f.read(4096)  # Read more of the file
+                try:
+                    dialect = csv.Sniffer().sniff(sample)
+                    separator = dialect.delimiter
+                except csv.Error:
+                    # Fallback to common separators if sniffing fails
+                    for sep in [',', ';', '\t', '|']:
+                        if sep in sample:
+                            separator = sep
+                            break
+                    else:
+                        separator = ','  # Default to comma if nothing else works
+            
+            return pd.read_csv(filename, sep=separator)
         elif file_extension in ['.xlsx', '.xls']:
             return pd.read_excel(filename)
         elif file_extension == '.tsv':
@@ -121,4 +133,3 @@ def read_input_data_folder(input_folder: Optional[str] = None) -> pd.DataFrame:
 
     logger.debug(f"Read {len(df)} rows from input data")
     return df
-

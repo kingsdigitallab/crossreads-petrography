@@ -9,3 +9,5 @@ openpyxl
 nbformat>=4.2.0
 ipython
 kaleido
+scikit-learn
+plotnine

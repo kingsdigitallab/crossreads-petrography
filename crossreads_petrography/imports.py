@@ -16,6 +16,9 @@ from collections import defaultdict
 from shapely.geometry import Point, Polygon
 import plotly.graph_objects as go
 from scipy.interpolate import splprep, splev
+from sklearn.linear_model import LinearRegression
+import gspread
+from google.oauth2 import service_account
 
 
 try:
@@ -25,9 +28,6 @@ try:
 except ImportError:
     IN_COLAB = False
 
-
-import gspread
-from google.oauth2 import service_account
 
 
 logger.remove()

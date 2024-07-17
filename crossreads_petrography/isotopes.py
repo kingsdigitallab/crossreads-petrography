@@ -69,12 +69,6 @@ class IsotopeConverter:
 
 
 
-def clean_sample_num(x):
-    if not x:
-        return x
-    x = x.strip().split()[0].split('-')[0]
-    return ''.join(y for y in x if y.isdigit())
-
 def plot_curves(df_curves, df_points):
     fig = go.Figure()
 

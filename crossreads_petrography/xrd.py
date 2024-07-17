@@ -185,15 +185,17 @@ class XRDConverter:
         # Fill NaN with empty string
         return df_combined.fillna("").rename_axis(df_meta.index.name)
 
-    def update_google_sheet(self, df=None, worksheet_index=0):
+    def save(self, df=None, worksheet_index=0):
         if df is None:
-            df = self.updated_data
-        logger.debug(f"Updating Google Sheet with processed data ({len(df)} rows)")
-        return update_spreadsheet(self.spreadsheet, df, worksheet_index=worksheet_index)
+            df = self.df_updated
+        if df is not None:
+            logger.debug(f"Updating Google Sheet with processed data ({len(df)} rows)")
+            return update_spreadsheet(self.spreadsheet, df, worksheet_index=worksheet_index)
+        else:
+            logger.debug('No updates to apply')
 
     def run(self):
-        if self.df_updated is not None:
-            self.update_google_sheet()
+        self.save()
 
 
 
@@ -233,8 +235,10 @@ def is2(x):
     return True
 
 def value_was_updated(x,y):
-    x=str(x)
-    y=str(y)
+    x_f = try_float(x)
+    y_f = try_float(y)
+    x=str(x_f) if x_f is not np.nan else str(x)
+    y=str(y_f) if y_f is not np.nan else str(y)
     if y=='nan': return False
     return x != y
 
