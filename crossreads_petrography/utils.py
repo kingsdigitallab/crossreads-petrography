@@ -1,12 +1,11 @@
 from .imports import *
 
-@cache
 def get_crossreads_spreadsheet():
     return get_spreadsheet(SPREADSHEET_URL)
 
 @cache
 def read_crossreads_spreadsheet(worksheet_index=0):
-    return read_spreadsheet(SPREADSHEET_URL)
+    return read_spreadsheet(SPREADSHEET_URL, worksheet_index=worksheet_index)
 
 
 def get_spreadsheet(spreadsheet_url, credentials_path: Optional[str] = None):

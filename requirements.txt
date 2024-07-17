@@ -6,3 +6,6 @@ shapely
 plotly
 scipy
 openpyxl
+nbformat>=4.2.0
+ipython
+kaleido
