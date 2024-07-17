@@ -114,12 +114,11 @@ def read_df(filename: str) -> pd.DataFrame:
         logger.error(f"Error reading file {filename}: {str(e)}")
         raise
     
-def read_input_data_folder(input_folder: Optional[str] = None) -> pd.DataFrame:
+def read_input_data_folder(folder: str) -> pd.DataFrame:
     """
     Read XRD input data from a folder, either on Google Drive or local path.
     """
-    folder = input_folder or PATH_XRD_INPUT_DATA
-    logger.debug(f"Reading XRD data from {folder}")
+    logger.debug(f"Reading spreadsheet data from {folder}")
 
     if IN_COLAB:
         drive.mount('/content/drive')
@@ -133,3 +132,21 @@ def read_input_data_folder(input_folder: Optional[str] = None) -> pd.DataFrame:
 
     logger.debug(f"Read {len(df)} rows from input data")
     return df
+
+def read_input_data_folder_txt(folder:str) -> str:
+    """
+    Read XRD input data from a folder, either on Google Drive or local path.
+    """
+    logger.debug(f"Reading txt data from {folder}")
+
+    if IN_COLAB:
+        drive.mount('/content/drive')
+        folder = os.path.join('/content/drive/MyDrive', folder)
+
+    o=[]
+    for ifn in os.listdir(folder):
+        if ifn.endswith('.txt'):
+            with open(os.path.join(folder,ifn)) as f:
+                o.append(f.read())
+    
+    return '\n\n\n\n'.join(o)
