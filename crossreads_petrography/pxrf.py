@@ -26,7 +26,7 @@ class PXRFConverter:
     def df_descriptions(self):
         logger.info("Loading pXRF descriptions")
         odf=read_spreadsheet(PXRF_DESCRIPTIONS_URL).T
-        odf.columns=[x.strip() for x in odf]
+        odf.columns=[str(x).strip() for x in odf]
         return odf
     
     @cached_property
