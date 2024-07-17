@@ -1,5 +1,13 @@
 from .imports import *
 
+@cache
+def get_crossreads_spreadsheet():
+    return get_spreadsheet(SPREADSHEET_URL)
+
+@cache
+def read_crossreads_spreadsheet(worksheet_index=0):
+    return read_spreadsheet(SPREADSHEET_URL)
+
 
 def get_spreadsheet(spreadsheet_url, credentials_path: Optional[str] = None):
     """
@@ -114,3 +122,4 @@ def read_input_data_folder(input_folder: Optional[str] = None) -> pd.DataFrame:
 
     logger.debug(f"Read {len(df)} rows from input data")
     return df
+

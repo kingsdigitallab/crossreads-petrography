@@ -1,33 +1,24 @@
 from ..imports import *
+from .constants import *
+from .utils import *
+from functools import cached_property
 
 class IsotopeConverter:
     def __init__(self):
         logger.info("Initializing IsotopeConverter")
-        self.authenticate()
 
-    def authenticate(self):
-        logger.info("Authenticating and accessing Google Spreadsheet")
-        creds = service_account.Credentials.from_service_account_file(
-            CREDENTIALS_PATH, scopes=['https://www.googleapis.com/auth/spreadsheets.readonly']
-        )
-        self.client = gspread.authorize(creds)
+    @cached_property
+    def df_curves(self):
+        logger.info("Reading isotope curve data from Google Sheets")
+        return read_input_data_folder(PATH_ISOTOPE_INPUT_DATA if not IN_COLAB else PATH_ISOTOPE_INPUT_COLAB)
 
-    def read_isotope_data(self):
-        logger.info("Reading isotope data from Google Sheets")
-        self.df_curves = self.read_sheet(ISOTOPE_CURVES_URL)
-        self.df_samples = self.read_sheet(ISOTOPE_SAMPLES_URL)
+    @cached_property
+    def df_samples(self):
+        logger.info("Reading isotope sample data from Google Sheets")
+        return read_spreadsheet(ISOTOPE_SAMPLES_URL)
 
-    def read_sheet(self, url):
-        sheet = self.client.open_by_url(url).sheet1
-        data = sheet.get_all_values()
-        return pd.DataFrame(data[1:], columns=data[0])
-
-    def process_data(self):
-        logger.info("Processing isotope data")
-        self.df_curves_reshaped = self.reshape_curves()
-        self.df_points = self.process_samples()
-
-    def reshape_curves(self):
+    @cached_property
+    def df_curves_reshaped(self):
         types = {x.split('_')[0] for x in self.df_curves.columns}
         reshaped_data = []
         for _, row in self.df_curves.iterrows():
@@ -39,21 +30,31 @@ class IsotopeConverter:
                 reshaped_data.append(d)
         return pd.DataFrame(reshaped_data).dropna()
 
-    def process_samples(self):
+    @cached_property
+    def df_points(self):
         df = self.df_samples.copy()
         df['Sample'] = df['Sample'].apply(clean_sample_num)
         df = df[['Sample', 'x', 'y']]
         return df.query('Sample!="" & x!="" & y!=""')
+    
+    @cached_property
+    def df_intersections(self):
+        return determine_polygon_intersections(self.df_curves_reshaped, self.df_points)
 
-    def generate_outputs(self, output_folder):
-        logger.info("Generating isotope outputs")
-        fig = plot_curves(self.df_curves_reshaped, self.df_points, output_folder)
-        fig.show()
+    def plot(self, output_folder=None):
+        fig = plot_curves(self.df_curves_reshaped, self.df_points)
+        if output_folder:
+            fig.write_html(output_folder / 'isotope_graph.html')
+            fig.write_image(output_folder / 'isotope_graph.png')
+            fig.write_image(output_folder / 'isotope_graph.pdf')
+        return fig
 
-        results_df = determine_polygon_intersections(self.df_curves_reshaped, self.df_points)
-        results_df.to_excel(output_folder / 'isotope_intersections.xlsx')
+    def generate_outputs(self, output_folder=None):
+        logger.info("Generating isotope outputs")        
+        output_folder = output_folder or PATH_ISOTOPE_OUTPUT
+        self.df_intersections.to_excel(output_folder / 'isotope_intersections.xlsx')
+        self.plot(output_folder=output_folder)
 
     def run(self, output_folder=PATH_ISOTOPE_OUTPUT):
-        self.read_isotope_data()
-        self.process_data()
+        logger.info("Processing isotope data")
         self.generate_outputs(output_folder)

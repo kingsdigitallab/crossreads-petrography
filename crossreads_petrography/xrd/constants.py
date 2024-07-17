@@ -1,6 +1,4 @@
 from ..constants import *
-# SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1Yqxm6pwNAmz8GJDbcqOphNG9WB9xLif8u7sMplVIkqs/edit'
-SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1QDZ6Fc3o95q6ylvkjoNDOFeqNz7Nub8qQCPVV62Pus8/edit'
 
 PATH_XRD_INPUT_DATA = PATH_INPUT_DATA / 'XRD'
 PATH_XRD_INPUT_COLAB = '/content/drive/MyDrive/Crossreads B D1/XRD input data'

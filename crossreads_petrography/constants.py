@@ -8,3 +8,5 @@ PATH_OUTPUT_DATA = PATH_DATA / 'output'
 
 for path in [PATH_INPUT_DATA, PATH_OUTPUT_DATA]:
     path.mkdir(parents=True, exist_ok=True)
+
+SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1QDZ6Fc3o95q6ylvkjoNDOFeqNz7Nub8qQCPVV62Pus8/edit'

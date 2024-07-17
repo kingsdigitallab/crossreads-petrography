@@ -1,7 +1,5 @@
-import os
-import pandas as pd
-import numpy as np
-
+from ..imports import *
+from .constants import *
 
 def try_float(x):
     try:
@@ -40,3 +38,19 @@ def value_was_updated(x,y):
     y=str(y)
     if y=='nan': return False
     return x != y
+
+def calculate_combined_columns(df_big):
+    logger.debug("Calculating combined columns")
+    df_big["XRD clay minerals"] = df_big.apply(
+        lambda row: sum_columns(row, CLAY_MINERALS), axis=1
+    )
+    df_big["XRD K-feldspar"] = df_big.apply(
+        lambda row: sum_columns(row, K_FELDSPAR), axis=1
+    )
+    df_big["XRD plagioclase"] = df_big.apply(
+        lambda row: sum_columns(row, PLAGIOCLASE), axis=1
+    )
+    logger.debug(
+        "Calculated XRD clay minerals, K-feldspar, and plagioclase columns"
+    )
+    return df_big

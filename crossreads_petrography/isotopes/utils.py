@@ -10,7 +10,7 @@ def clean_sample_num(x):
     x = x.strip().split()[0].split('-')[0]
     return ''.join(y for y in x if y.isdigit())
 
-def plot_curves(df_curves, df_points, output_folder):
+def plot_curves(df_curves, df_points):
     fig = go.Figure()
 
     for marble_type, group in df_curves.groupby('marble_type'):
@@ -42,10 +42,6 @@ def plot_curves(df_curves, df_points, output_folder):
         height=800,
         width=1000
     )
-
-    fig.write_html(output_folder / 'isotope_graph.html')
-    fig.write_image(output_folder / 'isotope_graph.png')
-    fig.write_image(output_folder / 'isotope_graph.pdf')
     return fig
 
 def determine_polygon_intersections(df_curves, df_points):

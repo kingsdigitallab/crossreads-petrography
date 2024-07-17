@@ -5,3 +5,4 @@ loguru
 shapely
 plotly
 scipy
+openpyxl
