@@ -168,3 +168,16 @@ def read_input_data_folder_txt(folder:str) -> str:
                 o.append(f.read())
     
     return '\n\n\n\n'.join(o)
+
+
+
+def show_img(path):
+    import base64
+    try:
+        from IPython.display import Image, display, Markdown
+        with open(path, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
+        encoded_md=f"![png](data:image/png;base64,{encoded_string})"
+        display(Markdown(encoded_md))
+    except Exception:
+        pass
