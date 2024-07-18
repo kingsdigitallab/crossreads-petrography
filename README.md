@@ -83,7 +83,7 @@ The `IsotopeConverter` class in `crossreads_petrography.isotopes` handles the pr
 - Saves the processed data and plots to output files
 
 ```python
-from crossreads_petrography.isotopes import *
+from crossreads_petrography.isotopes import IsotopeConverter
 isotope_converter = IsotopeConverter()
 isotope_converter.run()
 ```
@@ -257,33 +257,33 @@ isotope_converter.df_curves
   <tbody>
     <tr>
       <th>0</th>
-      <td>Carrara</td>
-      <td>-0.170109</td>
-      <td>3.094660</td>
+      <td>Naxos</td>
+      <td>-13.932584</td>
+      <td>2.653563</td>
     </tr>
     <tr>
       <th>1</th>
+      <td>Paros-2 (3)</td>
+      <td>-3.583021</td>
+      <td>3.157248</td>
+    </tr>
+    <tr>
+      <th>2</th>
       <td>Proconnesos-1</td>
       <td>-4.981273</td>
       <td>2.678133</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Paros-2 (3)</td>
-      <td>-3.583021</td>
-      <td>3.157248</td>
-    </tr>
-    <tr>
-      <th>4</th>
       <td>Thasos-3</td>
       <td>-10.174782</td>
       <td>2.211302</td>
     </tr>
     <tr>
-      <th>6</th>
-      <td>Paros-1</td>
-      <td>-2.417983</td>
-      <td>6.031553</td>
+      <th>4</th>
+      <td>Carrara</td>
+      <td>-0.170109</td>
+      <td>3.094660</td>
     </tr>
     <tr>
       <th>...</th>
@@ -292,31 +292,31 @@ isotope_converter.df_curves
       <td>...</td>
     </tr>
     <tr>
-      <th>4065</th>
+      <th>4068</th>
       <td>EphesosWhites1</td>
       <td>-9.307172</td>
       <td>3.005405</td>
     </tr>
     <tr>
-      <th>4085</th>
+      <th>4088</th>
       <td>EphesosWhites1</td>
       <td>-9.144790</td>
       <td>3.135135</td>
     </tr>
     <tr>
-      <th>4105</th>
+      <th>4108</th>
       <td>EphesosWhites1</td>
       <td>-8.982409</td>
       <td>3.254054</td>
     </tr>
     <tr>
-      <th>4125</th>
+      <th>4128</th>
       <td>EphesosWhites1</td>
       <td>-8.779432</td>
       <td>3.362162</td>
     </tr>
     <tr>
-      <th>4145</th>
+      <th>4148</th>
       <td>EphesosWhites1</td>
       <td>-8.568336</td>
       <td>3.524324</td>
