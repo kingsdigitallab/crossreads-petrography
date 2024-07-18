@@ -214,23 +214,6 @@ xrd_converter = XRDConverter()
 xrd_converter.run()
 ```
 
-↓
-
-    ---------------------------------------------------------------------------
-
-    TypeError                                 Traceback (most recent call last)
-
-    Cell In[6], line 3
-          1 from crossreads_petrography.xrd import XRDConverter
-          2 xrd_converter = XRDConverter()
-    ----> 3 xrd_converter.run()
-
-    File ~/github/crossreads-petrography/crossreads_petrography/xrd.py:200, in XRDConverter.run(self)
-        199 def run(self):
-    --> 200     self.save()
-
-    TypeError: XRDConverter.save() missing 1 required positional argument: 'df'
-
 ## Explanation
 
 ### Isotopes
@@ -274,33 +257,33 @@ isotope_converter.df_curves
   <tbody>
     <tr>
       <th>0</th>
-      <td>Göktepe</td>
-      <td>-3.268530</td>
-      <td>3.470874</td>
-    </tr>
-    <tr>
-      <th>2</th>
       <td>Carrara</td>
       <td>-0.170109</td>
       <td>3.094660</td>
     </tr>
     <tr>
+      <th>1</th>
+      <td>Proconnesos-1</td>
+      <td>-4.981273</td>
+      <td>2.678133</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Paros-2 (3)</td>
+      <td>-3.583021</td>
+      <td>3.157248</td>
+    </tr>
+    <tr>
       <th>4</th>
-      <td>Proconnesos-2</td>
-      <td>-9.126092</td>
-      <td>2.862408</td>
+      <td>Thasos-3</td>
+      <td>-10.174782</td>
+      <td>2.211302</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>Naxos</td>
-      <td>-13.932584</td>
-      <td>2.653563</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Docimium</td>
-      <td>-11.409500</td>
-      <td>4.077670</td>
+      <td>Paros-1</td>
+      <td>-2.417983</td>
+      <td>6.031553</td>
     </tr>
     <tr>
       <th>...</th>
@@ -309,31 +292,31 @@ isotope_converter.df_curves
       <td>...</td>
     </tr>
     <tr>
-      <th>4063</th>
+      <th>4065</th>
       <td>EphesosWhites1</td>
       <td>-9.307172</td>
       <td>3.005405</td>
     </tr>
     <tr>
-      <th>4083</th>
+      <th>4085</th>
       <td>EphesosWhites1</td>
       <td>-9.144790</td>
       <td>3.135135</td>
     </tr>
     <tr>
-      <th>4103</th>
+      <th>4105</th>
       <td>EphesosWhites1</td>
       <td>-8.982409</td>
       <td>3.254054</td>
     </tr>
     <tr>
-      <th>4123</th>
+      <th>4125</th>
       <td>EphesosWhites1</td>
       <td>-8.779432</td>
       <td>3.362162</td>
     </tr>
     <tr>
-      <th>4143</th>
+      <th>4145</th>
       <td>EphesosWhites1</td>
       <td>-8.568336</td>
       <td>3.524324</td>
@@ -394,44 +377,121 @@ isotope_converter.df_points
       <td>2.72</td>
     </tr>
     <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
+      <th>6</th>
+      <td>ISic000068</td>
+      <td>-2.69</td>
+      <td>2.66</td>
     </tr>
     <tr>
-      <th>91</th>
+      <th>8</th>
+      <td>ISic000163</td>
+      <td>-2.56</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>ISic000368</td>
+      <td>-1.72</td>
+      <td>1.94</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>ISic000711</td>
+      <td>-1.52</td>
+      <td>2.87</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>ISic000729</td>
+      <td>-3.17</td>
+      <td>1.91</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>ISic003300</td>
+      <td>-1.97</td>
+      <td>3.15</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>CU269</td>
+      <td>-1.04</td>
+      <td>2.15</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>CU431</td>
+      <td>-1.99</td>
+      <td>1.83</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>CU477</td>
+      <td>-0.60</td>
+      <td>2.54</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>CU478</td>
+      <td>-2.17</td>
+      <td>2.42</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>EXMFT003</td>
+      <td>-3.91</td>
+      <td>3.59</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>EXMFT013</td>
+      <td>-1.69</td>
+      <td>2.26</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>EXMFT033</td>
+      <td>-1.62</td>
+      <td>2.39</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>EXMFT096</td>
+      <td>-2.06</td>
+      <td>1.89</td>
+    </tr>
+    <tr>
+      <th>21</th>
       <td>EXMFT109</td>
       <td>-2.01</td>
       <td>2.26</td>
     </tr>
     <tr>
-      <th>92</th>
+      <th>22</th>
       <td>EXMFT112</td>
       <td>-2.18</td>
       <td>2.26</td>
     </tr>
     <tr>
-      <th>93</th>
+      <th>23</th>
       <td>EXMFT134</td>
       <td>-2.87</td>
       <td>2.54</td>
     </tr>
     <tr>
-      <th>94</th>
+      <th>24</th>
       <td>ICT005</td>
       <td>-1.78</td>
       <td>1.96</td>
     </tr>
     <tr>
-      <th>95</th>
+      <th>25</th>
       <td>ICT006</td>
       <td>-8.37</td>
       <td>2.71</td>
     </tr>
   </tbody>
 </table>
-<p>81 rows × 3 columns</p>
 </div>
 
 #### Intersecting samples and polygons
@@ -489,29 +549,6 @@ isotope_converter.df_intersections
   </thead>
   <tbody>
     <tr>
-      <th>nan</th>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-    </tr>
-    <tr>
       <th>ISic000104</th>
       <td>✔️</td>
       <td></td>
@@ -535,7 +572,112 @@ isotope_converter.df_intersections
       <td></td>
     </tr>
     <tr>
-      <th>ISic001135</th>
+      <th>ISic000097</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+    </tr>
+    <tr>
+      <th>ISic000004</th>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ISic000034</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ISic000036</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ISic000068</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
       <td>✔️</td>
       <td></td>
       <td></td>
@@ -543,11 +685,228 @@ isotope_converter.df_intersections
       <td></td>
       <td>✔️</td>
       <td>✔️</td>
+    </tr>
+    <tr>
+      <th>ISic000163</th>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ISic000368</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
       <td></td>
       <td>✔️</td>
       <td></td>
       <td></td>
       <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ISic000711</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ISic000729</th>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ISic003300</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+    </tr>
+    <tr>
+      <th>CU269</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>CU431</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>CU477</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>CU478</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>EXMFT003</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td>✔️</td>
       <td></td>
       <td></td>
@@ -558,191 +917,190 @@ isotope_converter.df_intersections
       <td>✔️</td>
     </tr>
     <tr>
-      <th>ISic000181</th>
+      <th>EXMFT013</th>
+      <td></td>
+      <td></td>
       <td>✔️</td>
-      <td>✖️</td>
-      <td>✖️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td>✔️</td>
-      <td>✖️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>EXMFT033</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>EXMFT096</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
       <td>✔️</td>
       <td>✔️</td>
-      <td>✖️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>EXMFT109</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>EXMFT112</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>EXMFT134</th>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
       <td>✔️</td>
       <td>✔️</td>
       <td>✔️</td>
       <td>✔️</td>
       <td>✔️</td>
       <td>✔️</td>
-      <td>✖️</td>
+      <td></td>
+      <td></td>
       <td>✔️</td>
+      <td></td>
       <td>✔️</td>
-      <td>✖️</td>
-      <td>✖️</td>
       <td>✔️</td>
     </tr>
     <tr>
-      <th>ISic000107</th>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
+      <th>ICT005</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>taoLastraR</th>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-    </tr>
-    <tr>
-      <th>taoPiedi</th>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-    </tr>
-    <tr>
-      <th>taoSarcofago</th>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-    </tr>
-    <tr>
-      <th>taomascherome</th>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-    </tr>
-    <tr>
-      <th>taoreclinato</th>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
-      <td>✖️</td>
+      <th>ICT006</th>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
     </tr>
   </tbody>
 </table>
-<p>122 rows × 20 columns</p>
 </div>
 
