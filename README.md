@@ -25,15 +25,45 @@ For development or local modifications, clone the repo and install via `pip inst
 
 ### Configure
 
+The project uses a flexible configuration system to manage paths and settings across different environments (local development, Google Colab, and production).
+
+#### Setup
+
+1. On first run, a default `config.yaml` file will be created in `~/crossreads_petrography_data/`.
+2. Modify this file to adjust paths or URLs as needed for your environment.
+
+#### Key Configuration Options
+
+- `production`: Set to `true` for production environment, `false` for development.
+- `paths`: Contains paths for various data sources and outputs.
+  - Each path typically has `local` and `colab` options.
+  - Some paths include `url` options for Google Sheets integration.
+
+#### Environment-specific Behavior
+
+- Local development: Uses local file paths by default.
+- Google Colab: Automatically uses Colab-specific paths and authentication.
+- Production: Can use different URLs or paths as specified in the config.
+
+#### Google Sheets Integration
+
 To use the Google Sheets integration:
 
 1. For Google Colab: Authentication is handled automatically.
+
 2. For local development: Place your Google service account credentials JSON file at:
    ```
-   ~/.config/crossreads_petrography/credentials.json
+   ~/crossreads_petrography_data/credentials.json
    ```
 
+This path is defined in the config file as `paths.credentials.local`.
+
+#### Further Configuration
+
+For detailed configuration options, refer to the `config.yaml` file in your project directory. You can customize paths, URLs, and other settings to suit your specific environment and needs.
+
 ```python
+# for readme
 from crossreads_petrography.utils import logger
 logger.remove()
 ```
@@ -409,7 +439,7 @@ show_img(get_path('isotopes.output') / 'isotope_graph.png')
 ↓
 
     
-![png](README_files/README_27_0.png)
+![png](README_files/README_26_0.png)
     
 
 ##### Intersection table

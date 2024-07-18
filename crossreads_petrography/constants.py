@@ -20,6 +20,7 @@ PATH_REPO_DATA = PATH_REPO / 'data'
 PATH_CONFIG_DEFAULT = PATH_REPO / "default_config.yaml"
 
 PATH_HOME = Path.home() / "crossreads_petrography_data"
+PATH_HOME.mkdir(exist_ok=True)
 PATH_CONFIG = PATH_HOME / "config.yaml"
 
 
@@ -110,9 +111,9 @@ PATH_DATA = config.paths.data.local
 
 
 # Copy default config to user config if it doesn't exist
-# if not PATH_CONFIG.exists():
-#     shutil.copy(PATH_CONFIG_DEFAULT, PATH_CONFIG)
-#     print(f"Created default config file at {PATH_CONFIG}")
+if not PATH_CONFIG.exists():
+    shutil.copy(PATH_CONFIG_DEFAULT, PATH_CONFIG)
+    print(f"Created default config file at {PATH_CONFIG}")
 
 if not PATH_DATA.exists():
     shutil.copytree(PATH_REPO_DATA, PATH_DATA)
