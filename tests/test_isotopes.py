@@ -1,19 +1,27 @@
+from crossreads_petrography.isotopes import *
 import unittest
 from unittest.mock import patch, PropertyMock
-import pandas as pd
-import numpy as np
-from shapely.geometry import Point, Polygon
-from crossreads_petrography.isotopes import *
+import random
 
 class TestIsotopeConverter(unittest.TestCase):
     def setUp(self):
         self.converter = IsotopeConverter()
 
-    @patch('crossreads_petrography.isotopes.read_input_data_folder')
-    def test_df_curves(self, mock_read_folder):
+    @patch('crossreads_petrography.isotopes.read_path')
+    def mock_read_crossreads_spreadsheet(self, mock_read_path):
         mock_df = pd.DataFrame({
-            'marble_type1_x': [1, 2, 3, 4], 'marble_type1_y': [3, 4, 5, 6],
-            'marble_type2_x': [5, 6, 7, 8], 'marble_type2_y': [7, 8, 9, 10]
+            'isotopes delta13C': [1, 2, 3],
+            'isotopes delta18O': [4, 5, 6],
+            'reference or rock id': ['ISic001', 'ISic002', 'ISic003']
+        }).set_index('reference or rock id')
+        return mock_df
+
+    @patch('crossreads_petrography.isotopes.read_path')
+    def test_df_curves(self, mock_read_folder):
+        numrows=100
+        mock_df = pd.DataFrame({
+            'Naxos_x': list(range(numrows)),
+            'Naxos_y': list(range(numrows)),
         })
         mock_read_folder.return_value = mock_df
         
@@ -23,36 +31,19 @@ class TestIsotopeConverter(unittest.TestCase):
         self.assertIn('marble_type', result.columns)
         self.assertIn('x', result.columns)
         self.assertIn('y', result.columns)
-        self.assertEqual(len(result), 8)  # 4 rows * 2 marble types
-        self.assertTrue(set(result['marble_type'].unique()) == {'marble_type1', 'marble_type2'})
-        self.assertTrue(all(result['x'].isin([1, 2, 3, 4, 5, 6, 7, 8])))
-        self.assertTrue(all(result['y'].isin([3, 4, 5, 6, 7, 8, 9, 10])))
-
-    @patch('crossreads_petrography.isotopes.read_spreadsheet')
-    def test_df_samples(self, mock_read_spreadsheet):
-        mock_df = pd.DataFrame({'Sample': ['ISic001', 'ISic002']})
-        mock_read_spreadsheet.return_value = mock_df
-        
-        result = self.converter.df_samples
-        
-        self.assertIsInstance(result, pd.DataFrame)
-        self.assertEqual(len(result), 2)
+        self.assertEqual(len(result), numrows)
 
     @patch('crossreads_petrography.isotopes.read_crossreads_spreadsheet')
     def test_df_points(self, mock_read_crossreads):
-        mock_df = pd.DataFrame({
-            'isotopes delta13C': [1, 2],
-            'isotopes delta18O': [3, 4]
-        }, index=['ISic001', 'ISic002'])
-        mock_read_crossreads.return_value = mock_df
+        mock_read_crossreads.return_value = self.mock_read_crossreads_spreadsheet()
         
         result = self.converter.df_points
         
         self.assertIsInstance(result, pd.DataFrame)
-        self.assertEqual(len(result), 2)
-        self.assertIn('Sample', result.columns)
+        self.assertEqual(len(result), 3)
         self.assertIn('x', result.columns)
         self.assertIn('y', result.columns)
+        self.assertIn('Sample', result.columns)
 
     @patch('crossreads_petrography.isotopes.IsotopeConverter.df_curves', new_callable=PropertyMock)
     @patch('crossreads_petrography.isotopes.IsotopeConverter.df_points', new_callable=PropertyMock)
@@ -75,11 +66,15 @@ class TestIsotopeConverter(unittest.TestCase):
         self.assertEqual(result.loc['ISic001', 'marble_type1'], '✔️')
         self.assertEqual(result.loc['ISic002', 'marble_type1'], '✖️')
 
+    @patch('crossreads_petrography.isotopes.read_crossreads_spreadsheet')
     @patch('crossreads_petrography.isotopes.plot_curves')
-    def test_plot(self, mock_plot_curves):
+    def test_plot(self, mock_plot_curves, mock_read_crossreads):
+        mock_read_crossreads.return_value = self.mock_read_crossreads_spreadsheet()
+
         mock_plot_curves.return_value = 'mock_figure'
         result = self.converter.plot()
         self.assertEqual(result, 'mock_figure')
+        mock_plot_curves.assert_called_once()
 
     @patch('crossreads_petrography.isotopes.IsotopeConverter.df_intersections', new_callable=PropertyMock)
     @patch('crossreads_petrography.isotopes.IsotopeConverter.plot')

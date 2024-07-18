@@ -21,15 +21,6 @@ import gspread
 from google.oauth2 import service_account
 
 
-try:
-    from google.colab import auth, drive
-    from google.auth import default
-    IN_COLAB = True
-except ImportError:
-    IN_COLAB = False
-
-
-
 logger.remove()
 logger.add(
     sink=sys.stderr,

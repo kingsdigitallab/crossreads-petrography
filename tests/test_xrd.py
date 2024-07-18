@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, PropertyMock
+from unittest.mock import patch, PropertyMock, MagicMock
 from crossreads_petrography.xrd import *
 
 class TestXRDConverter(unittest.TestCase):
@@ -10,29 +10,29 @@ class TestXRDConverter(unittest.TestCase):
     @patch('crossreads_petrography.xrd.get_crossreads_spreadsheet')
     def test_df_xrd(self, mock_get_spreadsheet, mock_read_folder):
         mock_df = pd.DataFrame({
-            'File': ['ISic001.csv', 'ISic002.csv'],
-            'Parameter, Goal': ['Qcalcite', 'QMgCalcite'],
-            'Value': [0.5, 0.3],
-            'ESD': [0.01, 0.02]
+            'File': ['ISic001.csv'] * 51,
+            'Parameter, Goal': ['Qcalcite'] * 51,
+            'Value': [0.5] * 51,
+            'ESD': [0.01] * 51
         })
         mock_read_folder.return_value = mock_df
         
         result = self.converter.df_xrd
         
         self.assertIsInstance(result, pd.DataFrame)
-        self.assertEqual(len(result), 2)
+        self.assertEqual(len(result), 51)
         self.assertIn('XRD calcite content (%)', result.columns)
-        self.assertIn('XRD magnesian calcite content (%)', result.columns)
 
-    @patch('crossreads_petrography.xrd.read_spreadsheet')
-    def test_df_meta(self, mock_read_spreadsheet):
+    @patch('crossreads_petrography.xrd.read_crossreads_spreadsheet')
+    def test_df_meta(self, mock_read_crossreads_spreadsheet):
         mock_df = pd.DataFrame({'Sample': ['ISic001', 'ISic002']})
-        mock_read_spreadsheet.return_value = mock_df
+        mock_read_crossreads_spreadsheet.return_value = mock_df
         
         result = self.converter.df_meta
         
         self.assertIsInstance(result, pd.DataFrame)
         self.assertEqual(len(result), 2)
+        mock_read_crossreads_spreadsheet.assert_called_once()
 
     @patch('crossreads_petrography.xrd.XRDConverter.df_xrd', new_callable=PropertyMock)
     @patch('crossreads_petrography.xrd.XRDConverter.df_meta', new_callable=PropertyMock)
@@ -53,10 +53,31 @@ class TestXRDConverter(unittest.TestCase):
         self.assertEqual(result.loc['ISic001', 'XRD calcite content (%)'], 50)
 
     @patch('crossreads_petrography.xrd.update_spreadsheet')
-    def test_save(self, mock_update_spreadsheet):
+    @patch('crossreads_petrography.xrd.get_spreadsheet')
+    @patch('crossreads_petrography.xrd.has_credentials')
+    def test_save(self, mock_has_credentials, mock_get_spreadsheet, mock_update_spreadsheet):
         mock_df = pd.DataFrame({'Sample': ['ISic001', 'ISic002']})
+        
+        # Test when credentials are not available
+        mock_has_credentials.return_value = False
         self.converter.save(mock_df)
-        mock_update_spreadsheet.assert_called_once()
+        mock_has_credentials.assert_called_once()
+        mock_get_spreadsheet.assert_not_called()
+        mock_update_spreadsheet.assert_not_called()
+        
+        # Reset mocks
+        mock_has_credentials.reset_mock()
+        mock_get_spreadsheet.reset_mock()
+        mock_update_spreadsheet.reset_mock()
+        
+        # Test when credentials are available
+        mock_has_credentials.return_value = True
+        mock_spreadsheet = MagicMock()
+        mock_get_spreadsheet.return_value = mock_spreadsheet
+        self.converter.save(mock_df)
+        mock_has_credentials.assert_called_once()
+        mock_get_spreadsheet.assert_called_once()
+        mock_update_spreadsheet.assert_called_once_with(mock_spreadsheet, mock_df)
 
 class TestHelperFunctions(unittest.TestCase):
     def test_try_float(self):

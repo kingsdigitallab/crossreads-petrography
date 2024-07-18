@@ -1,58 +1,60 @@
 import unittest
 from unittest.mock import patch, PropertyMock
-from crossreads_petrography.pxrf import *
+import pandas as pd
+from crossreads_petrography.pxrf import PXRFConverter
 
 class TestPXRFConverter(unittest.TestCase):
     def setUp(self):
         self.converter = PXRFConverter()
 
-    @patch('crossreads_petrography.pxrf.read_spreadsheet')
-    def test_df_standards(self, mock_read_spreadsheet):
+    @patch('crossreads_petrography.pxrf.read_path')
+    def test_df_standards(self, mock_read_path):
         mock_df = pd.DataFrame({
-            'Element': ['Fe', 'Ca'],
-            '10CC': [1.0, 2.0],
-            '50CC': [3.0, 4.0]
-        }).set_index('Element')
-        mock_read_spreadsheet.return_value = mock_df.T
-        
+            'standard': ['100CC', '50CC', '10CC', '0CC'],
+            'Si': [0.00000, 55.23804, 84.34153, 90.64774],
+            'K': [0.000000, 3.641829, 5.560614, 5.976381],
+            'Ca': [100.000000, 39.644510, 7.844756, 0.954312],
+            'Fe': [0.000000, 1.475631, 2.253103, 2.421567]
+        })
+        mock_read_path.return_value = mock_df
+
         result = self.converter.df_standards
-        
+
         self.assertIsInstance(result, pd.DataFrame)
-        self.assertEqual(len(result), 2)
+        self.assertEqual(len(result), 4)  # Number of elements
+        self.assertEqual(list(result.index), ['Si', 'K', 'Ca', 'Fe'])  # Elements as index
         self.assertIn('50CC', result.columns)
         self.assertIn('10CC', result.columns)
+        self.assertIn('0CC', result.columns)
+        self.assertIn('100CC', result.columns)
+        # Check if the values are correctly transposed
+        self.assertAlmostEqual(result.loc['Si', '50CC'], 55.23804)
+        self.assertAlmostEqual(result.loc['Ca', '100CC'], 100.000000)
 
-    @patch('crossreads_petrography.pxrf.read_spreadsheet')
-    def test_df_descriptions(self, mock_read_spreadsheet):
+    @patch('crossreads_petrography.pxrf.read_path')
+    def test_df_descriptions(self, mock_read_path):
         mock_df = pd.DataFrame({
-            'instrument': ['CU', 'marpo'],
-            'site': ['CU', 'marpo'],
-            'day': ['16', ''],
-            'month': ['2', '10'],
-            'year': ['2022', '2022'],
-            'cass': ['epicum 3', 'mag B'],
-            'inv/id': ['a', '74355'],
-            'Isic': ['003248', 'marpo74355'],
-            'a': ['', 'short edge, corner'],
-            'b': ['', 'long edge, corner'],
-            'c': ['', 'back'],
-            'tracer': [True, False],
-            'demo': [False, True]
-        }).set_index('instrument')
-        mock_read_spreadsheet.return_value = mock_df
-        
-        result = self.converter.df_descriptions
-        self.assertIsInstance(result, pd.DataFrame)
-        self.assertEqual(len(result), len(mock_df.columns))
-        self.assertIn('a', result.index)
+            'instrument': ['site', 'day', 'month', 'year', 'cass', 'inv/id', 'Isic', 'a', 'b', 'c'],
+            'CU': ['CU', '16', '2', '2022', 'epicum 3', 'a', '003248', '', '', ''],
+            'marpo': ['marpo', '', '10', '2022', 'mag B', '74355', 'marpo74355', 'short edge, corner', 'long edge, corner', 'back'],
+            'demo-MK.317': ['taormina', '22', '1', '2024', '', 'torso', '', 'under right armpit', 'left shoulder', 'right shoulder']
+        })
+        mock_read_path.return_value = mock_df
 
-    @patch('crossreads_petrography.pxrf.read_input_data_folder_txt')
-    def test_txt_input(self, mock_read_input_data_folder_txt):
-        mock_txt = "Sample: ISic001.csv\nKey: Value\nElement Mass_fraction\nFe 0.5\nCa 0.3\n\nSample: ISic002.csv\nKey: Value\nElement Mass_fraction\nFe 0.4\nCa 0.2"
-        mock_read_input_data_folder_txt.return_value = mock_txt
+        result = self.converter.df_descriptions
         
+        self.assertIsInstance(result, pd.DataFrame)
+        self.assertEqual(len(result.columns), 10)  # Number of columns (excluding index)
+        self.assertIn('Isic', result.columns)
+        self.assertIn('a', result.columns)
+
+    @patch('crossreads_petrography.pxrf.read_path')
+    def test_txt_input(self, mock_read_path):
+        mock_txt = "SOURCE: 0-1.csv\nKEY: 1.1.00001.1\nElement Mass_fraction\nFe 0.5\nCa 0.3\n\nSOURCE: 0-2.csv\nKEY: 1.1.00001.2\nElement Mass_fraction\nFe 0.4\nCa 0.2"
+        mock_read_path.return_value = mock_txt
+
         result = self.converter.txt_input
-        
+
         self.assertEqual(result, mock_txt)
 
     @patch('crossreads_petrography.pxrf.PXRFConverter.txt_input', new_callable=PropertyMock)

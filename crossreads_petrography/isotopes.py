@@ -1,14 +1,6 @@
 from .imports import *
 from .utils import *
 
-ISOTOPE_CURVES_URL = 'https://docs.google.com/spreadsheets/d/1P-NDhxRnLU8Tkg4dlXvef7DCYKE2qrSx/edit'
-ISOTOPE_SAMPLES_URL = 'https://docs.google.com/spreadsheets/d/1N26mnpoRzENkesBL3uAAFfRp2uHCR0Dq/edit'
-
-PATH_ISOTOPE_INPUT_DATA = PATH_INPUT_DATA / 'isotopes'
-PATH_ISOTOPE_INPUT_COLAB = '/content/drive/MyDrive/Crossreads B D1/Isotope input data'
-PATH_ISOTOPE_INPUT = PATH_ISOTOPE_INPUT_COLAB if IN_COLAB else PATH_ISOTOPE_INPUT_DATA
-PATH_ISOTOPE_OUTPUT = PATH_OUTPUT_DATA / 'isotopes'
-PATH_ISOTOPE_OUTPUT.mkdir(parents=True, exist_ok=True)
 
 class IsotopeConverter:
     def __init__(self):
@@ -17,7 +9,7 @@ class IsotopeConverter:
     @cached_property
     def df_curves(self):
         logger.info("Reading isotope curve data")
-        df = read_input_data_folder(PATH_ISOTOPE_INPUT_DATA if not IN_COLAB else PATH_ISOTOPE_INPUT_COLAB)
+        df = read_path('isotopes.polygons')
         df = df.replace({'':np.nan})
         types = {'_'.join(x.split('_')[:-1]) for x in df.columns}
         reshaped_data = []
@@ -31,15 +23,10 @@ class IsotopeConverter:
         return pd.DataFrame(reshaped_data).dropna()
 
     @cached_property
-    def df_samples(self):
-        logger.info("Reading isotope sample data from Google Sheets")
-        return read_spreadsheet(ISOTOPE_SAMPLES_URL)
-
-    @cached_property
     def df_points(self, xcol='isotopes delta13C', ycol='isotopes delta18O'):
         df_big = read_crossreads_spreadsheet()
         df_points = df_big[[xcol,ycol]].copy()
-        df_points['Sample'] = df_points.index
+        df_points['Sample'] = [str(x) for x in df_points.index]
         df_points = df_points[~df_points.Sample.str.contains(' ')]
         df_points['y'] = df_points[xcol]
         df_points['x'] = df_points[ycol]
@@ -69,13 +56,13 @@ class IsotopeConverter:
 
     def save(self, output_folder=None):
         logger.info("Generating isotope outputs")        
-        output_folder = output_folder or PATH_ISOTOPE_OUTPUT
-        ofn=output_folder / 'isotope_intersections.xlsx'
+        output_folder = output_folder or get_path('isotopes.output')
+        ofn=Path(output_folder) / 'isotope_intersections.xlsx'
         self.df_intersections.to_excel(ofn)
         logger.debug(f'Saved: {ofn.name}')
         self.plot(output_folder=output_folder)
 
-    def run(self, output_folder=PATH_ISOTOPE_OUTPUT):
+    def run(self, output_folder=None):
         logger.info("Processing isotope data")
         self.save(output_folder)
 
