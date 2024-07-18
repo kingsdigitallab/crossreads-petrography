@@ -33,6 +33,11 @@ To use the Google Sheets integration:
    ~/.config/crossreads_petrography/credentials.json
    ```
 
+```python
+from crossreads_petrography.utils import logger
+logger.remove()
+```
+
 ## Usage
 
 ### Metadata
@@ -41,12 +46,6 @@ To use the Google Sheets integration:
 from crossreads_petrography.utils import read_crossreads_spreadsheet
 df_meta = read_crossreads_spreadsheet()
 ```
-
-↓
-
-    Authenticating and accessing Google Spreadsheet @ 2024-07-18 17:56:59,098
-    Reading data from spreadsheet worksheet 0 @ 2024-07-18 17:57:00,047
-    Read 177 rows from spreadsheet @ 2024-07-18 17:57:01,441
 
 ### Isotope Processing
 
@@ -62,24 +61,6 @@ from crossreads_petrography.isotopes import IsotopeConverter
 isotope_converter = IsotopeConverter()
 isotope_converter.run()
 ```
-
-↓
-
-    Initializing IsotopeConverter @ 2024-07-18 17:57:01,449
-    Processing isotope data @ 2024-07-18 17:57:01,450
-    Generating isotope outputs @ 2024-07-18 17:57:01,450
-    Reading isotope curve data @ 2024-07-18 17:57:01,450
-    Reading spreadsheet data from isotopes @ 2024-07-18 17:57:01,451
-    Reading dataframe from file: isotopes-curves.xlsx @ 2024-07-18 17:57:01,451
-    Reading dataframe from file: other-marbles-polygons-2.xlsx @ 2024-07-18 17:57:01,624
-    Read 208 rows from input data @ 2024-07-18 17:57:01,643
-    Authenticating and accessing Google Spreadsheet @ 2024-07-18 17:57:01,663
-    Reading data from spreadsheet worksheet 0 @ 2024-07-18 17:57:02,538
-    Read 177 rows from spreadsheet @ 2024-07-18 17:57:03,047
-    Saved: isotope_intersections.xlsx @ 2024-07-18 17:57:03,117
-    Saved: isotope_graph.png @ 2024-07-18 17:57:03,653
-    Saved: isotope_graph.html @ 2024-07-18 17:57:03,664
-    Saved: isotope_graph.pdf @ 2024-07-18 17:57:03,747
 
 ### pXRF Processing
 
@@ -98,25 +79,6 @@ pxrf_converter = PXRFConverter()
 pxrf_converter.run()
 ```
 
-↓
-
-    Initializing PXRFConverter @ 2024-07-18 17:57:03,756
-    Processing pXRF data @ 2024-07-18 17:57:03,756
-    Saving pXRF processed data @ 2024-07-18 17:57:03,757
-    Parsing pXRF measurements and calculating new fractions @ 2024-07-18 17:57:03,757
-    Calculating linear regressions for standard values @ 2024-07-18 17:57:03,758
-    Parsing pXRF standards data @ 2024-07-18 17:57:03,758
-    Reading txt data from /Users/ryan/github/crossreads-petrography/data/input/pXRF @ 2024-07-18 17:57:03,758
-    Loading pXRF standard values @ 2024-07-18 17:57:03,761
-    Authenticating and accessing Google Spreadsheet @ 2024-07-18 17:57:03,762
-    Reading data from spreadsheet worksheet 0 @ 2024-07-18 17:57:04,191
-    Read 11 rows from spreadsheet @ 2024-07-18 17:57:04,545
-    Loading pXRF descriptions @ 2024-07-18 17:57:04,588
-    Authenticating and accessing Google Spreadsheet @ 2024-07-18 17:57:04,588
-    Reading data from spreadsheet worksheet 0 @ 2024-07-18 17:57:05,017
-    Read 22 rows from spreadsheet @ 2024-07-18 17:57:05,906
-    Saved: pXRF_calculated_fractions.xlsx @ 2024-07-18 17:57:06,818
-
 ### XRD Processing
 
 The `XRDConverter` class in `xrd.py` handles the processing of X-ray Diffraction (XRD) data. It performs the following tasks:
@@ -132,22 +94,6 @@ xrd_converter = XRDConverter()
 xrd_converter.run()
 ```
 
-↓
-
-    Initializing XRDConverter: /Users/ryan/github/crossreads-petrography/data/input/XRD / /content/drive/MyDrive/Crossreads B D1/XRD input data @ 2024-07-18 17:57:06,826
-    Authenticating and accessing Google Spreadsheet @ 2024-07-18 17:57:06,827
-    Updating CrossReads sheet with XRD data @ 2024-07-18 17:57:07,701
-    Reading XRD data @ 2024-07-18 17:57:07,702
-    Reading spreadsheet data from XRD @ 2024-07-18 17:57:07,702
-    Reading dataframe from file: xrd-results-tao.CSV @ 2024-07-18 17:57:07,703
-    Reading dataframe from file: XRD-results-sample.CSV @ 2024-07-18 17:57:07,711
-    Read 426 rows from input data @ 2024-07-18 17:57:07,717
-    Reading CrossReads sheet from Google Spreadsheet @ 2024-07-18 17:57:07,727
-    Reading data from spreadsheet worksheet 0 @ 2024-07-18 17:57:07,728
-    Read 177 rows from spreadsheet @ 2024-07-18 17:57:08,688
-    Updated 0 values in 0 samples @ 2024-07-18 17:57:08,709
-    No updates to apply @ 2024-07-18 17:57:08,709
-
 ## Explanation
 
 ### Isotopes
@@ -156,10 +102,6 @@ xrd_converter.run()
 from crossreads_petrography.isotopes import *
 isotope_converter = IsotopeConverter()
 ```
-
-↓
-
-    Initializing IsotopeConverter @ 2024-07-18 17:57:08,714
 
 #### Polygon data
 
@@ -172,29 +114,14 @@ print(f'Isotope input data path is: {PATH_ISOTOPE_INPUT.relative_to(PATH_DATA)}'
 
 ↓
 
-    ---------------------------------------------------------------------------
-
-    NameError                                 Traceback (most recent call last)
-
-    Cell In[1], line 1
-    ----> 1 print(f'In Colab? {IN_COLAB}')
-          2 print(f'Isotope input data path is: {PATH_ISOTOPE_INPUT.relative_to(PATH_DATA)}')
-
-    NameError: name 'IN_COLAB' is not defined
+    In Colab? False
+    Isotope input data path is: input/isotopes
 
 From here the sample polygons (ranged x,y values) are taken, where x is delta13C and y is delta18O:
 
 ```python
 isotope_converter.df_curves
 ```
-
-↓
-
-    Reading isotope curve data @ 2024-07-18 17:57:08,726
-    Reading spreadsheet data from isotopes @ 2024-07-18 17:57:08,727
-    Reading dataframe from file: isotopes-curves.xlsx @ 2024-07-18 17:57:08,727
-    Reading dataframe from file: other-marbles-polygons-2.xlsx @ 2024-07-18 17:57:08,752
-    Read 208 rows from input data @ 2024-07-18 17:57:08,769
 
 <div>
 
@@ -210,15 +137,27 @@ isotope_converter.df_curves
   <tbody>
     <tr>
       <th>0</th>
-      <td>Paros-1</td>
-      <td>-2.417983</td>
-      <td>6.031553</td>
+      <td>Göktepe</td>
+      <td>-3.268530</td>
+      <td>3.470874</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>Thasos-3</td>
-      <td>-10.174782</td>
-      <td>2.211302</td>
+      <th>2</th>
+      <td>Carrara</td>
+      <td>-0.170109</td>
+      <td>3.094660</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Proconnesos-2</td>
+      <td>-9.126092</td>
+      <td>2.862408</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Naxos</td>
+      <td>-13.932584</td>
+      <td>2.653563</td>
     </tr>
     <tr>
       <th>7</th>
@@ -227,49 +166,37 @@ isotope_converter.df_curves
       <td>4.077670</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>Paros-2 (3)</td>
-      <td>-3.583021</td>
-      <td>3.157248</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Proconnesos-2</td>
-      <td>-9.126092</td>
-      <td>2.862408</td>
-    </tr>
-    <tr>
       <th>...</th>
       <td>...</td>
       <td>...</td>
       <td>...</td>
     </tr>
     <tr>
-      <th>4066</th>
+      <th>4063</th>
       <td>EphesosWhites1</td>
       <td>-9.307172</td>
       <td>3.005405</td>
     </tr>
     <tr>
-      <th>4086</th>
+      <th>4083</th>
       <td>EphesosWhites1</td>
       <td>-9.144790</td>
       <td>3.135135</td>
     </tr>
     <tr>
-      <th>4106</th>
+      <th>4103</th>
       <td>EphesosWhites1</td>
       <td>-8.982409</td>
       <td>3.254054</td>
     </tr>
     <tr>
-      <th>4126</th>
+      <th>4123</th>
       <td>EphesosWhites1</td>
       <td>-8.779432</td>
       <td>3.362162</td>
     </tr>
     <tr>
-      <th>4146</th>
+      <th>4143</th>
       <td>EphesosWhites1</td>
       <td>-8.568336</td>
       <td>3.524324</td>
@@ -286,12 +213,6 @@ And from the crossreads spreadsheet are taken points for the same values for sam
 ```python
 isotope_converter.df_points
 ```
-
-↓
-
-    Authenticating and accessing Google Spreadsheet @ 2024-07-18 17:57:08,796
-    Reading data from spreadsheet worksheet 0 @ 2024-07-18 17:57:09,338
-    Read 177 rows from spreadsheet @ 2024-07-18 17:57:12,406
 
 <div>
 
@@ -389,12 +310,8 @@ show_img(PATH_ISOTOPE_OUTPUT / 'isotope_graph.png')
 
 ↓
 
-    Saved: isotope_graph.png @ 2024-07-18 17:57:12,531
-    Saved: isotope_graph.html @ 2024-07-18 17:57:12,543
-    Saved: isotope_graph.pdf @ 2024-07-18 17:57:12,627
-
     
-![png](README_files/README_25_1.png)
+![png](README_files/README_26_0.png)
     
 
 ##### Intersection table
