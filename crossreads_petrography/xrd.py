@@ -1,7 +1,6 @@
 from .imports import *
+from .utils import *
 
-PATH_XRD_INPUT_DATA = PATH_INPUT_DATA / 'XRD'
-PATH_XRD_INPUT_COLAB = '/content/drive/MyDrive/Crossreads B D1/XRD input data'
 COLS_TO_IGNORE = {'Rwp', 'Rexp', 'Chi2', 'GOF'}
 
 XRD_PARAM_MAPPING = {
@@ -89,24 +88,18 @@ PLAGIOCLASE = ['XRD albite content (%)', 'XRD oligoclase content (%)', 'XRD ande
 class XRDConverter:
     def __init__(
         self,
-        local_folder=None,
-        remote_folder=None,
-        credentials_path=None,
     ):
-        self.local_folder = local_folder or PATH_XRD_INPUT_DATA
-        self.remote_folder = remote_folder or PATH_XRD_INPUT_COLAB
-        self.credentials_path = credentials_path or CREDENTIALS_PATH
-        logger.debug(
-            f"Initializing XRDConverter: {self.local_folder} / {self.remote_folder}"
-        )
-        self.spreadsheet = get_crossreads_spreadsheet()
+        self.input_folder = get_path('xrd.input')
+    
+        logger.debug(f"Initializing XRDConverter: {self.input_folder}")
 
+    @cached_property
+    def spreadsheet(self):
+        return get_crossreads_spreadsheet()
     @cached_property
     def df_xrd(self):
         logger.debug("Reading XRD data")
-        df = read_input_data_folder(
-            self.local_folder if not IN_COLAB else self.remote_folder
-        )
+        df = read_path(self.input_folder)
         paramcol = "Parameter, Goal"
         df = df[~df[paramcol].isin(COLS_TO_IGNORE)]
 
@@ -138,7 +131,7 @@ class XRDConverter:
     @cached_property
     def df_meta(self):
         logger.debug("Reading CrossReads sheet from Google Spreadsheet")
-        return read_spreadsheet(self.spreadsheet)
+        return read_crossreads_spreadsheet()
 
     @cached_property
     def df_updated(self):
@@ -185,14 +178,23 @@ class XRDConverter:
         # Fill NaN with empty string
         return df_combined.fillna("").rename_axis(df_meta.index.name)
 
-    def save(self, df=None, worksheet_index=0):
-        if df is None:
-            df = self.df_updated
-        if df is not None:
-            logger.debug(f"Updating Google Sheet with processed data ({len(df)} rows)")
-            return update_spreadsheet(self.spreadsheet, df, worksheet_index=worksheet_index)
+    def save(self, df):
+        logger.debug(f"Attempting to save data ({len(df)} rows)")
+        if has_credentials():
+            logger.debug("Credentials available. Updating Google Sheet.")
+            try:
+                spreadsheet = get_spreadsheet(config.paths.xrd.url)
+                update_spreadsheet(spreadsheet, df)
+                logger.debug(f"Saved to Google Sheet: {config.paths.xrd.url}")
+            except Exception as e:
+                logger.error(f"Failed to update Google Sheet: {str(e)}")
         else:
-            logger.debug('No updates to apply')
+            logger.warning("No credentials available. Skipping Google Sheet update.")
+        
+        output_path = Path(config.paths.xrd.output.local)
+        logger.debug(f"Saving to local file: {output_path}")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        df.to_excel(output_path, index=False)
 
     def run(self):
         self.save()

@@ -1,0 +1,62 @@
+production: false
+
+paths:
+  root:
+    local: ~/crossreads_petrography_data
+    colab: /content/drive/MyDrive/Crossreads B D1
+  
+  credentials:
+    local: "{paths.root.local}/credentials.json"
+
+  data:
+    local: "{paths.root.local}/data"
+    colab: /content/drive/MyDrive/Crossreads B D1
+  
+  petrography:
+    local: "{paths.data.local}/input/crossreads.xlsx"
+    url:
+      prod: 
+      dev: https://docs.google.com/spreadsheets/d/1QDZ6Fc3o95q6ylvkjoNDOFeqNz7Nub8qQCPVV62Pus8/edit
+
+  isotopes:
+    polygons:
+      local: "{paths.data.local}/input/isotopes"
+      colab: "{paths.data.colab}/Isotope input data"
+
+    samples:
+      local: "{paths.petrography.local}"
+      colab: "{paths.petrography.colab}"
+
+    output: 
+      local: "{paths.data.local}/output/isotopes"
+      colab: "{paths.data.colab}/Isotope output data"
+
+  xrd:
+    input:
+      local: "{paths.data.local}/input/XRD"
+      colab: "{paths.data.colab}/XRD input data"
+
+    output:
+      local: "{paths.data.local}/output/XRD"
+      colab: "{paths.data.colab}/XRD output data"
+
+  pxrf:
+    input:
+      local: "{paths.data.local}/input/pXRF"
+      colab: "{paths.data.colab}/pXRF input data"
+
+    input_etc:
+      local: "{paths.data.local}/input/pXRF_etc"
+      colab: "{paths.data.colab}"
+
+    standards:
+      local: "{paths.pxrf.input_etc.local}/pXRF standards.xlsx"
+      url: https://docs.google.com/spreadsheets/d/1qaGvCqD0bm8JoYTKXdb76b_EcMHwHenU5NomGQSOf_M/edit
+
+    descriptions:
+      local: "{paths.pxrf.input_etc.local}/logbook-pXRF.xlsx"
+      url: https://docs.google.com/spreadsheets/d/1TEjZTq_jocxsLaFTpx0uf1txzJSPZWFNFGjhlcSdEKc/edit
+
+    output:
+      local: "{paths.data.local}/output/pXRF"
+      colab: "{paths.data.colab}/pXRF output data"

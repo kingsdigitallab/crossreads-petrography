@@ -1,4 +1,7 @@
 from .imports import *
+from gspread.exceptions import APIError
+from pathlib import Path
+
 
 # Add these lines at the top of the file
 auth = None
@@ -12,38 +15,90 @@ if IN_COLAB:
     except ImportError:
         pass
 
-def get_crossreads_spreadsheet():
-    return get_spreadsheet(SPREADSHEET_URL)
+def get_crossreads_spreadsheet(key='petrography'):
+    url_or_path=get_path(key)
+    if type(url_or_path) == str and url_or_path.startswith('http'):
+        return get_spreadsheet(url_or_path)
+    
 
 # @cache
 def read_crossreads_spreadsheet(worksheet_index=0):
-    return read_spreadsheet(SPREADSHEET_URL, worksheet_index=worksheet_index)
+    df=read_path('petrography', worksheet_index=worksheet_index)
+    df=df.set_index(df.columns[0])
+    return df
 
+
+def authenticate_colab():
+    """
+    Authenticate using Google Colab's auth.
+    """
+    if auth is None:
+        raise ImportError("Failed to import google.colab.auth")
+    auth.authenticate_user()
+    creds, _ = default()
+    return creds
+
+def authenticate_service_account(credentials_path: str):
+    """
+    Authenticate using a service account file.
+    """
+    return service_account.Credentials.from_service_account_file(
+        credentials_path,
+        scopes=["https://www.googleapis.com/auth/spreadsheets"],
+    )
+
+def authenticate_default():
+    """
+    Attempt to authenticate using default credentials.
+    """
+    try:
+        from google.auth import default as google_default
+        creds, _ = google_default()
+        return creds
+    except Exception:
+        return None
+
+def access_public_spreadsheet(spreadsheet_url: str):
+    """
+    Attempt to access a public Google Spreadsheet without authentication.
+    """
+    try:
+        client = gspread.Client()
+        return client.open_by_url(spreadsheet_url)
+    except Exception as e:
+        raise FileNotFoundError(f"Unable to access spreadsheet: {str(e)}")
 
 def get_spreadsheet(spreadsheet_url, credentials_path: Optional[str] = None):
     """
     Authenticate and access Google Spreadsheet using Colab auth if available,
-    otherwise use gspread with service account credentials.
+    otherwise use gspread with service account credentials, default credentials,
+    or attempt to access public spreadsheets without authentication.
     """
     logger.debug("Authenticating and accessing Google Spreadsheet")
     
+    creds = None
     if IN_COLAB:
-        if auth is None:
-            raise ImportError("Failed to import google.colab.auth")
-        auth.authenticate_user()
-        creds, _ = default()
+        creds = authenticate_colab()
     else:
-        creds_path = credentials_path or CREDENTIALS_PATH
-        if os.path.exists(creds_path):
-            creds = service_account.Credentials.from_service_account_file(
-                creds_path,
-                scopes=["https://www.googleapis.com/auth/spreadsheets"],
-            )
+        creds_path = credentials_path or config.paths.credentials.local
+        if Path(creds_path).exists():
+            creds = authenticate_service_account(creds_path)
         else:
-            raise FileNotFoundError(f"Credentials file not found: {creds_path}")
-
-    gc = gspread.authorize(creds)
-    return gc.open_by_url(spreadsheet_url)
+            creds = authenticate_default()
+    
+    if creds:
+        try:
+            gc = gspread.authorize(creds)
+            return gc.open_by_url(spreadsheet_url)
+        except APIError as e:
+            if e.response.status_code in [403, 401]:  # Unauthorized or Forbidden
+                logger.warning("Insufficient permissions. Attempting to access as a public spreadsheet.")
+            else:
+                raise e
+    
+    # If we reach here, either there were no credentials or we got a permission error
+    logger.warning("Attempting to access as a public spreadsheet.")
+    return access_public_spreadsheet(spreadsheet_url)
 
 def read_spreadsheet(spreadsheet: 'Spreadsheet|str', worksheet_index: int = 0) -> pd.DataFrame:
     """
@@ -63,7 +118,7 @@ def read_spreadsheet(spreadsheet: 'Spreadsheet|str', worksheet_index: int = 0) -
     df = df.dropna(subset=[first_column])
     df = df[df[first_column] != ""]
 
-    df = df.set_index(first_column)
+    # df = df.set_index(first_column)
     logger.debug(f"Read {len(df)} rows from spreadsheet")
     return df
 
@@ -96,9 +151,10 @@ def read_df(filename: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The loaded dataframe.
     """
-    logger.debug(f"Reading dataframe from file: {filename}")
+    filename=Path(filename)
+    logger.debug(f"Reading dataframe from file: {filename.name}")
     
-    file_extension = os.path.splitext(filename.lower())[1]
+    file_extension = filename.suffix.lower()
     
     try:
         if file_extension == '.csv':
@@ -117,22 +173,24 @@ def read_df(filename: str) -> pd.DataFrame:
                     else:
                         separator = ','  # Default to comma if nothing else works
             
-            return pd.read_csv(filename, sep=separator)
+            odf = pd.read_csv(filename, sep=separator)
         elif file_extension in ['.xlsx', '.xls']:
-            return pd.read_excel(filename)
+            odf = pd.read_excel(filename)
         elif file_extension == '.tsv':
-            return pd.read_csv(filename, sep='\t')
+            odf = pd.read_csv(filename, sep='\t')
         else:
             raise ValueError(f"Unsupported file format: {file_extension}")
     except Exception as e:
         logger.error(f"Error reading file {filename}: {str(e)}")
         raise
+
+    return odf
     
 def read_input_data_folder(folder: str) -> pd.DataFrame:
     """
     Read XRD input data from a folder, either on Google Drive or local path.
     """
-    logger.debug(f"Reading spreadsheet data from {folder}")
+    logger.debug(f"Reading spreadsheet data from {os.path.basename(folder)}")
 
     if IN_COLAB:
         if drive is None:
@@ -168,3 +226,91 @@ def read_input_data_folder_txt(folder:str) -> str:
                 o.append(f.read())
     
     return '\n\n\n\n'.join(o)
+
+
+
+def show_img(path):
+    try:
+        from IPython.display import Image, display
+        display(Image(filename=path))
+    except Exception:
+        pass
+
+
+
+
+
+def has_credentials():
+    return IN_COLAB or Path(config.paths.credentials.local).exists()
+
+def get_path(paths):
+    if isinstance(paths, str):
+        if not paths.startswith('config.') and not paths.startswith('paths.'):
+            paths = 'paths.' + paths
+        paths = get_config_value(paths)
+
+    if IN_COLAB:
+        return Path(paths.colab) if paths.colab else Path(paths.local)
+    
+    if paths.url and has_credentials():
+        if isinstance(paths.url, str):
+            return paths.url
+        if config.production and paths.url.prod:
+            return paths.url.prod
+        if paths.url.dev:
+            return paths.url.dev
+
+    return Path(paths.local) if paths.local else None    
+
+def is_urllike(x):
+    """
+    Check if the given string is a URL-like string.
+    """
+    if isinstance(x, str):
+        return x.startswith('http://') or x.startswith('https://')
+    return False
+
+def is_pathlike(x):
+    return isinstance(x, (str, Path)) and (str(x).startswith('/') or Path(x).exists())
+
+
+def read_path(paths, worksheet_index=0):
+    path = get_path(paths) if not is_pathlike(paths) and not is_urllike(paths) else paths
+    
+    if is_urllike(path):
+        return read_spreadsheet(path, worksheet_index=worksheet_index)
+    
+    if is_pathlike(path):
+        path = Path(path)
+        if path.is_dir():
+            txt_files = list(path.glob('*.txt'))
+            if txt_files and all(f.suffix == '.txt' or f.name.startswith('.') for f in path.iterdir()):
+                return read_input_data_folder_txt(str(path))
+            else:
+                return read_input_data_folder(str(path))
+        
+        if path.is_file():
+            if path.suffix.lower() in ['.csv', '.xlsx', '.xls', '.tsv']:
+                return read_df(str(path))
+            else:
+                try:
+                    return path.read_text()
+                except Exception as e:
+                    logger.error(f"Error reading file {path}: {str(e)}")
+                    return None
+    
+    return pd.DataFrame()
+
+def get_config_value(key_path: str):
+    if key_path.startswith('config.'): key_path=key_path[len('config.'):]
+    keys = key_path.split('.')
+    value = config
+    for key in keys:
+        if isinstance(value, DotDict) and hasattr(value, key):
+            value = getattr(value, key)
+        else:
+            return None
+    return value
+
+
+

@@ -11,3 +11,4 @@ ipython
 kaleido
 scikit-learn
 plotnine
+pyyaml

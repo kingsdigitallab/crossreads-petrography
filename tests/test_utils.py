@@ -4,60 +4,103 @@ import crossreads_petrography.utils
 from crossreads_petrography.utils import *
 import tempfile
 import os
+from crossreads_petrography.constants import CONFIG, DotDict
 
 class TestCrossreadsPetrographyUtils(unittest.TestCase):
 
+    @patch('crossreads_petrography.utils.get_path')
     @patch('crossreads_petrography.utils.get_spreadsheet')
-    def test_get_crossreads_spreadsheet(self, mock_get_spreadsheet):
+    @patch('crossreads_petrography.utils.has_credentials')
+    def test_get_crossreads_spreadsheet(self, mock_has_credentials, mock_get_spreadsheet, mock_get_path):
+        mock_has_credentials.return_value = True
+        mock_get_path.return_value = 'http://mock_url.com'
         mock_get_spreadsheet.return_value = 'mock_spreadsheet'
         result = get_crossreads_spreadsheet()
         self.assertEqual(result, 'mock_spreadsheet')
-        mock_get_spreadsheet.assert_called_once_with(SPREADSHEET_URL)
+        mock_get_spreadsheet.assert_called_once_with('http://mock_url.com')
 
-    @patch('crossreads_petrography.utils.read_spreadsheet')
-    def test_read_crossreads_spreadsheet(self, mock_read_spreadsheet):
-        mock_read_spreadsheet.return_value = pd.DataFrame()
+    @patch('crossreads_petrography.utils.read_path')
+    def test_read_crossreads_spreadsheet(self, mock_read_path):
+        mock_df = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})
+        mock_read_path.return_value = mock_df
         result = read_crossreads_spreadsheet()
         self.assertIsInstance(result, pd.DataFrame)
-        mock_read_spreadsheet.assert_called_once_with(SPREADSHEET_URL, worksheet_index=0)
+        mock_read_path.assert_called_once_with('petrography', worksheet_index=0)
+        pd.testing.assert_frame_equal(result, mock_df.set_index(mock_df.columns[0]))
 
+    @patch('crossreads_petrography.utils.IN_COLAB', False)
+    @patch('crossreads_petrography.utils.Path.exists')
+    @patch('crossreads_petrography.utils.authenticate_service_account')
     @patch('crossreads_petrography.utils.gspread.authorize')
-    @patch('crossreads_petrography.utils.service_account.Credentials.from_service_account_file')
-    @patch('crossreads_petrography.utils.os.path.exists')
-    def test_get_spreadsheet(self, mock_exists, mock_from_service_account_file, mock_authorize):
+    @patch('crossreads_petrography.utils.has_credentials')
+    def test_get_spreadsheet(self, mock_has_credentials, mock_authorize, mock_authenticate, mock_exists):
+        mock_has_credentials.return_value = True
         mock_exists.return_value = True
         mock_creds = MagicMock()
-        mock_from_service_account_file.return_value = mock_creds
+        mock_authenticate.return_value = mock_creds
         mock_gc = MagicMock()
         mock_authorize.return_value = mock_gc
         mock_gc.open_by_url.return_value = 'mock_spreadsheet'
 
         result = get_spreadsheet('mock_url', 'mock_credentials_path')
         self.assertEqual(result, 'mock_spreadsheet')
-        mock_exists.assert_called_once_with('mock_credentials_path')
-        mock_from_service_account_file.assert_called_once_with('mock_credentials_path', scopes=["https://www.googleapis.com/auth/spreadsheets"])
+        mock_exists.assert_called_once()
+        mock_authenticate.assert_called_once_with('mock_credentials_path')
         mock_authorize.assert_called_once_with(mock_creds)
         mock_gc.open_by_url.assert_called_once_with('mock_url')
 
     @patch('crossreads_petrography.utils.get_spreadsheet')
-    @patch('crossreads_petrography.utils.pd.DataFrame.from_records')
-    def test_read_spreadsheet(self, mock_from_records, mock_get_spreadsheet):
+    def test_read_spreadsheet(self, mock_get_spreadsheet):
         mock_spreadsheet = MagicMock()
         mock_worksheet = MagicMock()
         mock_spreadsheet.get_worksheet.return_value = mock_worksheet
         mock_worksheet.get_all_values.return_value = [['header1', 'header2'], ['row1col1', 'row1col2']]
         mock_get_spreadsheet.return_value = mock_spreadsheet
-        mock_from_records.return_value = pd.DataFrame([['header1', 'header2'], ['row1col1', 'row1col2']])
 
         result = read_spreadsheet('mock_spreadsheet_url')
-        print(result)
+        
         self.assertIsInstance(result, pd.DataFrame)
-        self.assertEqual(result.columns.tolist(), ['header2'])  # first header is now index
-        self.assertEqual(result.index.name, 'header1')
+        self.assertEqual(result.columns.tolist(), ['header1', 'header2'])
+        self.assertEqual(result.values.tolist(), [['row1col1', 'row1col2']])
         mock_get_spreadsheet.assert_called_once_with('mock_spreadsheet_url')
-        mock_spreadsheet.get_worksheet.assert_called_once_with(0)
-        mock_worksheet.get_all_values.assert_called_once()
-        mock_from_records.assert_called_once_with([['header1', 'header2'], ['row1col1', 'row1col2']])
+
+    def test_read_spreadsheet_with_empty_rows(self):
+        mock_spreadsheet = MagicMock()
+        mock_worksheet = MagicMock()
+        mock_spreadsheet.get_worksheet.return_value = mock_worksheet
+        mock_worksheet.get_all_values.return_value = [
+            ['header1', 'header2'],
+            ['row1col1', 'row1col2'],
+            ['', ''],
+            ['row2col1', 'row2col2']
+        ]
+
+        result = read_spreadsheet(mock_spreadsheet)
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result['header1'].tolist(), ['row1col1', 'row2col1'])
+
+    @patch('crossreads_petrography.utils.get_path')
+    @patch('crossreads_petrography.utils.is_urllike')
+    @patch('crossreads_petrography.utils.is_pathlike')
+    @patch('crossreads_petrography.utils.read_spreadsheet')
+    @patch('crossreads_petrography.utils.read_df')
+    def test_read_path(self, mock_read_df, mock_read_spreadsheet, mock_is_pathlike, mock_is_urllike, mock_get_path):
+        mock_get_path.return_value = 'mock_path'
+        mock_is_urllike.return_value = False
+        mock_is_pathlike.return_value = True
+        mock_read_df.return_value = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})
+
+        result = read_path('mock_key')
+        self.assertIsInstance(result, pd.DataFrame)
+
+    @patch('crossreads_petrography.utils.IN_COLAB', False)
+    @patch('crossreads_petrography.utils.Path')
+    def test_has_credentials(self, mock_path):
+        mock_path.return_value.exists.return_value = True
+        self.assertTrue(has_credentials())
+
+        mock_path.return_value.exists.return_value = False
+        self.assertFalse(has_credentials())
 
     @patch('crossreads_petrography.utils.gspread.Spreadsheet')
     def test_update_spreadsheet(self, mock_spreadsheet):
@@ -141,21 +184,6 @@ class TestCrossreadsPetrographyUtils(unittest.TestCase):
         self.assertIsInstance(df, pd.DataFrame)
         self.assertEqual(len(df), 2)
         crossreads_petrography.utils.drive.mount.assert_called_once_with('/content/drive')
-
-    def test_read_spreadsheet_with_empty_rows(self):
-        mock_spreadsheet = MagicMock()
-        mock_worksheet = MagicMock()
-        mock_spreadsheet.get_worksheet.return_value = mock_worksheet
-        mock_worksheet.get_all_values.return_value = [
-            ['header1', 'header2'],
-            ['row1col1', 'row1col2'],
-            ['', ''],
-            ['row2col1', 'row2col2']
-        ]
-
-        result = read_spreadsheet(mock_spreadsheet)
-        self.assertEqual(len(result), 2)
-        self.assertEqual(result.index.tolist(), ['row1col1', 'row2col1'])
 
     def test_read_df_tsv(self):
         with tempfile.NamedTemporaryFile(mode='w', suffix='.tsv', delete=False) as tmp_file:

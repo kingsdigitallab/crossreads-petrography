@@ -1,37 +1,30 @@
 from .imports import *
-
-PATH_PXRF_INPUT_DATA = PATH_INPUT_DATA / 'pXRF'
-PATH_PXRF_INPUT_COLAB = '/content/drive/MyDrive/Crossreads B D1/pXRF input data'
-PATH_PXRF_OUTPUT = PATH_OUTPUT_DATA / 'pXRF'
-PATH_PXRF_OUTPUT.mkdir(parents=True, exist_ok=True)
-
-PXRF_STANDARDS_URL = 'https://docs.google.com/spreadsheets/d/1qaGvCqD0bm8JoYTKXdb76b_EcMHwHenU5NomGQSOf_M/edit'
-PXRF_DESCRIPTIONS_URL = 'https://docs.google.com/spreadsheets/d/1TEjZTq_jocxsLaFTpx0uf1txzJSPZWFNFGjhlcSdEKc/edit'
+from .utils import *
 
 class PXRFConverter:
-    def __init__(self, input_file=None):
+    def __init__(self):
         logger.info("Initializing PXRFConverter")
-        self.local_folder = PATH_PXRF_INPUT_DATA
-        self.remote_folder = PATH_PXRF_INPUT_COLAB
-        self.input_folder = self.local_folder if not IN_COLAB else self.remote_folder
+        self.input_folder = get_path('pxrf.input')
 
     @cached_property
     def df_standards(self):
         logger.info("Loading pXRF standard values")
-        df = read_spreadsheet(PXRF_STANDARDS_URL)
+        df = read_path('pxrf.standards')
+        df = df.set_index(df.columns[0])
         df = df.T.rename_axis('Element')
         return df[list(reversed(df.columns))]
 
     @cached_property
     def df_descriptions(self):
         logger.info("Loading pXRF descriptions")
-        odf=read_spreadsheet(PXRF_DESCRIPTIONS_URL).T
-        odf.columns=[str(x).strip() for x in odf]
+        odf = read_path('pxrf.descriptions').fillna('')
+        odf = odf.set_index(odf.columns[0])
+        odf=odf.T
         return odf
     
     @cached_property
     def txt_input(self):
-        return read_input_data_folder_txt(self.input_folder)
+        return read_path('pxrf.input')
 
     @cached_property
     def df_parsed(self):
@@ -142,13 +135,13 @@ class PXRFConverter:
 
     def save(self, output_folder=None):
         logger.info("Saving pXRF processed data")
-        output_folder = output_folder or PATH_PXRF_OUTPUT
+        output_folder = output_folder or get_path('pxrf.output')
         df = self.df_adjusted
         output_file = output_folder / 'pXRF_calculated_fractions.xlsx'
         df.to_excel(output_file)
-        logger.info(f"Saved: {output_file}")
+        logger.info(f"Saved: {output_file.name}")
 
-    def run(self, output_folder=PATH_PXRF_OUTPUT):
+    def run(self, output_folder=None):
         logger.info("Processing pXRF data")
         self.save(output_folder)
 
