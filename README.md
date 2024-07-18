@@ -57,9 +57,13 @@ The `IsotopeConverter` class in `crossreads_petrography.isotopes` handles the pr
 - Saves the processed data and plots to output files
 
 ```python
-from crossreads_petrography.isotopes import IsotopeConverter
+from crossreads_petrography.isotopes import *
 isotope_converter = IsotopeConverter()
 isotope_converter.run()
+```
+
+```python
+
 ```
 
 ### pXRF Processing
@@ -76,8 +80,102 @@ The `PXRFConverter` class in `pxrf.py` handles the processing of portable X-ray 
 ```python
 from crossreads_petrography.pxrf import PXRFConverter
 pxrf_converter = PXRFConverter()
-pxrf_converter.run()
+pxrf_converter.df_standards
 ```
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>standard</th>
+      <th>0CC</th>
+      <th>10CC</th>
+      <th>20CC</th>
+      <th>30CC</th>
+      <th>40CC</th>
+      <th>50CC</th>
+      <th>60CC</th>
+      <th>70CC</th>
+      <th>80CC</th>
+      <th>90CC</th>
+      <th>100CC</th>
+    </tr>
+    <tr>
+      <th>Element</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Si</th>
+      <td>90.647740</td>
+      <td>84.341530</td>
+      <td>78.459710</td>
+      <td>73.463040</td>
+      <td>64.173610</td>
+      <td>55.238040</td>
+      <td>32.494610</td>
+      <td>27.119980</td>
+      <td>21.505530</td>
+      <td>11.571160</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>K</th>
+      <td>5.976381</td>
+      <td>5.560614</td>
+      <td>5.172827</td>
+      <td>4.843398</td>
+      <td>4.230949</td>
+      <td>3.641829</td>
+      <td>2.142361</td>
+      <td>1.788013</td>
+      <td>1.417853</td>
+      <td>0.762884</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Ca</th>
+      <td>0.954312</td>
+      <td>7.844756</td>
+      <td>14.271480</td>
+      <td>19.731070</td>
+      <td>29.881110</td>
+      <td>39.644510</td>
+      <td>64.494970</td>
+      <td>70.367520</td>
+      <td>76.502120</td>
+      <td>87.356840</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>Fe</th>
+      <td>2.421567</td>
+      <td>2.253103</td>
+      <td>2.095976</td>
+      <td>1.962495</td>
+      <td>1.714336</td>
+      <td>1.475631</td>
+      <td>0.868062</td>
+      <td>0.724484</td>
+      <td>0.574500</td>
+      <td>0.309113</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 ### XRD Processing
 
@@ -109,13 +207,13 @@ The class pulls polygon data locally or from Google Drive if on Colab:
 
 ```python
 print(f'In Colab? {IN_COLAB}')
-print(f'Isotope input data path is: {PATH_ISOTOPE_INPUT.relative_to(PATH_DATA)}')
+print(f'Isotope input data path is: {get_path("isotopes.polygons")}')
 ```
 
 ↓
 
     In Colab? False
-    Isotope input data path is: input/isotopes
+    Isotope input data path is: /Users/ryan/crossreads_petrography_data/data/input/isotopes
 
 From here the sample polygons (ranged x,y values) are taken, where x is delta13C and y is delta18O:
 
@@ -304,14 +402,14 @@ isotope_converter.df_points
 From here we can plot the samples onto the polygons:
 
 ```python
-isotope_converter.plot(output_folder=PATH_ISOTOPE_OUTPUT)
-show_img(PATH_ISOTOPE_OUTPUT / 'isotope_graph.png')
+isotope_converter.plot(output_folder=get_path('isotopes.output'))
+show_img(get_path('isotopes.output') / 'isotope_graph.png')
 ```
 
 ↓
 
     
-![png](README_files/README_26_0.png)
+![png](README_files/README_27_0.png)
     
 
 ##### Intersection table
@@ -319,7 +417,6 @@ show_img(PATH_ISOTOPE_OUTPUT / 'isotope_graph.png')
 As well as map intersections:
 
 ```python
-# Dataframe for intersections
 isotope_converter.df_intersections
 ```
 
@@ -353,6 +450,29 @@ isotope_converter.df_intersections
   </thead>
   <tbody>
     <tr>
+      <th>nan</th>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+    </tr>
+    <tr>
       <th>ISic000104</th>
       <td>✔️</td>
       <td></td>
@@ -376,96 +496,73 @@ isotope_converter.df_intersections
       <td></td>
     </tr>
     <tr>
-      <th>ISic000097</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <th>ISic001135</th>
       <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td>✔️</td>
       <td></td>
       <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
       <td>✔️</td>
     </tr>
     <tr>
-      <th>ISic000004</th>
+      <th>ISic000181</th>
       <td>✔️</td>
-      <td></td>
+      <td>✖️</td>
+      <td>✖️</td>
       <td>✔️</td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
+      <td>✖️</td>
       <td>✔️</td>
       <td>✔️</td>
+      <td>✖️</td>
       <td>✔️</td>
       <td>✔️</td>
       <td>✔️</td>
       <td>✔️</td>
-      <td></td>
-      <td></td>
       <td>✔️</td>
-      <td></td>
       <td>✔️</td>
-      <td></td>
+      <td>✖️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✔️</td>
     </tr>
     <tr>
-      <th>ISic000034</th>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>ISic000036</th>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
+      <th>ISic000107</th>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
     </tr>
     <tr>
       <th>...</th>
@@ -491,122 +588,122 @@ isotope_converter.df_intersections
       <td>...</td>
     </tr>
     <tr>
-      <th>EXMFT109</th>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
+      <th>taoLastraR</th>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
     </tr>
     <tr>
-      <th>EXMFT112</th>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
+      <th>taoPiedi</th>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
     </tr>
     <tr>
-      <th>EXMFT134</th>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td>✔️</td>
+      <th>taoSarcofago</th>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
     </tr>
     <tr>
-      <th>ICT005</th>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
+      <th>taomascherome</th>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
     </tr>
     <tr>
-      <th>ICT006</th>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
-      <td></td>
-      <td>✔️</td>
+      <th>taoreclinato</th>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✖️</td>
     </tr>
   </tbody>
 </table>
-<p>81 rows × 20 columns</p>
+<p>122 rows × 20 columns</p>
 </div>
 
