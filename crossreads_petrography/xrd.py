@@ -1,4 +1,5 @@
 from .imports import *
+from .utils import *
 
 PATH_XRD_INPUT_DATA = PATH_INPUT_DATA / 'XRD'
 PATH_XRD_INPUT_COLAB = '/content/drive/MyDrive/Crossreads B D1/XRD input data'

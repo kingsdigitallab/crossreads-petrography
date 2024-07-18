@@ -1,4 +1,5 @@
 from .imports import *
+from .utils import *
 
 ISOTOPE_CURVES_URL = 'https://docs.google.com/spreadsheets/d/1P-NDhxRnLU8Tkg4dlXvef7DCYKE2qrSx/edit'
 ISOTOPE_SAMPLES_URL = 'https://docs.google.com/spreadsheets/d/1N26mnpoRzENkesBL3uAAFfRp2uHCR0Dq/edit'
@@ -14,7 +15,7 @@ class IsotopeConverter:
 
     @cached_property
     def df_curves(self):
-        logger.info("Reading isotope curve data from Google Sheets")
+        logger.info("Reading isotope curve data")
         df = read_input_data_folder(PATH_ISOTOPE_INPUT_DATA if not IN_COLAB else PATH_ISOTOPE_INPUT_COLAB)
         df = df.replace({'':np.nan})
         types = {'_'.join(x.split('_')[:-1]) for x in df.columns}
@@ -52,15 +53,25 @@ class IsotopeConverter:
     def plot(self, output_folder=None):
         fig = plot_curves(self.df_curves, self.df_points)
         if output_folder:
-            fig.write_html(output_folder / 'isotope_graph.html')
-            fig.write_image(output_folder / 'isotope_graph.png')
-            fig.write_image(output_folder / 'isotope_graph.pdf')
+            ofn_png=output_folder / 'isotope_graph.png'
+            ofn_html=output_folder / 'isotope_graph.html'
+            ofn_pdf=output_folder / 'isotope_graph.pdf'
+            fig.write_image(ofn_png)
+            logger.debug(f'Saved: {ofn_png}')
+
+            fig.write_html(ofn_html)
+            logger.debug(f'Saved: {ofn_html}')
+
+            fig.write_image(ofn_pdf)
+            logger.debug(f'Saved: {ofn_pdf}')
         return fig
 
     def save(self, output_folder=None):
         logger.info("Generating isotope outputs")        
         output_folder = output_folder or PATH_ISOTOPE_OUTPUT
-        self.df_intersections.to_excel(output_folder / 'isotope_intersections.xlsx')
+        ofn=output_folder / 'isotope_intersections.xlsx'
+        self.df_intersections.to_excel(ofn)
+        logger.debug(f'Saved: {ofn}')
         self.plot(output_folder=output_folder)
 
     def run(self, output_folder=PATH_ISOTOPE_OUTPUT):
