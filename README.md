@@ -41,9 +41,9 @@ The project uses a flexible configuration system to manage paths and settings ac
 
 #### Environment-specific Behavior
 
-- Local development: Uses local file paths by default.
+- Local development: Uses Google sheets integration if available, otherwise local files
 - Google Colab: Automatically uses Colab-specific paths and authentication.
-- Production: Can use different URLs or paths as specified in the config.
+- Production: Can use different URLs or paths as specified in the config; requires Google sheets integration
 
 #### Google Sheets Integration
 
@@ -58,12 +58,8 @@ To use the Google Sheets integration:
 
 This path is defined in the config file as `paths.credentials.local`.
 
-#### Further Configuration
-
-For detailed configuration options, refer to the `config.yaml` file in your project directory. You can customize paths, URLs, and other settings to suit your specific environment and needs.
-
 ```python
-# for readme
+# disabling logs for readme
 from crossreads_petrography.utils import logger
 logger.remove()
 ```
@@ -90,10 +86,6 @@ The `IsotopeConverter` class in `crossreads_petrography.isotopes` handles the pr
 from crossreads_petrography.isotopes import *
 isotope_converter = IsotopeConverter()
 isotope_converter.run()
-```
-
-```python
-
 ```
 
 ### pXRF Processing
@@ -149,17 +141,17 @@ pxrf_converter.df_standards
   <tbody>
     <tr>
       <th>Si</th>
-      <td>90.647740</td>
-      <td>84.341530</td>
-      <td>78.459710</td>
-      <td>73.463040</td>
-      <td>64.173610</td>
-      <td>55.238040</td>
-      <td>32.494610</td>
-      <td>27.119980</td>
-      <td>21.505530</td>
-      <td>11.571160</td>
-      <td>0.0</td>
+      <td>90.64774</td>
+      <td>84.34153</td>
+      <td>78.45971</td>
+      <td>73.46304</td>
+      <td>64.17361</td>
+      <td>55.23804</td>
+      <td>32.49461</td>
+      <td>27.11998</td>
+      <td>21.50553</td>
+      <td>11.57116</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>K</th>
@@ -173,21 +165,21 @@ pxrf_converter.df_standards
       <td>1.788013</td>
       <td>1.417853</td>
       <td>0.762884</td>
-      <td>0.0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Ca</th>
       <td>0.954312</td>
       <td>7.844756</td>
-      <td>14.271480</td>
-      <td>19.731070</td>
-      <td>29.881110</td>
-      <td>39.644510</td>
-      <td>64.494970</td>
-      <td>70.367520</td>
-      <td>76.502120</td>
-      <td>87.356840</td>
-      <td>100.0</td>
+      <td>14.27148</td>
+      <td>19.73107</td>
+      <td>29.88111</td>
+      <td>39.64451</td>
+      <td>64.49497</td>
+      <td>70.36752</td>
+      <td>76.50212</td>
+      <td>87.35684</td>
+      <td>100</td>
     </tr>
     <tr>
       <th>Fe</th>
@@ -199,9 +191,9 @@ pxrf_converter.df_standards
       <td>1.475631</td>
       <td>0.868062</td>
       <td>0.724484</td>
-      <td>0.574500</td>
+      <td>0.5745</td>
       <td>0.309113</td>
-      <td>0.0</td>
+      <td>0</td>
     </tr>
   </tbody>
 </table>
@@ -221,6 +213,23 @@ from crossreads_petrography.xrd import XRDConverter
 xrd_converter = XRDConverter()
 xrd_converter.run()
 ```
+
+↓
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    Cell In[6], line 3
+          1 from crossreads_petrography.xrd import XRDConverter
+          2 xrd_converter = XRDConverter()
+    ----> 3 xrd_converter.run()
+
+    File ~/github/crossreads-petrography/crossreads_petrography/xrd.py:200, in XRDConverter.run(self)
+        199 def run(self):
+    --> 200     self.save()
+
+    TypeError: XRDConverter.save() missing 1 required positional argument: 'df'
 
 ## Explanation
 
@@ -439,7 +448,7 @@ show_img(get_path('isotopes.output') / 'isotope_graph.png')
 ↓
 
     
-![png](README_files/README_26_0.png)
+![png](README_files/README_25_0.png)
     
 
 ##### Intersection table
