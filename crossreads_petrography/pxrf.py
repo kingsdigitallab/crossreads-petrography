@@ -147,7 +147,7 @@ class PXRFConverter:
         df = self.df_adjusted
         output_file = output_folder / 'pXRF_calculated_fractions.xlsx'
         df.to_excel(output_file)
-        logger.info(f"Saved: {output_file}")
+        logger.info(f"Saved: {output_file.name}")
 
     def run(self, output_folder=PATH_PXRF_OUTPUT):
         logger.info("Processing pXRF data")

@@ -6,6 +6,7 @@ ISOTOPE_SAMPLES_URL = 'https://docs.google.com/spreadsheets/d/1N26mnpoRzENkesBL3
 
 PATH_ISOTOPE_INPUT_DATA = PATH_INPUT_DATA / 'isotopes'
 PATH_ISOTOPE_INPUT_COLAB = '/content/drive/MyDrive/Crossreads B D1/Isotope input data'
+PATH_ISOTOPE_INPUT = PATH_ISOTOPE_INPUT_COLAB if IN_COLAB else PATH_ISOTOPE_INPUT_DATA
 PATH_ISOTOPE_OUTPUT = PATH_OUTPUT_DATA / 'isotopes'
 PATH_ISOTOPE_OUTPUT.mkdir(parents=True, exist_ok=True)
 
@@ -57,13 +58,13 @@ class IsotopeConverter:
             ofn_html=output_folder / 'isotope_graph.html'
             ofn_pdf=output_folder / 'isotope_graph.pdf'
             fig.write_image(ofn_png)
-            logger.debug(f'Saved: {ofn_png}')
+            logger.debug(f'Saved: {ofn_png.name}')
 
             fig.write_html(ofn_html)
-            logger.debug(f'Saved: {ofn_html}')
+            logger.debug(f'Saved: {ofn_html.name}')
 
             fig.write_image(ofn_pdf)
-            logger.debug(f'Saved: {ofn_pdf}')
+            logger.debug(f'Saved: {ofn_pdf.name}')
         return fig
 
     def save(self, output_folder=None):
@@ -71,7 +72,7 @@ class IsotopeConverter:
         output_folder = output_folder or PATH_ISOTOPE_OUTPUT
         ofn=output_folder / 'isotope_intersections.xlsx'
         self.df_intersections.to_excel(ofn)
-        logger.debug(f'Saved: {ofn}')
+        logger.debug(f'Saved: {ofn.name}')
         self.plot(output_folder=output_folder)
 
     def run(self, output_folder=PATH_ISOTOPE_OUTPUT):

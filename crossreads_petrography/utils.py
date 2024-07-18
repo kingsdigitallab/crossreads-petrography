@@ -96,7 +96,7 @@ def read_df(filename: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The loaded dataframe.
     """
-    logger.debug(f"Reading dataframe from file: {filename}")
+    logger.debug(f"Reading dataframe from file: {os.path.basename(filename)}")
     
     file_extension = os.path.splitext(filename.lower())[1]
     
@@ -132,7 +132,7 @@ def read_input_data_folder(folder: str) -> pd.DataFrame:
     """
     Read XRD input data from a folder, either on Google Drive or local path.
     """
-    logger.debug(f"Reading spreadsheet data from {folder}")
+    logger.debug(f"Reading spreadsheet data from {os.path.basename(folder)}")
 
     if IN_COLAB:
         if drive is None:
