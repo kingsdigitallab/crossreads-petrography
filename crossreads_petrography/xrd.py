@@ -178,7 +178,9 @@ class XRDConverter:
         # Fill NaN with empty string
         return df_combined.fillna("").rename_axis(df_meta.index.name)
 
-    def save(self, df):
+    def save(self, df=None):
+        if df is None: df=self.df_updated
+        if df is None: return
         logger.debug(f"Attempting to save data ({len(df)} rows)")
         if has_credentials():
             logger.debug("Credentials available. Updating Google Sheet.")
