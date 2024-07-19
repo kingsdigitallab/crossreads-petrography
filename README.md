@@ -11,7 +11,7 @@ Project structure:
   - `utils.py`: Utility functions for data handling and Google Sheets integration
 - `notebooks/`: Jupyter notebooks for data analysis
 - `tests/`: Unit tests
-- `data/`: Directory for input and output data (not tracked in git)
+- `data/`: Directory for input and output data
 
 ## Install
 
@@ -508,7 +508,7 @@ show_img(get_path('isotopes.output') / 'isotope_graph.png')
 ↓
 
     
-![png](README_files/README_25_0.png)
+![png](README_files/README_24_0.png)
     
 
 ##### Intersection table
