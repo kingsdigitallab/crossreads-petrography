@@ -18,7 +18,7 @@ Project structure:
 Install the package directly from GitHub using pip:
 
 ```python
-!pip install -qU git+https://github.com/quadrismegistus/crossreads-petrography
+!pip install -qU git+https://github.com/kingsdigitallab/crossreads-petrography
 ```
 
 For development or local modifications, clone the repo and install via `pip install -e ". [dev]"`.
