@@ -29,13 +29,13 @@ class TestCrossreadsPetrographyUtils(unittest.TestCase):
         pd.testing.assert_frame_equal(result, mock_df.set_index(mock_df.columns[0]))
 
     @patch('crossreads_petrography.utils.IN_COLAB', False)
-    @patch('crossreads_petrography.utils.Path.exists')
+    @patch('crossreads_petrography.utils.Path')
     @patch('crossreads_petrography.utils.authenticate_service_account')
     @patch('crossreads_petrography.utils.gspread.authorize')
     @patch('crossreads_petrography.utils.has_credentials')
-    def test_get_spreadsheet(self, mock_has_credentials, mock_authorize, mock_authenticate, mock_exists):
+    def test_get_spreadsheet(self, mock_has_credentials, mock_authorize, mock_authenticate, mock_path):
         mock_has_credentials.return_value = True
-        mock_exists.return_value = True
+        mock_path.return_value.exists.return_value = True
         mock_creds = MagicMock()
         mock_authenticate.return_value = mock_creds
         mock_gc = MagicMock()
@@ -44,8 +44,51 @@ class TestCrossreadsPetrographyUtils(unittest.TestCase):
 
         result = get_spreadsheet('mock_url', 'mock_credentials_path')
         self.assertEqual(result, 'mock_spreadsheet')
-        mock_exists.assert_called_once()
+        mock_path.assert_called_once_with('mock_credentials_path')
+        mock_path.return_value.exists.assert_called_once()
         mock_authenticate.assert_called_once_with('mock_credentials_path')
+        mock_authorize.assert_called_once_with(mock_creds)
+        mock_gc.open_by_url.assert_called_once_with('mock_url')
+
+    @patch('crossreads_petrography.utils.IN_COLAB', False)
+    @patch('crossreads_petrography.utils.has_credentials')
+    def test_get_spreadsheet_no_credentials(self, mock_has_credentials):
+        mock_has_credentials.return_value = False
+        
+        with self.assertRaises(ValueError) as context:
+            get_spreadsheet('mock_url')
+        
+        self.assertEqual(str(context.exception), "No credentials available. Unable to access spreadsheet.")
+
+    @patch('crossreads_petrography.utils.IN_COLAB', False)
+    @patch('crossreads_petrography.utils.Path')
+    @patch('crossreads_petrography.utils.has_credentials')
+    def test_get_spreadsheet_credentials_not_found(self, mock_has_credentials, mock_path):
+        mock_has_credentials.return_value = True
+        mock_path.return_value.exists.return_value = False
+        
+        with self.assertRaises(FileNotFoundError) as context:
+            get_spreadsheet('mock_url', 'mock_credentials_path')
+        
+        self.assertEqual(str(context.exception), "Credentials file not found: mock_credentials_path")
+        mock_path.assert_called_once_with('mock_credentials_path')
+        mock_path.return_value.exists.assert_called_once()
+
+    @patch('crossreads_petrography.utils.IN_COLAB', True)
+    @patch('crossreads_petrography.utils.has_credentials')
+    @patch('crossreads_petrography.utils.authenticate_colab')
+    @patch('crossreads_petrography.utils.gspread.authorize')
+    def test_get_spreadsheet_colab(self, mock_authorize, mock_authenticate_colab, mock_has_credentials):
+        mock_has_credentials.return_value = True
+        mock_creds = MagicMock()
+        mock_authenticate_colab.return_value = mock_creds
+        mock_gc = MagicMock()
+        mock_authorize.return_value = mock_gc
+        mock_gc.open_by_url.return_value = 'mock_spreadsheet'
+
+        result = get_spreadsheet('mock_url')
+        self.assertEqual(result, 'mock_spreadsheet')
+        mock_authenticate_colab.assert_called_once()
         mock_authorize.assert_called_once_with(mock_creds)
         mock_gc.open_by_url.assert_called_once_with('mock_url')
 
@@ -144,12 +187,6 @@ class TestCrossreadsPetrographyUtils(unittest.TestCase):
             self.assertEqual(df.iloc[0].tolist(), ['row1col1', 'row1col2'])
             self.assertEqual(df.iloc[1].tolist(), ['row2col1', 'row2col2'])
 
-    @patch('crossreads_petrography.utils.IN_COLAB', False)
-    @patch('crossreads_petrography.utils.os.path.exists')
-    def test_get_spreadsheet_file_not_found(self, mock_exists):
-        mock_exists.return_value = False
-        with self.assertRaises(FileNotFoundError):
-            get_spreadsheet('mock_url', 'non_existent_path')
 
     @patch('crossreads_petrography.utils.IN_COLAB', True)
     @patch('crossreads_petrography.utils.gspread.authorize')
@@ -209,6 +246,19 @@ class TestCrossreadsPetrographyUtils(unittest.TestCase):
         result = read_input_data_folder_txt('mock_folder')
         self.assertIsInstance(result, str)
         self.assertEqual(result, "Sample text data\n\n\n\nSample text data")
+
+    @patch('crossreads_petrography.utils.IN_COLAB', False)
+    @patch('crossreads_petrography.utils.Path')
+    @patch('crossreads_petrography.utils.has_credentials')
+    def test_get_spreadsheet_credentials_not_found(self, mock_has_credentials, mock_path):
+        mock_has_credentials.return_value = True
+        mock_path.return_value.exists.return_value = False
+
+        with self.assertRaises(FileNotFoundError):
+            get_spreadsheet('mock_url', 'mock_credentials_path')
+
+        mock_path.assert_called_once_with('mock_credentials_path')
+        mock_path.return_value.exists.assert_called_once()
 
 if __name__ == '__main__':
     unittest.main()

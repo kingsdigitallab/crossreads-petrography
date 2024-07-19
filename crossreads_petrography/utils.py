@@ -47,58 +47,34 @@ def authenticate_service_account(credentials_path: str):
         scopes=["https://www.googleapis.com/auth/spreadsheets"],
     )
 
-def authenticate_default():
-    """
-    Attempt to authenticate using default credentials.
-    """
-    try:
-        from google.auth import default as google_default
-        creds, _ = google_default()
-        return creds
-    except Exception:
-        return None
-
-def access_public_spreadsheet(spreadsheet_url: str):
-    """
-    Attempt to access a public Google Spreadsheet without authentication.
-    """
-    try:
-        client = gspread.Client()
-        return client.open_by_url(spreadsheet_url)
-    except Exception as e:
-        raise FileNotFoundError(f"Unable to access spreadsheet: {str(e)}")
-
 def get_spreadsheet(spreadsheet_url, credentials_path: Optional[str] = None):
     """
     Authenticate and access Google Spreadsheet using Colab auth if available,
-    otherwise use gspread with service account credentials, default credentials,
-    or attempt to access public spreadsheets without authentication.
+    otherwise use gspread with service account credentials.
     """
     logger.debug("Authenticating and accessing Google Spreadsheet")
+    
+    if not has_credentials():
+        raise ValueError("No credentials available. Unable to access spreadsheet.")
     
     creds = None
     if IN_COLAB:
         creds = authenticate_colab()
     else:
         creds_path = credentials_path or config.paths.credentials.local
-        if Path(creds_path).exists():
-            creds = authenticate_service_account(creds_path)
-        else:
-            creds = authenticate_default()
+        if not Path(creds_path).exists():
+            raise FileNotFoundError(f"Credentials file not found: {creds_path}")
+        creds = authenticate_service_account(creds_path)
     
     if creds:
         try:
             gc = gspread.authorize(creds)
             return gc.open_by_url(spreadsheet_url)
-        except APIError as e:
-            if e.response.status_code in [403, 401]:  # Unauthorized or Forbidden
-                logger.warning("Insufficient permissions. Attempting to access as a public spreadsheet.")
-            else:
-                raise e
+        except Exception as e:
+            logger.error(f"Error accessing spreadsheet: {e}")
+            raise
     
-    # If we reach here, either there were no credentials or we got a permission error
-    logger.warning("Attempting to access as a public spreadsheet.")
-    return access_public_spreadsheet(spreadsheet_url)
+    raise ValueError("Unable to authenticate and access spreadsheet.")
 
 def read_spreadsheet(spreadsheet: 'Spreadsheet|str', worksheet_index: int = 0) -> pd.DataFrame:
     """
@@ -311,6 +287,4 @@ def get_config_value(key_path: str):
         else:
             return None
     return value
-
-
 
