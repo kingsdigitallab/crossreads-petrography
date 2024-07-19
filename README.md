@@ -102,102 +102,8 @@ The `PXRFConverter` class in `pxrf.py` handles the processing of portable X-ray 
 ```python
 from crossreads_petrography.pxrf import PXRFConverter
 pxrf_converter = PXRFConverter()
-pxrf_converter.df_standards
+pxrf_converter.run()
 ```
-
-<div>
-
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>standard</th>
-      <th>0CC</th>
-      <th>10CC</th>
-      <th>20CC</th>
-      <th>30CC</th>
-      <th>40CC</th>
-      <th>50CC</th>
-      <th>60CC</th>
-      <th>70CC</th>
-      <th>80CC</th>
-      <th>90CC</th>
-      <th>100CC</th>
-    </tr>
-    <tr>
-      <th>Element</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Si</th>
-      <td>90.64774</td>
-      <td>84.34153</td>
-      <td>78.45971</td>
-      <td>73.46304</td>
-      <td>64.17361</td>
-      <td>55.23804</td>
-      <td>32.49461</td>
-      <td>27.11998</td>
-      <td>21.50553</td>
-      <td>11.57116</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>K</th>
-      <td>5.976381</td>
-      <td>5.560614</td>
-      <td>5.172827</td>
-      <td>4.843398</td>
-      <td>4.230949</td>
-      <td>3.641829</td>
-      <td>2.142361</td>
-      <td>1.788013</td>
-      <td>1.417853</td>
-      <td>0.762884</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Ca</th>
-      <td>0.954312</td>
-      <td>7.844756</td>
-      <td>14.27148</td>
-      <td>19.73107</td>
-      <td>29.88111</td>
-      <td>39.64451</td>
-      <td>64.49497</td>
-      <td>70.36752</td>
-      <td>76.50212</td>
-      <td>87.35684</td>
-      <td>100</td>
-    </tr>
-    <tr>
-      <th>Fe</th>
-      <td>2.421567</td>
-      <td>2.253103</td>
-      <td>2.095976</td>
-      <td>1.962495</td>
-      <td>1.714336</td>
-      <td>1.475631</td>
-      <td>0.868062</td>
-      <td>0.724484</td>
-      <td>0.5745</td>
-      <td>0.309113</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
 
 ### XRD Processing
 
@@ -256,34 +162,34 @@ isotope_converter.df_curves
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
+      <th>2</th>
+      <td>Aphrodisias</td>
+      <td>-6.529338</td>
+      <td>1.953317</td>
+    </tr>
+    <tr>
+      <th>3</th>
       <td>Naxos</td>
       <td>-13.932584</td>
       <td>2.653563</td>
     </tr>
     <tr>
-      <th>1</th>
+      <th>4</th>
       <td>Paros-2 (3)</td>
       <td>-3.583021</td>
       <td>3.157248</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>Proconnesos-1</td>
-      <td>-4.981273</td>
-      <td>2.678133</td>
+      <th>5</th>
+      <td>Pentelikon</td>
+      <td>-12.089915</td>
+      <td>1.334951</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>Thasos-3</td>
-      <td>-10.174782</td>
-      <td>2.211302</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Carrara</td>
-      <td>-0.170109</td>
-      <td>3.094660</td>
+      <th>6</th>
+      <td>Paros-4</td>
+      <td>-5.617978</td>
+      <td>0.872236</td>
     </tr>
     <tr>
       <th>...</th>
@@ -292,31 +198,31 @@ isotope_converter.df_curves
       <td>...</td>
     </tr>
     <tr>
-      <th>4068</th>
+      <th>4071</th>
       <td>EphesosWhites1</td>
       <td>-9.307172</td>
       <td>3.005405</td>
     </tr>
     <tr>
-      <th>4088</th>
+      <th>4091</th>
       <td>EphesosWhites1</td>
       <td>-9.144790</td>
       <td>3.135135</td>
     </tr>
     <tr>
-      <th>4108</th>
+      <th>4111</th>
       <td>EphesosWhites1</td>
       <td>-8.982409</td>
       <td>3.254054</td>
     </tr>
     <tr>
-      <th>4128</th>
+      <th>4131</th>
       <td>EphesosWhites1</td>
       <td>-8.779432</td>
       <td>3.362162</td>
     </tr>
     <tr>
-      <th>4148</th>
+      <th>4151</th>
       <td>EphesosWhites1</td>
       <td>-8.568336</td>
       <td>3.524324</td>
