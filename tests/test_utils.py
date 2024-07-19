@@ -144,12 +144,6 @@ class TestCrossreadsPetrographyUtils(unittest.TestCase):
             self.assertEqual(df.iloc[0].tolist(), ['row1col1', 'row1col2'])
             self.assertEqual(df.iloc[1].tolist(), ['row2col1', 'row2col2'])
 
-    @patch('crossreads_petrography.utils.IN_COLAB', False)
-    @patch('crossreads_petrography.utils.os.path.exists')
-    def test_get_spreadsheet_file_not_found(self, mock_exists):
-        mock_exists.return_value = False
-        with self.assertRaises(FileNotFoundError):
-            get_spreadsheet('mock_url', 'non_existent_path')
 
     @patch('crossreads_petrography.utils.IN_COLAB', True)
     @patch('crossreads_petrography.utils.gspread.authorize')

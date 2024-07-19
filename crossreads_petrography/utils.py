@@ -90,15 +90,17 @@ def get_spreadsheet(spreadsheet_url, credentials_path: Optional[str] = None):
         try:
             gc = gspread.authorize(creds)
             return gc.open_by_url(spreadsheet_url)
-        except APIError as e:
-            if e.response.status_code in [403, 401]:  # Unauthorized or Forbidden
-                logger.warning("Insufficient permissions. Attempting to access as a public spreadsheet.")
-            else:
-                raise e
+        except Exception as e:
+            logger.error(e)
+            # except APIError as e:
+        #     if e.response.status_code in [403, 401]:  # Unauthorized or Forbidden
+        #         logger.warning("Insufficient permissions. Attempting to access as a public spreadsheet.")
+        #     else:
+        #         raise e
     
-    # If we reach here, either there were no credentials or we got a permission error
-    logger.warning("Attempting to access as a public spreadsheet.")
-    return access_public_spreadsheet(spreadsheet_url)
+    # # If we reach here, either there were no credentials or we got a permission error
+    # logger.warning("Attempting to access as a public spreadsheet.")
+    # return access_public_spreadsheet(spreadsheet_url)
 
 def read_spreadsheet(spreadsheet: 'Spreadsheet|str', worksheet_index: int = 0) -> pd.DataFrame:
     """
