@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch, PropertyMock
 import pandas as pd
 from crossreads_petrography.pxrf import PXRFConverter
+import plotnine as p9
 
 class TestPXRFConverter(unittest.TestCase):
     def setUp(self):
@@ -131,6 +132,24 @@ class TestPXRFConverter(unittest.TestCase):
     def test_run(self, mock_save):
         self.converter.run()
         mock_save.assert_called_once()
+
+    @patch('crossreads_petrography.pxrf.PXRFConverter.df_parsed', new_callable=PropertyMock)
+    def test_plot(self, mock_df_parsed):
+        mock_df = pd.DataFrame({
+            'Element': ['Fe', 'Ca', 'Si', 'Fe', 'Ca', 'Si'],
+            'Mass_fraction': [0.5, 0.3, 0.2, 0.4, 0.2, 0.4],
+            'standard_val': [1.0, 2.0, 1.5, 3.0, 4.0, 3.5],
+            'standard_group': ['10-50', '10-50', '10-50', '50-100', '50-100', '50-100']
+        })
+        mock_df_parsed.return_value = mock_df
+
+        result = self.converter.plot()
+
+        self.assertIsInstance(result, p9.ggplot)
+        self.assertEqual(len(result.layers), 2)  # geom_point and geom_smooth
+        self.assertEqual(result.mapping.get('x'), 'Mass_fraction')
+        self.assertEqual(result.mapping.get('y'), 'standard_val')
+        self.assertEqual(result.mapping.get('color'), 'standard_group')
 
 
 if __name__ == '__main__':

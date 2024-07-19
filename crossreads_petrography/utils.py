@@ -161,17 +161,17 @@ def read_df(filename: str) -> pd.DataFrame:
             # Detect separator for CSV files
             with open(filename, 'r') as f:
                 sample = f.read(4096)  # Read more of the file
-                try:
-                    dialect = csv.Sniffer().sniff(sample)
-                    separator = dialect.delimiter
-                except csv.Error:
-                    # Fallback to common separators if sniffing fails
-                    for sep in [',', ';', '\t', '|']:
-                        if sep in sample:
-                            separator = sep
-                            break
-                    else:
-                        separator = ','  # Default to comma if nothing else works
+                # try:
+                dialect = csv.Sniffer().sniff(sample)
+                separator = dialect.delimiter
+                # except csv.Error:
+                #     # Fallback to common separators if sniffing fails
+                #     for sep in [',', ';', '\t', '|']:
+                #         if sep in sample:
+                #             separator = sep
+                #             break
+                #     else:
+                #         separator = ','  # Default to comma if nothing else works
             
             odf = pd.read_csv(filename, sep=separator)
         elif file_extension in ['.xlsx', '.xls']:
