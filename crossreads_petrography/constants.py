@@ -5,6 +5,7 @@ from typing import Any
 import yaml
 import re
 from types import SimpleNamespace
+import importlib.resources
 
 try:
     from google.colab import auth, drive
@@ -17,7 +18,7 @@ except ImportError:
 PATH_HERE = Path(__file__).parent.resolve()
 PATH_REPO = PATH_HERE.parent.resolve()
 PATH_REPO_DATA = PATH_REPO / 'data'
-PATH_CONFIG_DEFAULT = PATH_REPO / "default_config.yaml"
+PATH_CONFIG_DEFAULT = PATH_REPO / "data" / "default_config.yaml"
 
 PATH_HOME = Path.home() / "crossreads_petrography_data"
 PATH_HOME.mkdir(exist_ok=True)

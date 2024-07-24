@@ -16,3 +16,7 @@ dependencies = {file = ["requirements.txt"]}
 
 [tool.setuptools]
 packages = ["crossreads_petrography"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"crossreads_petrography" = ["../data/**/*"]
