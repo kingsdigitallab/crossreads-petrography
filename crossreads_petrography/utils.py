@@ -117,7 +117,7 @@ def update_spreadsheet(spreadsheet: gspread.Spreadsheet, df: pd.DataFrame, works
             f"Successfully updated {res['updatedCells']} cells in the Google Sheets worksheet."
         )
 
-def read_df(filename: str) -> pd.DataFrame:
+def read_df(filename: str, sep=',') -> pd.DataFrame:
     """
     Read a dataframe from various file formats (csv, xlsx, xls, tsv).
     
@@ -135,19 +135,14 @@ def read_df(filename: str) -> pd.DataFrame:
     try:
         if file_extension == '.csv':
             # Detect separator for CSV files
-            with open(filename, 'r') as f:
-                sample = f.read(4096)  # Read more of the file
-                # try:
-                dialect = csv.Sniffer().sniff(sample)
-                separator = dialect.delimiter
-                # except csv.Error:
-                #     # Fallback to common separators if sniffing fails
-                #     for sep in [',', ';', '\t', '|']:
-                #         if sep in sample:
-                #             separator = sep
-                #             break
-                #     else:
-                #         separator = ','  # Default to comma if nothing else works
+            if not sep:
+                with open(filename, 'r') as f:
+                    sample = f.read(4096)  # Read more of the file
+                    dialect = csv.Sniffer().sniff(sample)
+                    separator = dialect.delimiter
+                    print(f'{filename} has a separator character of {separator}')
+            else:
+                separator = sep
             
             odf = pd.read_csv(filename, sep=separator)
         elif file_extension in ['.xlsx', '.xls']:
@@ -162,7 +157,7 @@ def read_df(filename: str) -> pd.DataFrame:
 
     return odf
     
-def read_input_data_folder(folder: str) -> pd.DataFrame:
+def read_input_data_folder(folder: str, sep=',') -> pd.DataFrame:
     """
     Read XRD input data from a folder, either on Google Drive or local path.
     """
@@ -175,7 +170,7 @@ def read_input_data_folder(folder: str) -> pd.DataFrame:
         folder = os.path.join('/content/drive/MyDrive', folder)
 
     df = pd.concat(
-        read_df(os.path.join(folder, ifn))
+        read_df(os.path.join(folder, ifn), sep=sep)
         for ifn in os.listdir(folder)
         if os.path.splitext(ifn)[-1].lower() in {".csv",".tsv",".xls",".xlsx"}
     ).fillna("")
@@ -252,7 +247,7 @@ def is_pathlike(x):
     return isinstance(x, (str, Path)) and (str(x).startswith('/') or Path(x).exists())
 
 
-def read_path(paths, worksheet_index=0, as_list=False):
+def read_path(paths, worksheet_index=0, as_list=False, sep=','):
     path = get_path(paths) if not is_pathlike(paths) and not is_urllike(paths) else paths
     
     if is_urllike(path):
@@ -265,11 +260,11 @@ def read_path(paths, worksheet_index=0, as_list=False):
             if txt_files and all(f.suffix == '.txt' or f.name.startswith('.') for f in path.iterdir()):
                 return read_input_data_folder_txt(str(path), as_list=as_list)
             else:
-                return read_input_data_folder(str(path))
+                return read_input_data_folder(str(path), sep=sep)
         
         if path.is_file():
             if path.suffix.lower() in ['.csv', '.xlsx', '.xls', '.tsv']:
-                return read_df(str(path))
+                return read_df(str(path), sep=sep)
             else:
                 try:
                     return path.read_text()
