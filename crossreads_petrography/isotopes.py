@@ -37,6 +37,96 @@ class IsotopeConverter:
     @cached_property
     def df_intersections(self):
         return determine_polygon_intersections(self.df_curves, self.df_points)
+    
+    @cached_property
+    def df_intersections_mgs(self):
+        df_mgs = read_path('isotopes.mgs')
+        df_mgs['value_mm'] = pd.to_numeric(df_mgs['value_mm'], errors='coerce')
+        subtype_renamed = {
+            'Goktepe':'Göktepe',
+            'Docimian':'Docimium',
+            'Dokymeion':'Docimium',
+            'Penteli':'Pentelikon',
+            'Hymettos':'Hymettus',
+            'Proconnesos':'Proconnesos-1',
+            'Thasos-(1) 2':'Thasos-1 (2)'
+        }
+        df_mgs['subtype']=df_mgs['subtype'].apply(lambda x: subtype_renamed.get(x,x))
+
+        range_wh = defaultdict(dict)
+        range_box = defaultdict(dict)
+
+        for i,row in df_mgs.iterrows():
+            if row.value_type == 'min wh':
+                range_wh[row.subtype]['min'] = row.value_mm
+            elif row.value_type == 'max wh':
+                range_wh[row.subtype]['max'] = row.value_mm
+            elif row.value_type == 'min box':
+                range_box[row.subtype]['min'] = row.value_mm
+            elif row.value_type == 'max box':
+                range_box[row.subtype]['max'] = row.value_mm
+
+
+        range_wh = defaultdict(dict)
+        range_box = defaultdict(dict)
+
+        for i,row in df_mgs.iterrows():
+            if row.value_type == 'min wh':
+                range_wh[row.subtype]['min'] = row.value_mm
+            elif row.value_type == 'max wh':
+                range_wh[row.subtype]['max'] = row.value_mm
+            elif row.value_type == 'min box':
+                range_box[row.subtype]['min'] = row.value_mm
+            elif row.value_type == 'max box':
+                range_box[row.subtype]['max'] = row.value_mm
+
+
+        df_big = read_crossreads_spreadsheet()
+        col_optical='optical microscopy MGS (mm)'
+        col_digital='digital microscopy MGS (mm)'
+        cols = [('optical', col_optical), ('digital', col_digital)]
+        
+        all_intersections = defaultdict(dict)
+        for coltype,col in cols:
+            values = df_big[col]
+            values = pd.to_numeric(values[values!=""],errors='coerce')
+            
+            for rangetype,ranges in [('whisker',range_wh), ('box', range_box)]:
+                intersections = all_intersections[coltype][rangetype] = defaultdict(list)
+                for isic,value in zip(values.index, values):
+                    for subtype,subtyperange in ranges.items():
+                        if value >= subtyperange['min'] and value <= subtyperange['max']:
+                            if subtype not in intersections[isic]:
+                                intersections[isic].append(subtype)
+
+        df = self.df_intersections.copy()
+        for i in df.index:
+            df.loc[i] = [''] * len(df.columns)
+
+        # add empty columns for any subtypes in MGS but not in isotopes
+        all_subtypes = df_mgs.subtype.unique()
+        for subtype in all_subtypes:
+            if subtype not in set(df.columns):
+                df['subtype']=''
+
+        symbols = {'optical':'🔬', 'digital':'🔍'}
+        intersections_mgs = all_intersections
+        for coltype in intersections_mgs:
+            for wh_or_box in intersections_mgs[coltype]:
+                for isic in set(intersections_mgs[coltype][wh_or_box]):
+                    if isic not in set(df.index):
+                        # Add an empty row for the missing ISIC
+                        df.loc[isic] = [''] * len(df.columns)
+                    for subtype in intersections_mgs[coltype][wh_or_box][isic]:
+                        df.loc[isic][subtype]+=symbols[coltype]
+        
+        df['has_optical']=[
+            symbols['optical'] in ''.join(d.values())
+            for d in df.to_dict('records')
+        ]
+        df=df.rename_axis('ISic').reset_index()
+        df=df.sort_values(['has_optical','ISic'], ascending=[False, True])
+        return df.drop('has_optical',axis=1).set_index('ISic')
 
     def plot(self, output_folder=None):
         fig = plot_curves(self.df_curves, self.df_points)
@@ -60,6 +150,12 @@ class IsotopeConverter:
         ofn=Path(output_folder) / 'isotope_intersections.xlsx'
         self.df_intersections.to_excel(ofn)
         logger.debug(f'Saved: {ofn.name}')
+
+        df_inter_mgs = self.df_intersections_mgs
+        ofn_mgs=Path(output_folder) / 'mgs_intersections.xlsx'
+        df_inter_mgs.to_excel(ofn_mgs)
+        logger.debug(f'Saved: {ofn_mgs.name}')
+
         self.plot(output_folder=output_folder)
 
     def run(self, output_folder=None):

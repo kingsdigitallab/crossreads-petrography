@@ -20,42 +20,105 @@ class PXRFConverter:
         odf = read_path('pxrf.descriptions').fillna('')
         odf = odf.set_index(odf.columns[0])
         odf=odf.T
+        odf.columns=[x.strip() for x in odf]
+        odf['1']=odf['a']
+        odf['2']=odf['b']
+        odf['3']=odf['c']
+        odf['4']=odf['d']
         return odf
     
     @cached_property
     def txt_input(self):
-        return read_path('pxrf.input')
+        return read_path('pxrf.input', as_list=True)
 
     @cached_property
-    def df_parsed(self):
+    def df_parsed(self, verbose=False):
         logger.info("Parsing pXRF standards data")
-        txt = self.txt_input
+        txts = self.txt_input
         
         o = []
-        for srctxt in txt.strip().split('\n\n'):
-            lines = srctxt.split('\n')
-            src = lines[0].split(':')[-1].split('.csv')[0].strip()
-            is_standard = src.replace('-', '').isdigit()
-            if not is_standard:
-                continue
+        for filename,txt in txts:
+            if verbose: print(filename)
+            for srctxt in txt.strip().split('\n\n'):
+                is_mk = filename.startswith('MK')
+                # if is_mk: continue
+                lines = srctxt.split('\n')
+                src = lines[0].split(':')[-1].split('.csv')[0].strip()
+                
+                if is_mk:
+                    is_standard = src.replace('-', '').isdigit()
+                else:
+                    is_standard = src.startswith('t0-')
 
-            key = lines[1].split(':')[-1].strip()
-            header = lines[2].split()
-            data = [ln.split() for ln in lines[3:]]
-            df = pd.DataFrame(data, columns=header).set_index('Element')
+                if is_mk:
+                    standard_key = src.split('-')[0] + 'CC'
+                else:
+                    standard_key = src.split('-')[1]
+                
+                if verbose: print([filename,src,is_standard,standard_key])
 
-            standard_key = src.split('-')[0] + 'CC'
-            df_this_standard = self.df_standards[[standard_key]].copy()
-            df_this_standard.columns = ['standard_val']
-            df_this_standard['standard_key'] = standard_key
-            df_this_standard['source_name'] = src
-            o.append(df.join(df_this_standard, how='inner'))
+                if not is_standard:
+                    continue
+                # if standard_key!='100CC': continue
+
+
+                key = lines[1].split(':')[-1].strip()
+                header = lines[2].split()
+                data = [ln.split() for ln in lines[3:]]
+                df = pd.DataFrame(data, columns=header)
+
+                if is_mk:
+                    df=df[df.Element.isin({'Si','K','Ca','Fe'})]
+                    def rename(x):
+                        if x=='Si': return 'SiO2'
+                        if x=='K': return 'K2O'
+                        if x=='Ca': return 'CaO'
+                        if x=='Fe': return 'Fe2O3'
+                    
+                    df['Element']=df['Element'].apply(rename)
+
+                # ignoring elements that don't regress well
+                df=df[~df.Element.isin({'Ba','Cr','La','Ni','V','Ce'})]
+                df=df.set_index('Element')
+
+                if verbose: 
+                    print('Standard data from MK file')
+                    display(df)
+                    print()
+                    
+                
+
+                df_this_standard = self.df_standards[[standard_key]].copy()
+                df_this_standard.columns = ['standard_val']
+                df_this_standard['standard_key'] = standard_key
+                df_this_standard['source_name'] = src
+                
+                if verbose:
+                    print('Matching standards data (x)CC')
+                    display(df_this_standard)
+                    print()
+
+                dfx=df.join(df_this_standard, how='inner')
+                dfx['filename']=filename
+                
+                if verbose:
+                    print('Joined data')
+                    display(dfx)
+
+                o.append(dfx)
 
         df = pd.concat(o)
         df['Mass_fraction'] = pd.to_numeric(df['Mass_fraction'], errors='coerce')
         df['standard_val'] = pd.to_numeric(df['standard_val'], errors='coerce')
 
-        df['standard_group'] = df['standard_key'].apply(lambda x: '10-50' if int(x.replace('CC', '')) < 60 else '50-100')
+        def get_standard_group(element,row):
+            if element in {'SiO2','K2O','CaO','Fe2O3'}:
+                x=row.standard_key
+                return '10-50' if int(x.replace('CC', '')) < 60 else '50-100'
+            else:
+                return '(all)'
+            
+        df['standard_group'] = [get_standard_group(element,row) for element,row in df.iterrows()]
         return df[df.standard_key != '0CC']
     
     @cached_property
@@ -79,49 +142,99 @@ class PXRFConverter:
         return pd.DataFrame(ld)
 
     @cached_property
-    def df_adjusted(self):
+    def df_adjusted(self, verbose=False):
         logger.info("Parsing pXRF measurements and calculating new fractions")
         sdf = self.df_linreg
         df_desc = self.df_descriptions
-        txt = self.txt_input
+        txts = self.txt_input
         
         o = []
-        for srctxt in txt.strip().split('\n\n'):
-            lines = srctxt.split('\n')
-            src = lines[0].split(':')[-1].split('.csv')[0].strip()
-            is_standard = src.replace('-', '').isdigit()
-            if is_standard:
-                continue
+        for filename,txt in txts:
+            if verbose: print(filename)
+            for srctxt in txt.strip().split('\n\n'):
+                is_mk = filename.startswith('MK')
+                # if is_mk: continue
+                lines = srctxt.split('\n')
+                src = lines[0].split(':')[-1].split('.csv')[0].strip()
+                
+                if is_mk:
+                    is_standard = src.replace('-', '').isdigit()
+                else:
+                    is_standard = src.startswith('t0-')
 
-            key = lines[1].split(':')[-1].strip()
-            header = lines[2].split()
-            data = [ln.split() for ln in lines[3:]]
-            df = pd.DataFrame(data, columns=header).set_index('Element')
-            df['Mass_fraction'] = pd.to_numeric(df['Mass_fraction'], errors='coerce')
+                if is_mk:
+                    standard_key = src.split('-')[0] + 'CC'
+                else:
+                    standard_key = src.split('-')[1]
+                
+                if verbose: print([filename,src,is_standard,standard_key])
 
-            ca_si = df.loc['Ca']['Mass_fraction'] / df.loc['Si']['Mass_fraction']
-            standard_group = '50-100' if ca_si >= 10 else '10-50'
-            df['standard_group'] = standard_group
-            df = df.merge(sdf, on=['Element', 'standard_group'], how='inner')
-            df['y'] = (df['m'] * df['Mass_fraction']) + df['q']
-            df['Calc_fraction'] = df['y'] / df['y'].sum() * 100
-            df['source_name'] = src
+                if is_standard:
+                    continue
+                # if standard_key!='100CC': continue
 
-            try:
-                isic = src.split('-')[0][4:]
-                isic_letter = src.split('-')[-1]
 
-                desc_rows = df_desc[df_desc.Isic == isic]
-                desc_col = desc_rows[isic_letter]
-                desc = '; '.join(desc_col)
-            except KeyError as e:
-                logger.warning(f'Could not find {repr(isic_letter)} in logbook columns ({list(desc_rows.columns)})')
-                desc = '?'
+                key = lines[1].split(':')[-1].strip()
+                header = lines[2].split()
+                data = [ln.split() for ln in lines[3:]]
+                df = pd.DataFrame(data, columns=header)
 
-            df['desc'] = desc
-            o.append(df)
+                if is_mk:
+                    df=df[df.Element.isin({'Si','K','Ca','Fe'})]
+                    def rename(x):
+                        if x=='Si': return 'SiO2'
+                        if x=='K': return 'K2O'
+                        if x=='Ca': return 'CaO'
+                        if x=='Fe': return 'Fe2O3'
+                    
+                    df['Element']=df['Element'].apply(rename)
+
+                # ignoring elements that don't regress well
+                df=df[~df.Element.isin({'Ba','Cr','La','Ni','V','Ce'})]
+                df=df.set_index('Element')
+
+                for cx in ['Mass_fraction', 'Fit_Area','Sigma_Area']:
+                    df[cx] = pd.to_numeric(df[cx], errors='coerce')
+
+                if is_mk:
+                    ca_si = df.loc['CaO']['Mass_fraction'] / df.loc['SiO2']['Mass_fraction']
+                    standard_group = '50-100' if ca_si >= 10 else '10-50'
+                else:
+                    # print(filename)
+                    # display(df)
+                    standard_group = '(all)'
+                
+                df['standard_group'] = standard_group
+                df = df.merge(sdf, on=['Element', 'standard_group'], how='inner')
+                df['y'] = (df['m'] * df['Mass_fraction']) + df['q']
+                if is_mk:
+                    df['Calc_fraction'] = df['y'] / df['y'].sum() * 100
+                else:
+                    df['Calc_fraction'] = df['y']
+                
+                df['Calc_fraction'] = df['Calc_fraction'].apply(lambda x: x if x>0 else 0)
+                
+                df['source_name'] = src
+
+                try:
+                    isic = src.split('-')[0][4:]
+                    isic_letter = src.split('-')[-1]
+
+
+                    desc_rows = df_desc[df_desc.Isic == isic]
+                    desc_col = desc_rows[isic_letter]
+                    desc = '; '.join(desc_col)
+                    if not desc and not 'ISic' in src:
+                        print('\t'.join(str(x) for x in [src,isic,isic_letter,len(desc_rows), desc]))
+                except KeyError as e:
+                    logger.warning(f'[{filename}] Could not find {repr(isic_letter)} in logbook columns ({list(desc_rows.columns)})')
+                    desc = '?'
+
+                df['desc'] = desc
+                # df['filename'] = filename
+                o.append(df)
         
-        return pd.concat(o).set_index(['source_name', 'Element'])
+        return pd.concat(o).set_index(['source_name', 'Element']).round(2)
 
     def plot(self):
         # @title Plot linear regressions

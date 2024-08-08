@@ -21,7 +21,7 @@ def get_crossreads_spreadsheet(key='petrography'):
         return get_spreadsheet(url_or_path)
     
 
-# @cache
+@cache
 def read_crossreads_spreadsheet(worksheet_index=0):
     df=read_path('petrography', worksheet_index=worksheet_index)
     df=df.set_index(df.columns[0])
@@ -183,7 +183,7 @@ def read_input_data_folder(folder: str) -> pd.DataFrame:
     logger.debug(f"Read {len(df)} rows from input data")
     return df
 
-def read_input_data_folder_txt(folder:str) -> str:
+def read_input_data_folder_txt(folder:str, as_list=False) -> str:
     """
     Read XRD input data from a folder, either on Google Drive or local path.
     """
@@ -196,12 +196,14 @@ def read_input_data_folder_txt(folder:str) -> str:
         folder = os.path.join('/content/drive/MyDrive', folder)
 
     o=[]
+    fns=[]
     for ifn in os.listdir(folder):
         if ifn.endswith('.txt'):
+            fns.append(ifn)
             with open(os.path.join(folder,ifn)) as f:
                 o.append(f.read())
     
-    return '\n\n\n\n'.join(o)
+    return '\n\n\n\n'.join(o) if not as_list else list(zip(fns,o))
 
 
 
@@ -250,7 +252,7 @@ def is_pathlike(x):
     return isinstance(x, (str, Path)) and (str(x).startswith('/') or Path(x).exists())
 
 
-def read_path(paths, worksheet_index=0):
+def read_path(paths, worksheet_index=0, as_list=False):
     path = get_path(paths) if not is_pathlike(paths) and not is_urllike(paths) else paths
     
     if is_urllike(path):
@@ -261,7 +263,7 @@ def read_path(paths, worksheet_index=0):
         if path.is_dir():
             txt_files = list(path.glob('*.txt'))
             if txt_files and all(f.suffix == '.txt' or f.name.startswith('.') for f in path.iterdir()):
-                return read_input_data_folder_txt(str(path))
+                return read_input_data_folder_txt(str(path), as_list=as_list)
             else:
                 return read_input_data_folder(str(path))
         
