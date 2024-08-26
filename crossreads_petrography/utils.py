@@ -20,8 +20,8 @@ def get_crossreads_spreadsheet(key='petrography'):
     
 
 @cache
-def read_crossreads_spreadsheet(worksheet_index=0):
-    df=read_path('petrography', worksheet_index=worksheet_index)
+def read_crossreads_spreadsheet(metamorphic=True):
+    df = read_path('metadata.metamorphic' if metamorphic else 'metadata.sedimentary')
     df=df.set_index(df.columns[0])
     return df
 
@@ -215,23 +215,7 @@ def has_credentials():
     return IN_COLAB or Path(config.paths['credentials']).exists()
 
 def get_path(paths):
-    if isinstance(paths, str):
-        if not paths.startswith('config.') and not paths.startswith('paths.'):
-            paths = 'paths.' + paths
-        paths = get_config_value(paths)
-
-    if IN_COLAB:
-        return Path(paths.colab) if paths.colab else Path(paths.local)
-    
-    if paths.url and has_credentials():
-        if isinstance(paths.url, str):
-            return paths.url
-        if config.production and paths.url.prod:
-            return paths.url.prod
-        if paths.url.dev:
-            return paths.url.dev
-
-    return Path(paths.local) if paths.local else None    
+    return Path(config.get_path(paths))
 
 def is_urllike(x):
     """
@@ -245,6 +229,7 @@ def is_pathlike(x):
     return isinstance(x, (str, Path)) and (str(x).startswith('/') or Path(x).exists())
 
 
+@fcache
 def read_path(path, worksheet_index=0, as_list=False, sep=','):
     from .config import config
     path = config.get_path(str(path))

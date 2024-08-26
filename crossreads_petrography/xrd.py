@@ -106,21 +106,28 @@ class XRDConverter:
     def __init__(
         self,
     ):
-        self.input_folder = get_path("xrd.input")
-
-        logger.debug(f"Initializing XRDConverter: {self.input_folder}")
+        logger.debug(f"Initializing XRDConverter")
+        self.paths = {
+            k[4:] if k[4:] else "xrd": v
+            for k, v in config.paths.items()
+            if k.startswith("xrd.")
+        }
 
     @cached_property
-    def spreadsheet(self):
-        return get_crossreads_spreadsheet()
-
+    def df_input(self):
+        return read_path('xrd.input',sep=';').fillna('')
+    
+    @cached_property
+    def df_mineral_types(self):
+        return read_path('xrd.mineral_types')
+    
     @cached_property
     def df_xrd(self):
         logger.debug("Reading XRD data")
-        df = read_path(self.input_folder, sep=";")
+        df = self.df_input
         paramcol = "Parameter, Goal"
         df = df[~df[paramcol].isin(COLS_TO_IGNORE)]
-        df_params = read_path("xrd.mineral_types")
+        df_params = self.df_mineral_types
         df_params["subtype"] = df_params["subtype"].apply(lambda x: x.lower())
         df_params = df_params.drop_duplicates("subtype")
         df_params = df_params.set_index("subtype")
@@ -144,7 +151,7 @@ class XRDConverter:
             if not sample or not param:
                 continue
             if param in set(df_params.query('colname!=""').index):
-                colname = df_params.loc[param]["colname"]
+                colname = str(df_params.loc[param]["colname"])
                 data[sample][colname] += try_float(val) * 100
                 data[sample][colname + " ESD"] += try_float(esd) * 100
             else:
@@ -173,14 +180,12 @@ class XRDConverter:
 
         return odf.sort_index().fillna("")
 
-    
     ## DEPRECATED: No longer updating crossreads sheet directly
-    
+
     # @cached_property
     # def df_meta(self):
     #     logger.debug("Reading CrossReads sheet from Google Spreadsheet")
     #     return read_crossreads_spreadsheet()
-
 
     # @cached_property
     # def df_updated(self):
@@ -250,11 +255,11 @@ class XRDConverter:
     #     df.to_excel(output_path, index=False)
 
     def save(self, output_folder=None):
-        logger.info("Postprocessing XRD data")        
-        output_folder = output_folder or get_path('xrd.output')
-        ofn=Path(output_folder) / 'xrd_data_postprocessed.xlsx'
+        logger.info("Postprocessing XRD data")
+        output_folder = output_folder or get_path("xrd.output")
+        ofn = Path(output_folder) / "xrd_data_postprocessed.xlsx"
         self.df_xrd.to_excel(ofn)
-        logger.debug(f'Saved: {ofn.name}')
+        logger.info(f"Saved: {ofn.name}")
 
     def run(self):
         self.save()

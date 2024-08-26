@@ -3,68 +3,83 @@ production: false
 paths:
   root:
     local: ~/crossreads_petrography_data
-    colab: /content/drive/MyDrive/Crossreads B D1
+    colab: /content/drive/MyDrive/Crossreads B D1/crossreads_petrography_data
 
   credentials:
     local: "{paths.root.local}/credentials.json"
 
   data:
-    local: "{paths.root.local}/data"
-    colab: /content/drive/MyDrive/Crossreads B D1
-  
-  petrography:
-    local: "{paths.data.local}/input/crossreads.xlsx"
-    url:
-      prod: https://docs.google.com/spreadsheets/d/1ajTKn6vuOVA7_LlKeXgZ7sX4j9amaKmrsR4yzJLQSI4/edit
-      dev: https://docs.google.com/spreadsheets/d/1QDZ6Fc3o95q6ylvkjoNDOFeqNz7Nub8qQCPVV62Pus8/edit
+    local: "{paths.root.local}"
+    colab: "{paths.root.colab}"
+
+  metadata:
+    local: "{paths.root.local}/metadata"
+    colab: "{paths.root.colab}/metadata"
+
+    metamorphic:
+      local: "{paths.metadata.local}/Metamorphic.xlsx"
+      colab: "{paths.metadata.colab}/Metamorphic.xlsx"
+
+    sedimentary:
+      local: "{paths.metadata.local}/Sedimentary.xlsx"
+      colab: "{paths.metadata.colab}/Sedimentary.xlsx"
 
   isotopes:
-    polygons:
-      local: "{paths.data.local}/input/isotopes"
-      colab: "{paths.data.colab}/Isotope input data"
+    local: "{paths.data.local}/isotopes"
+    colab: "{paths.data.colab}/isotopes"
 
-    samples:
-      local: "{paths.petrography.local}"
-      colab: "{paths.petrography.colab}"
+    input:
+      local: "{paths.isotopes.local}/input"
+      colab: "{paths.isotopes.colab}/input"
 
     output: 
-      local: "{paths.data.local}/output/isotopes"
-      colab: "{paths.data.colab}/Isotope output data"
+      local: "{paths.isotopes.local}/output"
+      colab: "{paths.isotopes.colab}/output"
 
-    mgs:
-      local: "{paths.data.local}/input/mgs"
-      url: https://docs.google.com/spreadsheets/d/1Yx66yiwvQZNou-8_mej8KZ8imPBJNRJSOqJjJRPCy30/edit
+  mgs:
+    local: "{paths.isotopes.local}/mgs"
+    colab: "{paths.isotopes.colab}/mgs"
+
+    input:
+      local: "{paths.mgs.local}/input"
+      colab: "{paths.mgs.colab}/input"
+
+    output: 
+      local: "{paths.mgs.local}/output"
+      colab: "{paths.mgs.colab}/output"
 
   xrd:
+    local: "{paths.data.local}/xrd"
+    colab: "{paths.data.colab}/xrd"
+
     input:
-      local: "{paths.data.local}/input/XRD"
-      colab: "{paths.data.colab}/XRD input data"
+      local: "{paths.xrd.local}/input"
+      colab: "{paths.xrd.colab}/input"
 
     mineral_types:
-      url: https://docs.google.com/spreadsheets/d/17RJqjUO4LEG8n5XeLqzEtxi--FIYJvW9Q1YajXqGcfw/edit
+      local: "{paths.xrd.local}/mineral_categories.xlsx"
+      colab: "{paths.xrd.colab}/mineral_categories.xlsx"
 
     output:
-      local: "{paths.data.local}/output/XRD"
-      colab: "{paths.data.colab}/XRD output data"
+      local: "{paths.xrd.local}/output"
+      colab: "{paths.xrd.colab}/output"
 
   pxrf:
-    input:
-      local: "{paths.data.local}/input/pXRF"
-      colab: "{paths.data.colab}/pXRF input data"
+    local: "{paths.data.local}/pxrf"
+    colab: "{paths.data.colab}/pxrf"
 
-    input_etc:
-      local: "{paths.data.local}/input/pXRF_etc"
-      colab: "{paths.data.colab}"
+    input:
+      local: "{paths.pxrf.local}/input"
+      colab: "{paths.pxrf.colab}/input"
 
     standards:
-      local: "{paths.pxrf.input_etc.local}/pXRF standards.xlsx"
-      url: https://docs.google.com/spreadsheets/d/15YBVR86KlfUwdZHb4zRu6HJI7J0da1Df4O0l_F0fxY0/edit
+      local: "{paths.pxrf.local}/pxrf_standards.xlsx"
+      colab: "{paths.pxrf.colab}/pxrf_standards.xlsx"
 
     descriptions:
-      local: "{paths.pxrf.input_etc.local}/logbook-pXRF.xlsx"
-      url: https://docs.google.com/spreadsheets/d/1waTF3qG1dCZeLV97Kdemu0UkJm9Iow67hFTGtA2gjm0/edit?gid=0#gid=0 # logbook new 1
-      # url: https://docs.google.com/spreadsheets/d/1TZ_GJU8AJ5TfigQceGUvI7wW2QA0oigXg16r3-uzIGw/edit # Logbook v3
-
+      local: "{paths.pxrf.local}/pxrf_logbook.xlsx"
+      colab: "{paths.pxrf.colab}/pxrf_logbook.xlsx"
+      
     output:
-      local: "{paths.data.local}/output/pXRF"
-      colab: "{paths.data.colab}/pXRF output data"
+      local: "{paths.pxrf.local}/output"
+      colab: "{paths.pxrf.colab}/output"

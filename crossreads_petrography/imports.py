@@ -21,13 +21,15 @@ from sklearn.linear_model import LinearRegression
 import gspread
 from google.oauth2 import service_account
 from collections import UserDict
+from functools import cached_property, lru_cache
+fcache = lru_cache(maxsize=None)
 
 
 logger.remove()
 logger.add(
     sink=sys.stderr,
     format="<level>{message}</level><cyan> @ {time:YYYY-MM-DD HH:mm:ss,SSS}</cyan>",
-    level="DEBUG",
+    level="INFO",
 )
 
 

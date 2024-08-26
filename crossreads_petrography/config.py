@@ -69,7 +69,7 @@ class Config(UserDict):
         for suffix in [".url.prod", ".url.dev", ".url", ".local"]:
             res = self.data.get(key + suffix)
             if res is not None:
-                logger.info(f"Found value for key {key} with suffix {suffix}: {res}")
+                logger.debug(f"Found value for key {key} with suffix {suffix}: {res}")
                 return res
 
         logger.warning(f"Key {key} not found in config, returning default: {default}")
