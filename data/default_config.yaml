@@ -1,15 +1,15 @@
 production: false
 
 paths:
+  repo:
+    local:
+
   root:
-    local: ~/crossreads_petrography_data
+    local: "{paths.repo.local}/data"
     colab: /content/drive/MyDrive/Crossreads B D1/crossreads_petrography_data
 
-  credentials:
-    local: "{paths.root.local}/credentials.json"
-
   data:
-    local: "{paths.root.local}"
+    local: "{paths.repo.local}/data"
     colab: "{paths.root.colab}"
 
   metadata:
@@ -25,8 +25,8 @@ paths:
       colab: "{paths.metadata.colab}/Sedimentary.xlsx"
 
   isotopes:
-    local: "{paths.data.local}/isotopes"
-    colab: "{paths.data.colab}/isotopes"
+    local: "{paths.data.local}/Isotopes"
+    colab: "{paths.data.colab}/Isotopes"
 
     input:
       local: "{paths.isotopes.local}/input"
@@ -37,8 +37,8 @@ paths:
       colab: "{paths.isotopes.colab}/output"
 
   mgs:
-    local: "{paths.data.local}/mgs"
-    colab: "{paths.data.colab}/mgs"
+    local: "{paths.data.local}/MGS"
+    colab: "{paths.data.colab}/MGS"
 
     input:
       local: "{paths.mgs.local}/input"
@@ -49,36 +49,36 @@ paths:
       colab: "{paths.mgs.colab}/output"
 
   xrd:
-    local: "{paths.data.local}/xrd"
-    colab: "{paths.data.colab}/xrd"
+    local: "{paths.data.local}/XRD"
+    colab: "{paths.data.colab}/XRD"
 
     input:
       local: "{paths.xrd.local}/input"
       colab: "{paths.xrd.colab}/input"
 
     mineral_types:
-      local: "{paths.xrd.local}/mineral_categories.xlsx"
-      colab: "{paths.xrd.colab}/mineral_categories.xlsx"
+      local: "{paths.xrd.local}/Mineral Categories.xlsx"
+      colab: "{paths.xrd.colab}/Mineral Categories.xlsx"
 
     output:
       local: "{paths.xrd.local}/output"
       colab: "{paths.xrd.colab}/output"
 
   pxrf:
-    local: "{paths.data.local}/pxrf"
-    colab: "{paths.data.colab}/pxrf"
+    local: "{paths.data.local}/pXRF"
+    colab: "{paths.data.colab}/pXRF"
 
     input:
       local: "{paths.pxrf.local}/input"
       colab: "{paths.pxrf.colab}/input"
 
     standards:
-      local: "{paths.pxrf.local}/pxrf_standards.xlsx"
-      colab: "{paths.pxrf.colab}/pxrf_standards.xlsx"
+      local: "{paths.pxrf.local}/pXRF Standards.xlsx"
+      colab: "{paths.pxrf.colab}/pXRF Standards.xlsx"
 
     descriptions:
-      local: "{paths.pxrf.local}/pxrf_logbook.xlsx"
-      colab: "{paths.pxrf.colab}/pxrf_logbook.xlsx"
+      local: "{paths.pxrf.local}/pXRF Logbook.xlsx"
+      colab: "{paths.pxrf.colab}/pXRF Logbook.xlsx"
       
     output:
       local: "{paths.pxrf.local}/output"

@@ -285,7 +285,7 @@ class PXRFConverter:
                 # df['filename'] = filename
                 o.append(df)
         
-        return pd.concat(o).set_index(['source_name', 'Element']).round(2)
+        return pd.concat(o).set_index(['source_name', 'Element']).round(2) if o else pd.DataFrame()
 
     def plot(self):
         # @title Plot linear regressions

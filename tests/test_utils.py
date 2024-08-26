@@ -4,7 +4,6 @@ import crossreads_petrography.utils
 from crossreads_petrography.utils import *
 import tempfile
 import os
-from crossreads_petrography.constants import CONFIG, DotDict
 
 class TestCrossreadsPetrographyUtils(unittest.TestCase):
 
@@ -25,7 +24,7 @@ class TestCrossreadsPetrographyUtils(unittest.TestCase):
         mock_read_path.return_value = mock_df
         result = read_crossreads_spreadsheet()
         self.assertIsInstance(result, pd.DataFrame)
-        mock_read_path.assert_called_once_with('petrography', worksheet_index=0)
+        mock_read_path.assert_called_once_with('metadata.metamorphic')
         pd.testing.assert_frame_equal(result, mock_df.set_index(mock_df.columns[0]))
 
     @patch('crossreads_petrography.utils.IN_COLAB', False)
@@ -135,15 +134,7 @@ class TestCrossreadsPetrographyUtils(unittest.TestCase):
 
         result = read_path('mock_key')
         self.assertIsInstance(result, pd.DataFrame)
-
-    @patch('crossreads_petrography.utils.IN_COLAB', False)
-    @patch('crossreads_petrography.utils.Path')
-    def test_has_credentials(self, mock_path):
-        mock_path.return_value.exists.return_value = True
-        self.assertTrue(has_credentials())
-
-        mock_path.return_value.exists.return_value = False
-        self.assertFalse(has_credentials())
+        assert len(result) == 0
 
     @patch('crossreads_petrography.utils.gspread.Spreadsheet')
     def test_update_spreadsheet(self, mock_spreadsheet):

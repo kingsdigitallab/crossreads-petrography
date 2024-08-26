@@ -167,11 +167,12 @@ def read_input_data_folder(folder: str, sep=',') -> pd.DataFrame:
         drive.mount('/content/drive')
         folder = os.path.join('/content/drive/MyDrive', folder)
 
-    df = pd.concat(
+    l = [
         read_df(os.path.join(folder, ifn), sep=sep)
         for ifn in os.listdir(folder)
         if os.path.splitext(ifn)[-1].lower() in {".csv",".tsv",".xls",".xlsx"}
-    ).fillna("")
+    ]
+    df=pd.concat(l).fillna("") if l else pd.DataFrame()
 
     logger.debug(f"Read {len(df)} rows from input data")
     return df
