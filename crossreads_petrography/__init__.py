@@ -1,4 +1,10 @@
-from crossreads_petrography.utils import *
-from crossreads_petrography.pxrf import *
-from crossreads_petrography.xrd import *
-from crossreads_petrography.isotopes import *
+from .constants import *
+from .imports import *
+from .config import *
+from .utils import *
+# from .pxrf import *
+# from .xrd import *
+# from .isotopes import *
+from .pxrf import *
+from .xrd import *
+from .isotopes import *
