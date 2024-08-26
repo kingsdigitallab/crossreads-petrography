@@ -8,7 +8,7 @@ class IsotopeConverter:
     @cached_property
     def df_curves(self):
         logger.info("Reading isotope curve data")
-        df = read_path('isotopes.polygons')
+        df = read_path('isotopes.input')
         df = df.replace({'':np.nan})
         types = {'_'.join(x.split('_')[:-1]) for x in df.columns}
         reshaped_data = []
@@ -39,7 +39,7 @@ class IsotopeConverter:
     
     @cached_property
     def df_intersections_mgs(self):
-        df_mgs = read_path('isotopes.mgs')
+        df_mgs = read_path('mgs.input')
         df_mgs['value_mm'] = pd.to_numeric(df_mgs['value_mm'], errors='coerce')
         subtype_renamed = {
             'Goktepe':'Göktepe',
@@ -134,13 +134,13 @@ class IsotopeConverter:
             ofn_html=output_folder / 'isotope_graph.html'
             ofn_pdf=output_folder / 'isotope_graph.pdf'
             fig.write_image(ofn_png)
-            logger.debug(f'Saved: {ofn_png.name}')
+            logger.info(f'Saved: {ofn_png}')
 
             fig.write_html(ofn_html)
-            logger.debug(f'Saved: {ofn_html.name}')
+            logger.info(f'Saved: {ofn_html}')
 
             fig.write_image(ofn_pdf)
-            logger.debug(f'Saved: {ofn_pdf.name}')
+            logger.info(f'Saved: {ofn_pdf}')
         return fig
 
     def save(self, output_folder=None):
@@ -148,12 +148,12 @@ class IsotopeConverter:
         output_folder = output_folder or get_path('isotopes.output')
         ofn=Path(output_folder) / 'isotope_intersections.xlsx'
         self.df_intersections.to_excel(ofn)
-        logger.debug(f'Saved: {ofn.name}')
+        logger.info(f'Saved: {ofn}')
 
         df_inter_mgs = self.df_intersections_mgs
         ofn_mgs=Path(output_folder) / 'mgs_intersections.xlsx'
         df_inter_mgs.to_excel(ofn_mgs)
-        logger.debug(f'Saved: {ofn_mgs.name}')
+        logger.info(f'Saved: {ofn_mgs}')
 
         self.plot(output_folder=output_folder)
 

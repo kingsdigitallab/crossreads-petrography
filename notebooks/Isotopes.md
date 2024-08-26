@@ -1,0 +1,920 @@
+# Isotope and MGS intersections
+
+Input data:
+* MGS: https://docs.google.com/spreadsheets/d/1Yx66yiwvQZNou-8_mej8KZ8imPBJNRJSOqJjJRPCy30/edit
+* Isotope: "Isotope input data" folder on Drive
+
+```python
+import sys; sys.path.append('..')
+from crossreads_petrography.isotopes import *
+```
+
+↓
+
+    Using user-specific config file: /Users/ryan/crossreads_petrography_data/config.yaml @ 2024-08-26 19:29:02,552
+    Initializing Config with yaml_path: /Users/ryan/crossreads_petrography_data/config.yaml @ 2024-08-26 19:29:02,552
+    Loading config from /Users/ryan/crossreads_petrography_data/config.yaml @ 2024-08-26 19:29:02,553
+    Config loaded and processed successfully @ 2024-08-26 19:29:02,557
+
+```python
+isotoper = IsotopeConverter()
+```
+
+↓
+
+    Initializing IsotopeConverter @ 2024-08-26 19:29:02,568
+
+### Isotope intersections
+
+```python
+isotoper.df_curves
+```
+
+↓
+
+    Reading isotope curve data @ 2024-08-26 19:29:02,579
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>marble_type</th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Thasos-1 (2)</td>
+      <td>-3.445693</td>
+      <td>3.894349</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Docimium</td>
+      <td>-11.409500</td>
+      <td>4.077670</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Paros-4</td>
+      <td>-5.617978</td>
+      <td>0.872236</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Aphrodisias</td>
+      <td>-6.529338</td>
+      <td>1.953317</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Göktepe</td>
+      <td>-3.268530</td>
+      <td>3.470874</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>4074</th>
+      <td>EphesosWhites1</td>
+      <td>-9.307172</td>
+      <td>3.005405</td>
+    </tr>
+    <tr>
+      <th>4094</th>
+      <td>EphesosWhites1</td>
+      <td>-9.144790</td>
+      <td>3.135135</td>
+    </tr>
+    <tr>
+      <th>4114</th>
+      <td>EphesosWhites1</td>
+      <td>-8.982409</td>
+      <td>3.254054</td>
+    </tr>
+    <tr>
+      <th>4134</th>
+      <td>EphesosWhites1</td>
+      <td>-8.779432</td>
+      <td>3.362162</td>
+    </tr>
+    <tr>
+      <th>4154</th>
+      <td>EphesosWhites1</td>
+      <td>-8.568336</td>
+      <td>3.524324</td>
+    </tr>
+  </tbody>
+</table>
+<p>1067 rows × 3 columns</p>
+</div>
+
+```python
+isotoper.df_points
+```
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sample</th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>nan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>nan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>nan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>nan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>nan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>159</th>
+      <td>nan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>160</th>
+      <td>nan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>nan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>162</th>
+      <td>nan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>nan</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>164 rows × 3 columns</p>
+</div>
+
+```python
+isotoper.df_intersections
+```
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Aphrodisias</th>
+      <th>CapDeGardeScritto</th>
+      <th>Carrara</th>
+      <th>Docimium</th>
+      <th>EphesosBigio</th>
+      <th>EphesosScritto</th>
+      <th>EphesosWhites1</th>
+      <th>EphesosWhites2</th>
+      <th>FilfilaScritto</th>
+      <th>Göktepe</th>
+      <th>Hymettus</th>
+      <th>Naxos</th>
+      <th>Paros-1</th>
+      <th>Paros-2 (3)</th>
+      <th>Paros-4</th>
+      <th>Pentelikon</th>
+      <th>Proconnesos-1</th>
+      <th>Proconnesos-2</th>
+      <th>Thasos-1 (2)</th>
+      <th>Thasos-3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>nan</th>
+      <td>✖️</td>
+      <td>✖️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✖️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✖️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✖️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+    </tr>
+    <tr>
+      <th>CU269</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>CU431</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>CU477</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>CU478</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>ORSI431</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+    </tr>
+    <tr>
+      <th>ORSI436</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ORSI437</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+    </tr>
+    <tr>
+      <th>SALINAS5644</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>SALINASTINDARI</th>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+      <td>✔️</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<p>96 rows × 20 columns</p>
+</div>
+
+```python
+isotoper.plot()
+```
+
+### MGS intersections
+
+Note: not really isotope related directly, but relates to marbles and also concerns intersections
+
+```python
+read_path('mgs.input')
+```
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>value_mm</th>
+      <th>value_type</th>
+      <th>subtype</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.278969</td>
+      <td>min wh</td>
+      <td>Carrara</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.493561</td>
+      <td>min box</td>
+      <td>Carrara</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.708154</td>
+      <td>median</td>
+      <td>Carrara</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.008583</td>
+      <td>max box</td>
+      <td>Carrara</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.373389</td>
+      <td>max wh</td>
+      <td>Carrara</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>0.858369</td>
+      <td>min wh</td>
+      <td>Thasos-3</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>1.566523</td>
+      <td>min box</td>
+      <td>Thasos-3</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>1.802573</td>
+      <td>median</td>
+      <td>Thasos-3</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>2.875534</td>
+      <td>max box</td>
+      <td>Thasos-3</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>3.197423</td>
+      <td>max wh</td>
+      <td>Thasos-3</td>
+    </tr>
+  </tbody>
+</table>
+<p>65 rows × 3 columns</p>
+</div>
+
+```python
+isotoper.df_intersections_mgs
+```
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Aphrodisias</th>
+      <th>CapDeGardeScritto</th>
+      <th>Carrara</th>
+      <th>Docimium</th>
+      <th>EphesosBigio</th>
+      <th>EphesosScritto</th>
+      <th>EphesosWhites1</th>
+      <th>EphesosWhites2</th>
+      <th>FilfilaScritto</th>
+      <th>Göktepe</th>
+      <th>Hymettus</th>
+      <th>Naxos</th>
+      <th>Paros-1</th>
+      <th>Paros-2 (3)</th>
+      <th>Paros-4</th>
+      <th>Pentelikon</th>
+      <th>Proconnesos-1</th>
+      <th>Proconnesos-2</th>
+      <th>Thasos-1 (2)</th>
+      <th>Thasos-3</th>
+    </tr>
+    <tr>
+      <th>ISic</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ISic000097</th>
+      <td>🔬🔬🔍🔍</td>
+      <td></td>
+      <td></td>
+      <td>🔬🔬🔍</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>🔬</td>
+      <td></td>
+      <td>🔍</td>
+      <td>🔬🔬🔍🔍</td>
+      <td>🔬🔬🔍🔍</td>
+      <td>🔬🔬🔍🔍</td>
+      <td>🔬</td>
+      <td>🔬🔍🔍</td>
+      <td></td>
+      <td>🔍</td>
+      <td>🔬🔍🔍</td>
+    </tr>
+    <tr>
+      <th>ISic000104</th>
+      <td>🔬🔍</td>
+      <td></td>
+      <td>🔬🔬🔍🔍</td>
+      <td>🔬🔬🔍🔍</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>🔬🔬🔍🔍</td>
+      <td>🔬🔍🔍</td>
+      <td></td>
+      <td>🔬</td>
+      <td>🔬</td>
+      <td></td>
+      <td>🔬🔬🔍</td>
+      <td>🔬</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ISic000121</th>
+      <td>🔬🔍🔍</td>
+      <td></td>
+      <td>🔬🔬</td>
+      <td>🔬🔬</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>🔬🔬</td>
+      <td>🔬</td>
+      <td>🔍</td>
+      <td>🔬🔍</td>
+      <td>🔬🔍🔍</td>
+      <td>🔍🔍</td>
+      <td>🔬🔬</td>
+      <td>🔬🔍🔍</td>
+      <td></td>
+      <td>🔍</td>
+      <td>🔍🔍</td>
+    </tr>
+    <tr>
+      <th>ISic000148</th>
+      <td>🔬🔍</td>
+      <td></td>
+      <td>🔬🔬🔍🔍</td>
+      <td>🔬🔬🔍🔍</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>🔬🔬🔍🔍</td>
+      <td>🔬🔬🔍🔍</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>🔬🔍</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ISic000579</th>
+      <td>🔬🔍</td>
+      <td></td>
+      <td>🔬🔬🔍</td>
+      <td>🔬🔬🔍</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>🔬🔬</td>
+      <td>🔬🔬</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>🔬🔍</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>ORSI436</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>ORSI437</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>SALINAS5644</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>SALINASTINDARI</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>nan</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<p>97 rows × 20 columns</p>
+</div>
+
+```python
+isotoper.run()
+```
+
+↓
+
+    Processing isotope data @ 2024-08-26 19:29:03,305
+    Generating isotope outputs @ 2024-08-26 19:29:03,306
+    Saved: /Users/ryan/crossreads_petrography_data/isotopes/output/isotope_intersections.xlsx @ 2024-08-26 19:29:03,344
+    Saved: /Users/ryan/crossreads_petrography_data/isotopes/output/mgs_intersections.xlsx @ 2024-08-26 19:29:03,369
+    Saved: /Users/ryan/crossreads_petrography_data/isotopes/output/isotope_graph.png @ 2024-08-26 19:29:04,042
+    Saved: /Users/ryan/crossreads_petrography_data/isotopes/output/isotope_graph.html @ 2024-08-26 19:29:04,064
+    Saved: /Users/ryan/crossreads_petrography_data/isotopes/output/isotope_graph.pdf @ 2024-08-26 19:29:04,156
+

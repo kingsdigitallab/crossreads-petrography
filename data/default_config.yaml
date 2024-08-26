@@ -37,8 +37,8 @@ paths:
       colab: "{paths.isotopes.colab}/output"
 
   mgs:
-    local: "{paths.isotopes.local}/mgs"
-    colab: "{paths.isotopes.colab}/mgs"
+    local: "{paths.data.local}/mgs"
+    colab: "{paths.data.colab}/mgs"
 
     input:
       local: "{paths.mgs.local}/input"

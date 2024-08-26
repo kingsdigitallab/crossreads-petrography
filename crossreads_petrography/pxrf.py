@@ -31,18 +31,24 @@ class PXRFConverter:
         cols = [c for c in odf]
         cols = [c.split("=")[0].strip() for c in cols]
         odf.columns = cols
-        odf['1']=odf['a']
-        odf['2']=odf['b']
-        odf['3']=odf['c']
-        odf['4']=odf['d']
         return odf
     
     @cached_property
     def txt_input(self):
         return read_path('pxrf.input', as_list=True)
+    
+    @cached_property
+    def df_input(self):
+        return pd.DataFrame([
+            {
+                'filename':fn, 
+                'text':txt
+            }
+            for fn,txt in self.txt_input
+        ])
 
     @cached_property
-    def df_measurements_with_standard_values(self, verbose=False):
+    def df_parsed(self, verbose=False):
         logger.info("Parsing pXRF standards data")
         txts = self.txt_input
         
@@ -123,17 +129,17 @@ class PXRFConverter:
         df['standard_val'] = pd.to_numeric(df['standard_val'], errors='coerce')
 
         def get_standard_group(element,row):
-            if element in {'SiO2','K2O','CaO','Fe2O3'}:
+            if element in {'SiO2','K2O','CaO','Fe2O3', 'Si', 'K', 'Ca', 'Fe'}:
                 x=row.standard_key
+                if not x:
+                    return ''
+                
                 return '10-50' if int(x.replace('CC', '')) < 60 else '50-100'
             else:
                 return '(all)'
             
-        df['standard_group'] = [get_standard_group(element,row) for element,row in df.iterrows()]
+        df['standard_group'] = [get_standard_group(element,row) for element,row in df.fillna('').iterrows()]
         return df[df.standard_key != '0CC']
-    @property
-    def df_parsed(self):
-        return self.df_measurements_with_standard_values
     
     @cached_property
     def df_linreg(self):
@@ -250,8 +256,10 @@ class PXRFConverter:
                     
                     isic_letter = src.split('-')[-1].strip()
                     if isic_letter[0].isdigit() and isic_letter[-1].lower()=='t':
+                        isic_letter = isic_letter[:-1]
                         # print([filename,src,isic,isic_letter,ascii_lowercase[int(isic_letter[:-1])-1]])
-                        isic_letter = ascii_lowercase[int(isic_letter[:-1])-1]
+                    if isic_letter.isdigit():
+                        isic_letter = ascii_lowercase[int(isic_letter)-1]
                     # if not is_mk:
                     #     print('src to parse into logbook column name',src)
                     #     print('isic',isic)
@@ -292,11 +300,13 @@ class PXRFConverter:
 
     def save(self, output_folder=None):
         logger.info("Saving pXRF processed data")
-        output_folder = output_folder or get_path('pxrf.output')
+        output_folder = Path(output_folder or get_path('pxrf.output'))
+        if not output_folder.exists():
+            output_folder.mkdir(exist_ok=True)
         df = self.df_adjusted
         output_file = output_folder / 'pXRF_calculated_fractions.xlsx'
         df.to_excel(output_file)
-        logger.info(f"Saved: {output_file.name}")
+        logger.info(f"Saved: {output_file}")
 
     def run(self, output_folder=None):
         logger.info("Processing pXRF data")
