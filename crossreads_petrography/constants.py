@@ -78,7 +78,7 @@ class DotDict(SimpleNamespace):
             return DotDict()
         
     def __repr__(self):
-        return json.dumps({k: v if not isinstance(v, DotDict) else v.__dict__ for k, v in self.__dict__.items()}, indent=2)
+        return json.dumps(self.to_dict(), indent=2)
     
     def __bool__(self):
         return bool(self.__dict__)
@@ -98,6 +98,9 @@ class DotDict(SimpleNamespace):
             return value
 
         return cls(**{k: convert(v) for k, v in dictionary.items()})
+    
+    def to_dict(self):
+        return {k: v if not isinstance(v, DotDict) else v.to_dict() for k, v in self.__dict__.items()}
 
 
 CONFIG = config = DotDict.from_dict(yaml.safe_load(config_str)) # second pass
