@@ -68,6 +68,7 @@ def test_df_intersections(mock_df_points, mock_df_curves, converter):
 @patch('crossreads_petrography.isotopes.plot_curves')
 def test_plot(mock_plot_curves, mock_read_crossreads, converter):
     mock_read_crossreads.return_value = mock_read_crossreads_spreadsheet()
+    print(mock_read_crossreads.return_value)
 
     mock_plot_curves.return_value = 'mock_figure'
     result = converter.plot()
