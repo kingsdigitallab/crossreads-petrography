@@ -23,7 +23,7 @@ class IsotopeConverter:
 
     @cached_property
     def df_points(self, xcol='isotopes delta13C', ycol='isotopes delta18O'):
-        df_big = read_crossreads_spreadsheet()
+        df_big = read_path('metadata.metamorphic').fillna('')
         df_points = df_big[[xcol,ycol]].copy()
         df_points['Sample'] = [str(x) for x in df_points.index]
         df_points = df_points[~df_points.Sample.str.contains(' ')]
