@@ -20,6 +20,7 @@ from scipy.interpolate import splprep, splev
 from sklearn.linear_model import LinearRegression
 import gspread
 from google.oauth2 import service_account
+from collections import UserDict
 
 
 logger.remove()
