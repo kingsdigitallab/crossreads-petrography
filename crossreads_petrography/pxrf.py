@@ -1,5 +1,6 @@
 from .imports import *
 from .utils import *
+from string import ascii_lowercase
 
 class PXRFConverter:
     def __init__(self):
@@ -18,9 +19,19 @@ class PXRFConverter:
     def df_descriptions(self):
         logger.info("Loading pXRF descriptions")
         odf = read_path('pxrf.descriptions').fillna('')
-        odf = odf.set_index(odf.columns[0])
-        odf=odf.T
-        odf.columns=[x.strip() for x in odf]
+
+        def fix_isic(x):
+            if type(x) is str and x.isdigit():
+                x=int(x)
+            if isinstance(x, (int,float)):
+                x=f'Isic{int(x):06d}'
+            return x
+        odf['Isic'] = odf['Isic'].apply(fix_isic)
+        # odf = odf.set_index(odf.columns[0])
+        # odf=odf.T
+        cols = [c for c in odf]
+        cols = [c.split("=")[0].strip() for c in cols]
+        odf.columns = cols
         odf['1']=odf['a']
         odf['2']=odf['b']
         odf['3']=odf['c']
@@ -32,7 +43,7 @@ class PXRFConverter:
         return read_path('pxrf.input', as_list=True)
 
     @cached_property
-    def df_parsed(self, verbose=False):
+    def df_measurements_with_standard_values(self, verbose=False):
         logger.info("Parsing pXRF standards data")
         txts = self.txt_input
         
@@ -49,16 +60,19 @@ class PXRFConverter:
                     is_standard = src.replace('-', '').isdigit()
                 else:
                     is_standard = src.startswith('t0-')
-
+                if not is_standard:
+                    continue
                 if is_mk:
                     standard_key = src.split('-')[0] + 'CC'
                 else:
                     standard_key = src.split('-')[1]
                 
-                if verbose: print([filename,src,is_standard,standard_key])
-
-                if not is_standard:
+                if standard_key and not standard_key[0].isdigit():
                     continue
+                
+                if verbose: print([filename,src,is_standard,standard_key])
+                
+
                 # if standard_key!='100CC': continue
 
 
@@ -83,11 +97,9 @@ class PXRFConverter:
 
                 if verbose: 
                     print('Standard data from MK file')
-                    display(df)
                     print()
                     
                 
-
                 df_this_standard = self.df_standards[[standard_key]].copy()
                 df_this_standard.columns = ['standard_val']
                 df_this_standard['standard_key'] = standard_key
@@ -98,7 +110,7 @@ class PXRFConverter:
                     display(df_this_standard)
                     print()
 
-                dfx=df.join(df_this_standard, how='inner')
+                dfx=df.join(df_this_standard, how='outer')
                 dfx['filename']=filename
                 
                 if verbose:
@@ -120,11 +132,16 @@ class PXRFConverter:
             
         df['standard_group'] = [get_standard_group(element,row) for element,row in df.iterrows()]
         return df[df.standard_key != '0CC']
+    @property
+    def df_parsed(self):
+        return self.df_measurements_with_standard_values
     
     @cached_property
     def df_linreg(self):
         logger.info("Calculating linear regressions for standard values")
         df = self.df_parsed
+        df = df[~df.Mass_fraction.isna()]
+        df = df[~df.standard_val.isna()]
         ld = []
         gby = ['Element', 'standard_group']
         for g, gdf in df.groupby(gby):
@@ -139,6 +156,14 @@ class PXRFConverter:
             d['m'] = m
             d['q'] = q
             ld.append(d)
+
+        ## mercury patch
+        pb_l = [d for d in ld if d['Element']=='Pb']
+        if pb_l:
+            hg = {**pb_l[0]}
+            hg['Element'] = 'Hg'
+            ld.append(hg)
+
         return pd.DataFrame(ld)
 
     @cached_property
@@ -217,15 +242,34 @@ class PXRFConverter:
                 df['source_name'] = src
 
                 try:
-                    isic = src.split('-')[0][4:]
-                    isic_letter = src.split('-')[-1]
+                    isics = [subsrc for subsrc in src.split('-')
+                            if subsrc.startswith('ISic') or subsrc.startswith('Isic')
+                            ]
+                    isic = isics[0].strip().replace('ISic','Isic') if isics else src.split('-')[0].strip()
+                    if not 'Isic' in isic:
+                        isic = '-'.join(src.split('-')[:-1]) if '-' in src else src
+                    
+                    isic_letter = src.split('-')[-1].strip()
+                    if isic_letter[0].isdigit() and isic_letter[-1].lower()=='t':
+                        # print([filename,src,isic,isic_letter,ascii_lowercase[int(isic_letter[:-1])-1]])
+                        isic_letter = ascii_lowercase[int(isic_letter[:-1])-1]
+                    # if not is_mk:
+                    #     print('src to parse into logbook column name',src)
+                    #     print('isic',isic)
+                    #     print('isic_letter',isic_letter)
 
 
                     desc_rows = df_desc[df_desc.Isic == isic]
+                    # print('desc_rows',desc_rows)
                     desc_col = desc_rows[isic_letter]
+                    # print('desc_cols',desc_col)
+
                     desc = '; '.join(desc_col)
-                    if not desc and not 'ISic' in src:
-                        print('\t'.join(str(x) for x in [src,isic,isic_letter,len(desc_rows), desc]))
+                    # if not is_mk: 
+                    #     print(desc)
+                    #     print()
+                    # if not desc and not 'ISic' in src:
+                        # print('\t'.join(str(x) for x in [src,isic,isic_letter,len(desc_rows), desc]))
                 except KeyError as e:
                     logger.warning(f'[{filename}] Could not find {repr(isic_letter)} in logbook columns ({list(desc_rows.columns)})')
                     desc = '?'
@@ -239,7 +283,8 @@ class PXRFConverter:
     def plot(self):
         # @title Plot linear regressions
         import plotnine as p9
-        df=self.df_parsed
+        df=self.df_parsed[~self.df_parsed.Mass_fraction.isna()]
+        df=df[~df.standard_val.isna()]
         fig=p9.ggplot(df.reset_index(), p9.aes(x='Mass_fraction', y='standard_val', color='standard_group'))
         fig+=p9.geom_point()
         fig+=p9.geom_smooth(method='lm')

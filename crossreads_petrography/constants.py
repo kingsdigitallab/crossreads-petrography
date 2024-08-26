@@ -76,6 +76,9 @@ class DotDict(SimpleNamespace):
             return super().__getattribute__(__name)
         except AttributeError:
             return DotDict()
+        
+    def __repr__(self):
+        return json.dumps({k: v if not isinstance(v, DotDict) else v.__dict__ for k, v in self.__dict__.items()}, indent=2)
     
     def __bool__(self):
         return bool(self.__dict__)
