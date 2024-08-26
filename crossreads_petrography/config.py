@@ -1,12 +1,4 @@
-from functools import cached_property
-import logging
-from collections import UserDict
-import yaml
-import os
-from pathlib import Path
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from . import *
 
 class Config(UserDict):
     def __init__(self, yaml_path):
@@ -27,7 +19,7 @@ class Config(UserDict):
 
         def convert(v1):
             was_posix = isinstance(v1, Path)
-            v = str(v1)
+            v = str(v1) if v1 else ''
             # Get list of matched groups of text between { and }
             while ("{" in v) and ("}" in v):
                 placeholders = [
@@ -61,7 +53,7 @@ class Config(UserDict):
             "key"
         )
 
-    def get(self, key, default=None):
+    def get(self, key, default=''):
         from .constants import IN_COLAB
 
         res = self.data.get(key, None)
@@ -101,11 +93,14 @@ class Config(UserDict):
             or k.endswith(".url.dev")
             or k.endswith(".url")
         }
-        return {'.'.join(k.split('.')[1:]): self.get(k,'') for k in path_keys}
+        return {'.'.join(k.split('.')[1:]): self.get(k,'') for k in sorted(path_keys)}
+    
+    def get_path(self, path, default=''):
+        return self.paths.get(path, default)
 
 
 PATH_CONFIG = Path.home() / "crossreads_petrography_data" / "config.yaml"
-PATH_CONFIG_DEFAULT = Path(__file__).parent / "config.yaml"
+PATH_CONFIG_DEFAULT = Path(__file__).parent.parent / "data" / "default_config.yaml"
 
 if PATH_CONFIG.exists():
     logger.info(f"Using user-specific config file: {PATH_CONFIG}")

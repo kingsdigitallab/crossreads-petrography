@@ -4,7 +4,7 @@ paths:
   root:
     local: ~/crossreads_petrography_data
     colab: /content/drive/MyDrive/Crossreads B D1
-  
+
   credentials:
     local: "{paths.root.local}/credentials.json"
 
@@ -15,7 +15,7 @@ paths:
   petrography:
     local: "{paths.data.local}/input/crossreads.xlsx"
     url:
-      prod: 
+      prod: https://docs.google.com/spreadsheets/d/1ajTKn6vuOVA7_LlKeXgZ7sX4j9amaKmrsR4yzJLQSI4/edit
       dev: https://docs.google.com/spreadsheets/d/1QDZ6Fc3o95q6ylvkjoNDOFeqNz7Nub8qQCPVV62Pus8/edit
 
   isotopes:
@@ -31,10 +31,17 @@ paths:
       local: "{paths.data.local}/output/isotopes"
       colab: "{paths.data.colab}/Isotope output data"
 
+    mgs:
+      local: "{paths.data.local}/input/mgs"
+      url: https://docs.google.com/spreadsheets/d/1Yx66yiwvQZNou-8_mej8KZ8imPBJNRJSOqJjJRPCy30/edit
+
   xrd:
     input:
       local: "{paths.data.local}/input/XRD"
       colab: "{paths.data.colab}/XRD input data"
+
+    mineral_types:
+      url: https://docs.google.com/spreadsheets/d/17RJqjUO4LEG8n5XeLqzEtxi--FIYJvW9Q1YajXqGcfw/edit
 
     output:
       local: "{paths.data.local}/output/XRD"
@@ -51,11 +58,12 @@ paths:
 
     standards:
       local: "{paths.pxrf.input_etc.local}/pXRF standards.xlsx"
-      url: https://docs.google.com/spreadsheets/d/1qaGvCqD0bm8JoYTKXdb76b_EcMHwHenU5NomGQSOf_M/edit
+      url: https://docs.google.com/spreadsheets/d/15YBVR86KlfUwdZHb4zRu6HJI7J0da1Df4O0l_F0fxY0/edit
 
     descriptions:
       local: "{paths.pxrf.input_etc.local}/logbook-pXRF.xlsx"
-      url: https://docs.google.com/spreadsheets/d/1TEjZTq_jocxsLaFTpx0uf1txzJSPZWFNFGjhlcSdEKc/edit
+      url: https://docs.google.com/spreadsheets/d/1waTF3qG1dCZeLV97Kdemu0UkJm9Iow67hFTGtA2gjm0/edit?gid=0#gid=0 # logbook new 1
+      # url: https://docs.google.com/spreadsheets/d/1TZ_GJU8AJ5TfigQceGUvI7wW2QA0oigXg16r3-uzIGw/edit # Logbook v3
 
     output:
       local: "{paths.data.local}/output/pXRF"

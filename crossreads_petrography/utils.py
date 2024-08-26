@@ -1,6 +1,4 @@
-from .imports import *
-from gspread.exceptions import APIError
-from pathlib import Path
+from . import *
 
 
 # Add these lines at the top of the file
@@ -61,7 +59,7 @@ def get_spreadsheet(spreadsheet_url, credentials_path: Optional[str] = None):
     if IN_COLAB:
         creds = authenticate_colab()
     else:
-        creds_path = credentials_path or config.paths.credentials.local
+        creds_path = credentials_path or Path(config.paths['credentials'])
         if not Path(creds_path).exists():
             raise FileNotFoundError(f"Credentials file not found: {creds_path}")
         creds = authenticate_service_account(creds_path)
@@ -214,7 +212,7 @@ def show_img(path):
 
 
 def has_credentials():
-    return IN_COLAB or Path(config.paths.credentials.local).exists()
+    return IN_COLAB or Path(config.paths['credentials']).exists()
 
 def get_path(paths):
     if isinstance(paths, str):
@@ -247,8 +245,9 @@ def is_pathlike(x):
     return isinstance(x, (str, Path)) and (str(x).startswith('/') or Path(x).exists())
 
 
-def read_path(paths, worksheet_index=0, as_list=False, sep=','):
-    path = get_path(paths) if not is_pathlike(paths) and not is_urllike(paths) else paths
+def read_path(path, worksheet_index=0, as_list=False, sep=','):
+    from .config import config
+    path = config.get_path(str(path))
     
     if is_urllike(path):
         return read_spreadsheet(path, worksheet_index=worksheet_index)
@@ -273,15 +272,4 @@ def read_path(paths, worksheet_index=0, as_list=False, sep=','):
                     return None
     
     return pd.DataFrame()
-
-def get_config_value(key_path: str):
-    if key_path.startswith('config.'): key_path=key_path[len('config.'):]
-    keys = key_path.split('.')
-    value = config
-    for key in keys:
-        if isinstance(value, DotDict) and hasattr(value, key):
-            value = getattr(value, key)
-        else:
-            return None
-    return value
 

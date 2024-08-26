@@ -1,5 +1,4 @@
-from .imports import *
-from .utils import *
+from . import *
 
 
 class IsotopeConverter:

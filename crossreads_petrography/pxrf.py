@@ -1,6 +1,5 @@
-from .imports import *
-from .utils import *
-from string import ascii_lowercase
+from . import *
+
 
 class PXRFConverter:
     def __init__(self):
