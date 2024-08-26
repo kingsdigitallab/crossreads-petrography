@@ -259,7 +259,7 @@ class XRDConverter:
         output_folder = output_folder or get_path("xrd.output")
         ofn = Path(output_folder) / "xrd_data_postprocessed.xlsx"
         self.df_xrd.to_excel(ofn)
-        logger.info(f"Saved: {ofn.name}")
+        logger.info(f"Saved: {ofn}")
 
     def run(self):
         self.save()
