@@ -72,6 +72,8 @@ class DotDict(SimpleNamespace):
         setattr(self, key, value)
 
     def __getattr__(self, __name: str) -> Any:
+        if __name in ['to_dict', '__repr__', '__bool__', '__getattr__', '__getitem__', '__setitem__', 'from_dict']:
+            return self.to_dict
         try:
             return super().__getattr__(__name)
         except AttributeError:
