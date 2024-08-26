@@ -71,9 +71,9 @@ class DotDict(SimpleNamespace):
     def __setitem__(self, key, value):
         setattr(self, key, value)
 
-    def __getattribute__(self, __name: str) -> Any:
+    def __getattr__(self, __name: str) -> Any:
         try:
-            return super().__getattribute__(__name)
+            return super().__getattr__(__name)
         except AttributeError:
             return DotDict()
         
