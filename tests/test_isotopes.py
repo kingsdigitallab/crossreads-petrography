@@ -31,12 +31,12 @@ def test_df_curves(mock_read_folder, converter, numrows):
     assert 'y' in result.columns
     assert len(result) == numrows
 
-@patch('crossreads_petrography.isotopes.read_path')
-def test_df_points(read_path, converter):
-    read_path.return_value = mock_read_crossreads_spreadsheet()
+@patch('crossreads_petrography.isotopes.read_crossreads_spreadsheet')
+def test_df_points(read_crossreads_spreadsheet, converter):
+    read_crossreads_spreadsheet.return_value = mock_read_crossreads_spreadsheet()
     
     result = converter.df_points
-    
+    print(result)
     assert isinstance(result, pd.DataFrame)
     assert len(result) == 3
     assert 'x' in result.columns
