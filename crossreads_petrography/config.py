@@ -1,17 +1,15 @@
 from . import *
 
 class Config(UserDict):
-    def __init__(self, yaml_path):
-        super().__init__()
-        self.yaml_path = Path(yaml_path)
-        logger.info(f"Initializing Config with yaml_path: {self.yaml_path}")
-        self.load_config()
-
-    def load_config(self):
-        logger.info(f"Loading config from {self.yaml_path}")
-        with open(self.yaml_path, "r") as f:
+    
+    @classmethod
+    def from_yaml(cls, yaml_path):
+        yaml_path = Path(yaml_path)
+        logger.info(f"Loading config from {yaml_path}")
+        with open(yaml_path, "r") as f:
             config = yaml.safe_load(f)
-        data = self.flatten_dict(config)
+        data = cls.flatten_dict(config)
+        data['paths.repo.local'] = Path(__file__).parent.parent.absolute()
         for k, v in data.items():
             if isinstance(v, str):
                 data[k] = os.path.expanduser(v)
@@ -32,15 +30,17 @@ class Config(UserDict):
             v = Path(v) if was_posix else v
             return v
 
-        self.data = {k: convert(v) for k, v in data.items()}
+        data = {k: convert(v) for k, v in data.items()}
         logger.info("Config loaded and processed successfully")
-
-    def flatten_dict(self, d, parent_key=""):
+        return cls(data)
+    
+    @classmethod
+    def flatten_dict(cls, d, parent_key=""):
         items = []
         for k, v in d.items():
             new_key = f"{parent_key}.{k}" if parent_key else k
             if isinstance(v, dict):
-                items.extend(self.flatten_dict(v, new_key).items())
+                items.extend(cls.flatten_dict(v, new_key).items())
             else:
                 items.append((new_key, v))
         return dict(items)
@@ -53,7 +53,7 @@ class Config(UserDict):
             "key"
         )
 
-    def get(self, key, default=''):
+    def get(self, key, default=None):
         from .constants import IN_COLAB
 
         res = self.data.get(key, None)
@@ -63,7 +63,7 @@ class Config(UserDict):
 
         if IN_COLAB and key + ".colab" in self.data:
             colab_value = self.data[key + ".colab"]
-            logger.info(f"Using Colab-specific value for key {key}: {colab_value}")
+            logger.debug(f"Using Colab-specific value for key {key}: {colab_value}")
             return colab_value
 
         for suffix in [".url.prod", ".url.dev", ".url", ".local"]:
@@ -102,9 +102,11 @@ class Config(UserDict):
 PATH_CONFIG = Path.home() / "crossreads_petrography_data" / "config.yaml"
 PATH_CONFIG_DEFAULT = Path(__file__).parent.parent / "data" / "default_config.yaml"
 
+default_config = Config.from_yaml(PATH_CONFIG_DEFAULT)
+
 if PATH_CONFIG.exists():
     logger.info(f"Using user-specific config file: {PATH_CONFIG}")
-    config = Config(PATH_CONFIG)
+    user_config = Config.from_yaml(PATH_CONFIG)
+    config = Config({**default_config, **user_config})
 else:
-    logger.info(f"User-specific config not found. Using default config: {PATH_CONFIG_DEFAULT}")
-    config = Config(PATH_CONFIG_DEFAULT)
+    config = default_config

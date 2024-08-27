@@ -23,7 +23,7 @@ class IsotopeConverter:
 
     @cached_property
     def df_points(self, xcol='isotopes delta13C', ycol='isotopes delta18O'):
-        df_big = read_path('metadata.metamorphic').fillna('')
+        df_big = read_crossreads_spreadsheet(metamorphic=True).fillna('')
         df_points = df_big[[xcol,ycol]].copy()
         df_points['Sample'] = [str(x) for x in df_points.index]
         df_points = df_points[~df_points.Sample.str.contains(' ')]
@@ -31,7 +31,7 @@ class IsotopeConverter:
         df_points['x'] = df_points[ycol]
         df_points=df_points.reset_index()[['Sample','x','y']]
         df_points=df_points.query('Sample!="" & x!="" & y!=""')
-        return df_points
+        return df_points.fillna('')
     
     @cached_property
     def df_intersections(self):

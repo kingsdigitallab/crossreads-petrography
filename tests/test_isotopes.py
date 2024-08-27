@@ -32,11 +32,11 @@ def test_df_curves(mock_read_folder, converter, numrows):
     assert len(result) == numrows
 
 @patch('crossreads_petrography.isotopes.read_crossreads_spreadsheet')
-def test_df_points(mock_read_crossreads, converter):
-    mock_read_crossreads.return_value = mock_read_crossreads_spreadsheet()
+def test_df_points(read_crossreads_spreadsheet, converter):
+    read_crossreads_spreadsheet.return_value = mock_read_crossreads_spreadsheet()
     
     result = converter.df_points
-    
+    print(result)
     assert isinstance(result, pd.DataFrame)
     assert len(result) == 3
     assert 'x' in result.columns
@@ -68,6 +68,7 @@ def test_df_intersections(mock_df_points, mock_df_curves, converter):
 @patch('crossreads_petrography.isotopes.plot_curves')
 def test_plot(mock_plot_curves, mock_read_crossreads, converter):
     mock_read_crossreads.return_value = mock_read_crossreads_spreadsheet()
+    print(mock_read_crossreads.return_value)
 
     mock_plot_curves.return_value = 'mock_figure'
     result = converter.plot()
