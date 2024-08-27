@@ -9,7 +9,7 @@ from io import StringIO
 
 INSTALLED = False
 REPO_NAME = "crossreads-petrography"
-REPO_URL = f"https://github.com/kingsdigitallab/{REPO_NAME}.git"
+REPO_URL = f"git@github.com:kingsdigitallab/crossreads-petrography.git"
 
 
 @contextmanager
