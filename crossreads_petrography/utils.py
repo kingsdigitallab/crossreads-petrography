@@ -230,7 +230,6 @@ def is_pathlike(x):
     return isinstance(x, (str, Path)) and (str(x).startswith('/') or Path(x).exists())
 
 
-@fcache
 def read_path(path, worksheet_index=0, as_list=False, sep=','):
     from .config import config
     path = get_path(path)
