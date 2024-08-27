@@ -168,12 +168,7 @@ def test_import():
 def run_tests():
     if run_command("pip install -q pytest"):
         from crossreads_petrography.testing import run_tests
-        if run_tests():
-            logger.info("All tests passed")
-            return True
-        else:
-            logger.error("Some tests failed")
-            return False
+        return run_tests()
     else:
         logger.error("Failed to install pytest")
         return False
