@@ -19,7 +19,6 @@ def get_crossreads_spreadsheet(key='petrography'):
         return get_spreadsheet(url_or_path)
     
 
-@cache
 def read_crossreads_spreadsheet(metamorphic=True):
     df = read_path('metadata.metamorphic' if metamorphic else 'metadata.sedimentary')
     df=df.set_index(df.columns[0])
