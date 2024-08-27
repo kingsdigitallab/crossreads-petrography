@@ -86,7 +86,6 @@ def github_auth_clone(persistent_key: bool):
         if not os.path.exists("/content/drive/"):
             logger.info("Mounting Google Drive")
             drive.mount("/content/drive/")
-            logger.info("Mounted Google Drive")
         else:
             logger.info("Google Drive already mounted")
         private_key_dir = "/content/drive/MyDrive/.colab-github"
@@ -167,7 +166,6 @@ def install(persistent_key: bool = True):
     except ImportError as e:
         logger.error(f"Import failed: {e}")
         return False
-    return True
 
 
 if __name__ == "__main__":
