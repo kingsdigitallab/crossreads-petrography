@@ -3,7 +3,7 @@ TEST_DIR = Path(__file__).parent.parent / "tests"
 
 def run_tests():
     import pytest
-    testcmd = ["-v", "--disable-warnings", str(TEST_DIR)]
+    testcmd = ["--disable-warnings", str(TEST_DIR)]
     try:
         exit_code = pytest.main(testcmd)
         return exit_code == 0

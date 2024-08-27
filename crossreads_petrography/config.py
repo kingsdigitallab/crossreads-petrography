@@ -31,7 +31,7 @@ class Config(UserDict):
             return v
 
         data = {k: convert(v) for k, v in data.items()}
-        logger.info("Config loaded and processed successfully")
+        logger.debug("Config loaded and processed successfully")
         return cls(data)
     
     @classmethod
