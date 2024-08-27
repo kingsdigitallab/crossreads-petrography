@@ -1,3 +1,9 @@
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from crossreads_petrography import *
+
+
 import unittest
 from unittest.mock import patch, MagicMock
 import crossreads_petrography.utils

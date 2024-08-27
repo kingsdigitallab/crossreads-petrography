@@ -8,6 +8,8 @@ from contextlib import contextmanager
 from io import StringIO
 
 INSTALLED = False
+REPO_NAME = "crossreads-petrography"
+REPO_URL = f"https://github.com/kingsdigitallab/{REPO_NAME}.git"
 
 
 @contextmanager
@@ -121,8 +123,8 @@ def github_auth_clone(persistent_key: bool):
     os.system("chmod go-rwx ~/.ssh/id_ed25519")
 
     # Set repository address and name
-    repo_name = 'crossreads-petrography'
-    repo_addr = f"git@github.com:kingsdigitallab/{repo_name}.git"
+    repo_name = REPO_NAME
+    repo_addr = REPO_URL
 
     # Clone repository only if it doesn't exist
     if not os.path.exists(repo_name):
@@ -147,7 +149,7 @@ def github_auth_clone(persistent_key: bool):
     # Add repository to Python path
     repo_path = os.path.abspath(repo_name)
     if repo_path not in sys.path:
-        sys.path.append(repo_path)
+        sys.path.append(os.path.abspath(repo_name))
         logger.info(f"Added {repo_name} to Python path")
 
     return True
@@ -165,7 +167,7 @@ def test_import():
 
 def run_tests():
     if run_command("pip install -q pytest"):
-        if run_command("pytest crossreads_petrography/tests"):
+        if run_command(f"pytest {REPO_NAME}/tests"):
             logger.info("All tests passed.")
             return True
         else:
@@ -179,7 +181,12 @@ def install(persistent_key: bool = True):
     # clone repo
     if not github_auth_clone(persistent_key=persistent_key):
         return
-
+    # test import
+    if not test_import():
+        return
+    # run tests
+    if not run_tests():
+        return
     
 
 if __name__ == "__main__":

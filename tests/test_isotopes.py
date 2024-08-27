@@ -1,7 +1,12 @@
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from crossreads_petrography import *
+
+
 import pytest
 from unittest.mock import patch, PropertyMock, MagicMock
 import pandas as pd
-from crossreads_petrography.isotopes import *
 
 @pytest.fixture
 def converter():

@@ -1,7 +1,11 @@
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from crossreads_petrography import *
+
 import unittest
 from unittest.mock import patch, PropertyMock
 import pandas as pd
-from crossreads_petrography.pxrf import PXRFConverter
 import plotnine as p9
 import pytest
 
