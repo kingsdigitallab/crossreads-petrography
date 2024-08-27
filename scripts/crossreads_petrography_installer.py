@@ -167,12 +167,17 @@ def test_import():
 
 def run_tests():
     if run_command("pip install -q pytest"):
-        if run_command(f"pytest {REPO_NAME}/tests"):
-            logger.info("All tests passed.")
-            return True
-        else:
-            logger.error("Tests failed.")
-            return False
+        import pytest
+        testcmd = f"-v --disable-warnings {REPO_NAME}/tests"
+        logger.setLevel(logging.WARNING)
+        try:
+            pytest.main(testcmd.split())
+        except SystemExit as e:
+            if e.code != 0:
+                logger.error("Tests failed.")
+                return False
+        logger.info("All tests passed.")
+        return True
     else:
         return False
 
