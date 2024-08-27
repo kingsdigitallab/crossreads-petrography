@@ -51,7 +51,7 @@ def test_df_property(sample_config):
     df = sample_config.df
     assert 'value' in df.columns
     assert len(df) > 0
-f
+
 def test_placeholder_expansion(sample_config):
     assert sample_config['paths.metadata.local'] == str(Path(__file__).parent.parent / "data" / "Metadata")
 

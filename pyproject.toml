@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "crossreads_petrography"
-version = "0.1.0"
+version = "0.2.0"
 description = "A package for petrography analysis in the Crossreads project"
 authors = [{name = "Ryan Heuser", email = "ryan.heuser@kcl.ac.uk"}]
 readme = "README.md"
