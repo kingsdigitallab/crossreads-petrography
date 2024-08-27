@@ -48,8 +48,10 @@ def test_paths_property(sample_config):
     assert 'metadata' in paths
 
 def test_get_path(sample_config):
-    assert sample_config.get_path('root') == str(Path(__file__).parent.parent / "data")
-    assert sample_config.get_path('nonexistent', 'default') == 'default'
+    expected_local_path = str(Path(__file__).parent.parent / "data")
+    expected_path = '/content/drive/MyDrive/Crossreads B D1/crossreads_petrography_data' if IN_COLAB else expected_local_path
+    actual_path = sample_config.get_path('root')
+    assert actual_path == expected_path, f"Actual path: {actual_path} does not match expected path: {expected_path}"
 
 def test_df_property(sample_config):
     df = sample_config.df

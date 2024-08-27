@@ -141,6 +141,7 @@ def test_read_path(mock_read_df, mock_read_spreadsheet, mock_is_pathlike, mock_i
     mock_read_df.return_value = mock_df
 
     result = read_path('mock_key')
+    print(result)
     assert isinstance(result, pd.DataFrame)
     assert len(result) == len(mock_df)
 
