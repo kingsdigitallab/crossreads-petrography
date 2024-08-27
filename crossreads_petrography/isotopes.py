@@ -5,7 +5,7 @@ class IsotopeConverter:
     def __init__(self):
         logger.info("Initializing IsotopeConverter")
 
-    @cached_property
+    @property
     def df_curves(self):
         logger.info("Reading isotope curve data")
         df = read_path('isotopes.input')
@@ -21,7 +21,7 @@ class IsotopeConverter:
                 reshaped_data.append(d)
         return pd.DataFrame(reshaped_data).dropna()
 
-    @cached_property
+    @property
     def df_points(self, xcol='isotopes delta13C', ycol='isotopes delta18O'):
         df_big = read_crossreads_spreadsheet(metamorphic=True).fillna('')
         df_points = df_big[[xcol,ycol]].copy()
@@ -33,11 +33,11 @@ class IsotopeConverter:
         df_points=df_points.query('Sample!="" & x!="" & y!=""')
         return df_points.fillna('')
     
-    @cached_property
+    @property
     def df_intersections(self):
         return determine_polygon_intersections(self.df_curves, self.df_points)
     
-    @cached_property
+    @property
     def df_intersections_mgs(self):
         df_mgs = read_path('mgs.input')
         df_mgs['value_mm'] = pd.to_numeric(df_mgs['value_mm'], errors='coerce')

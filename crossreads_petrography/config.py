@@ -84,7 +84,7 @@ class Config(UserDict):
             raise KeyError(f"Key {key} not found in config")
         return res
 
-    @cached_property
+    @property
     def paths(self):
         path_keys = {
             k.split('.local')[0].split('.colab')[0].split('.url')[0]

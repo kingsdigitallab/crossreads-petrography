@@ -113,15 +113,15 @@ class XRDConverter:
             if k.startswith("xrd.")
         }
 
-    @cached_property
+    @property
     def df_input(self):
         return read_path('xrd.input',sep=';').fillna('')
     
-    @cached_property
+    @property
     def df_mineral_types(self):
         return read_path('xrd.mineral_types')
     
-    @cached_property
+    @property
     def df_xrd(self):
         logger.debug("Reading XRD data")
         df = self.df_input
@@ -182,12 +182,12 @@ class XRDConverter:
 
     ## DEPRECATED: No longer updating crossreads sheet directly
 
-    # @cached_property
+    # @property
     # def df_meta(self):
     #     logger.debug("Reading CrossReads sheet from Google Spreadsheet")
     #     return read_crossreads_spreadsheet()
 
-    # @cached_property
+    # @property
     # def df_updated(self):
     #     logger.debug("Updating CrossReads sheet with XRD data")
 

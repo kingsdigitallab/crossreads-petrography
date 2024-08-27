@@ -6,7 +6,7 @@ class PXRFConverter:
         logger.info("Initializing PXRFConverter")
         self.input_folder = get_path('pxrf.input')
 
-    @cached_property
+    @property
     def df_standards(self):
         logger.info("Loading pXRF standard values")
         df = read_path('pxrf.standards')
@@ -14,7 +14,7 @@ class PXRFConverter:
         df = df.T.rename_axis('Element')
         return df[list(reversed(df.columns))]
 
-    @cached_property
+    @property
     def df_descriptions(self):
         logger.info("Loading pXRF descriptions")
         odf = read_path('pxrf.descriptions').fillna('')
@@ -33,11 +33,11 @@ class PXRFConverter:
         odf.columns = cols
         return odf
     
-    @cached_property
+    @property
     def txt_input(self):
         return read_path('pxrf.input', as_list=True)
     
-    @cached_property
+    @property
     def df_input(self):
         return pd.DataFrame([
             {
@@ -47,7 +47,7 @@ class PXRFConverter:
             for fn,txt in self.txt_input
         ])
 
-    @cached_property
+    @property
     def df_parsed(self, verbose=False):
         logger.info("Parsing pXRF standards data")
         txts = self.txt_input
@@ -141,7 +141,7 @@ class PXRFConverter:
         df['standard_group'] = [get_standard_group(element,row) for element,row in df.fillna('').iterrows()]
         return df[df.standard_key != '0CC']
     
-    @cached_property
+    @property
     def df_linreg(self):
         logger.info("Calculating linear regressions for standard values")
         df = self.df_parsed
@@ -171,7 +171,7 @@ class PXRFConverter:
 
         return pd.DataFrame(ld)
 
-    @cached_property
+    @property
     def df_adjusted(self, verbose=False):
         logger.info("Parsing pXRF measurements and calculating new fractions")
         sdf = self.df_linreg
