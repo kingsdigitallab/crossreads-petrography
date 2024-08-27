@@ -163,7 +163,8 @@ def read_input_data_folder(folder: str, sep=',') -> pd.DataFrame:
     if in_colab():
         if drive is None:
             raise ImportError("Failed to import google.colab.drive")
-        drive.mount('/content/drive')
+        if not os.path.exists('/content/drive/MyDrive'):
+            drive.mount('/content/drive')
         folder = os.path.join('/content/drive/MyDrive', folder)
 
     l = [
