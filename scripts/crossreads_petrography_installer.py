@@ -168,7 +168,7 @@ def test_import():
 def run_tests():
     if run_command("pip install -q pytest"):
         import pytest
-        testcmd = f"-v --disable-warnings {REPO_NAME}/tests"
+        testcmd = f"--disable-warnings {REPO_NAME}/tests"
         logger.setLevel(logging.WARNING)
         try:
             pytest.main(testcmd.split())
