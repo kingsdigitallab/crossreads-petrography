@@ -167,20 +167,10 @@ def test_import():
 
 def run_tests():
     if run_command("pip install -q pytest"):
-        import pytest
-        testcmd = f"--disable-warnings {REPO_NAME}/tests"
-        logger.setLevel(logging.WARNING)
-        try:
-            pytest.main(testcmd.split())
-        except SystemExit as e:
-            if e.code != 0:
-                logger.error("Tests failed.")
-                return False
-        logger.info("All tests passed.")
-        return True
+        import crossreads_petrography
+        return crossreads_petrography.test()
     else:
         return False
-
 
 def install(persistent_key: bool = True):
     # clone repo
