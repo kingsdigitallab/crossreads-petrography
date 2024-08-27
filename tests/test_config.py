@@ -2,9 +2,8 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from crossreads_petrography import *
-
-
 import pytest
+from unittest.mock import patch
 
 @pytest.fixture
 def sample_config():
@@ -62,11 +61,5 @@ def test_placeholder_expansion(sample_config):
     assert sample_config['paths.metadata.local'] == str(Path(__file__).parent.parent / "data" / "Metadata")
 
 def test_colab_specific_value(sample_config):
-    # Mocking in_colab() as True
-    import crossreads_petrography.constants
-    crossreads_petrography.constants.in_colab() = True
-    
-    assert sample_config.get('paths.root') == "/content/drive/MyDrive/Crossreads B D1/crossreads_petrography_data"
-
-    # Reset in_colab() to False
-    crossreads_petrography.constants.in_colab() = False
+    with patch('crossreads_petrography.constants.in_colab', return_value=True):
+        assert sample_config.get('paths.root') == "/content/drive/MyDrive/Crossreads B D1/crossreads_petrography_data"
