@@ -1,9 +1,10 @@
 from . import *
 TEST_DIR = Path(__file__).parent.parent / "tests"
 
-def run_tests():
+def run_tests(verbosity_str="q"):
     import pytest
-    testcmd = ["--disable-warnings", str(TEST_DIR)]
+    testcmd = [f"-{verbosity_str}", "--disable-warnings", str(TEST_DIR)]
+    logger.setLevel(logging.ERROR)
     try:
         exit_code = pytest.main(testcmd)
         return exit_code == 0
