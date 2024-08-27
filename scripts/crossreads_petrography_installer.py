@@ -152,21 +152,35 @@ def github_auth_clone(persistent_key: bool):
 
     return True
 
+def test_import():
+    # test import
+    try:
+        import crossreads_petrography
+        logger.info(f"Installation of crossreads_petrography version {crossreads_petrography.__version__} successful.")
+        return True
+    except ImportError as e:
+        logger.error(f"Import failed: {e}")
+        return False
+
+
+def run_tests():
+    if run_command("pip install -q pytest"):
+        if run_command("pytest crossreads_petrography/tests"):
+            logger.info("All tests passed.")
+            return True
+        else:
+            logger.error("Tests failed.")
+            return False
+    else:
+        return False
+
 
 def install(persistent_key: bool = True):
     # clone repo
     if not github_auth_clone(persistent_key=persistent_key):
         return
 
-    # test import
-    logger.info("Testing import...")
-    try:
-        import crossreads_petrography
-        logger.info("Installation successful!")
-    except ImportError as e:
-        logger.error(f"Import failed: {e}")
-        return False
-
+    
 
 if __name__ == "__main__":
     if install():
