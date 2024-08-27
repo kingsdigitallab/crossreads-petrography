@@ -1,4 +1,4 @@
-# hosted on gist at: https://gist.githubusercontent.com/quadrismegistus/aee85e466a542c347f90a2a0237752da/raw/crossreads_petrography_installer.py
+# stable version hosted on gist at: https://gist.github.com/alessiacoccato/a1f9b9ff5530bfcdcf084b77513358b2
 
 import os
 import sys
@@ -167,8 +167,8 @@ def test_import():
 
 def run_tests():
     if run_command("pip install -q pytest"):
-        import crossreads_petrography
-        return crossreads_petrography.test()
+        from crossreads_petrography.testing import run_tests
+        return run_tests()
     else:
         return False
 

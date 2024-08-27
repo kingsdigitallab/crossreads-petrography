@@ -9,7 +9,6 @@ import pandas as pd
 import numpy as np
 import gspread
 from google.oauth2 import service_account
-from loguru import logger
 import sys
 import json
 from functools import cache
@@ -23,16 +22,6 @@ from google.oauth2 import service_account
 from collections import UserDict
 from functools import cached_property, lru_cache
 fcache = lru_cache(maxsize=None)
-
-
-logger.remove()
-logger.add(
-    sink=sys.stderr,
-    format="<level>{message}</level><cyan> @ {time:YYYY-MM-DD HH:mm:ss,SSS}</cyan>",
-    level="INFO",
-)
-
-
 from gspread.exceptions import APIError
 from pathlib import Path
 from functools import cached_property
