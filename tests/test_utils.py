@@ -132,16 +132,19 @@ def test_read_spreadsheet_with_empty_rows():
 @patch('crossreads_petrography.utils.get_path')
 @patch('crossreads_petrography.utils.is_urllike')
 @patch('crossreads_petrography.utils.is_pathlike')
-@patch('crossreads_petrography.utils.read_spreadsheet')
 @patch('crossreads_petrography.utils.read_df')
-def test_read_path(mock_read_df, mock_read_spreadsheet, mock_is_pathlike, mock_is_urllike, mock_get_path, mock_df):
-    mock_get_path.return_value = 'mock_path'
+def test_read_path(mock_read_df, mock_is_pathlike, mock_is_urllike, mock_get_path, mock_df):
+    mock_get_path.return_value = 'mock_path.csv'
     mock_is_urllike.return_value = False
     mock_is_pathlike.return_value = True
     mock_read_df.return_value = mock_df
 
+    print(mock_get_path.return_value)
+    print(mock_is_urllike.return_value)
+    print(mock_is_pathlike.return_value)
+    print(mock_read_df.return_value)
+
     result = read_path('mock_key')
-    print(result)
     assert isinstance(result, pd.DataFrame)
     assert len(result) == len(mock_df)
 

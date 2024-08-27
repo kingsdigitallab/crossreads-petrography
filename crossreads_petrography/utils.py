@@ -233,29 +233,41 @@ def is_pathlike(x):
 @fcache
 def read_path(path, worksheet_index=0, as_list=False, sep=','):
     from .config import config
-    path = config.get_path(str(path))
+    path = get_path(path)
     
     if is_urllike(path):
+        logger.debug(f"Path is URL-like: {path}")
         return read_spreadsheet(path, worksheet_index=worksheet_index)
     
     if is_pathlike(path):
+        logger.debug(f"Path is path-like: {path}")
         path = Path(path)
         if path.is_dir():
+            logger.debug(f"Path is a directory: {path}")
             txt_files = list(path.glob('*.txt'))
             if txt_files and all(f.suffix == '.txt' or f.name.startswith('.') for f in path.iterdir()):
+                logger.debug(f"Directory contains only .txt files: {path}")
                 return read_input_data_folder_txt(str(path), as_list=as_list)
             else:
+                logger.debug(f"Directory contains non-txt files: {path}")
                 return read_input_data_folder(str(path), sep=sep)
         
-        if path.is_file():
+        else:
+            logger.debug(f"Path is a file: {path}", path.suffix.lower())
             if path.suffix.lower() in ['.csv', '.xlsx', '.xls', '.tsv']:
-                return read_df(str(path), sep=sep)
+                logger.debug(f"File is a spreadsheet: {path}")
+                res = read_df(str(path), sep=sep)
+                logger.debug(f"Read {len(res)} rows from spreadsheet")
+                logger.debug(res)
+                return res
             else:
+                logger.debug(f"File is not a recognized spreadsheet format: {path}")
                 try:
                     return path.read_text()
                 except Exception as e:
                     logger.error(f"Error reading file {path}: {str(e)}")
                     return None
     
+    logger.debug(f"Path is neither URL-like nor path-like: {path}")
     return pd.DataFrame()
 
