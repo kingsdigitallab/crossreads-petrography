@@ -54,17 +54,19 @@ class Config(UserDict):
         )
 
     def get(self, key, default=None):
-        from .constants import IN_COLAB
+        from .constants import in_colab
 
         res = self.data.get(key, None)
         if res is not None:
             logger.debug(f"Found value for key {key}: {res}")
             return res
 
-        if IN_COLAB and key + ".colab" in self.data:
-            colab_value = self.data[key + ".colab"]
-            logger.debug(f"Using Colab-specific value for key {key}: {colab_value}")
-            return colab_value
+        if in_colab():
+            logger.debug(f"Checking for Colab-specific value for key {key}")
+            if key + ".colab" in self.data:
+                colab_value = self.data[key + ".colab"]
+                logger.debug(f"Using Colab-specific value for key {key}: {colab_value}")
+                return colab_value
 
         for suffix in [".url.prod", ".url.dev", ".url", ".local"]:
             res = self.data.get(key + suffix)

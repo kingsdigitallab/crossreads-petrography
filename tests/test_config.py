@@ -49,7 +49,7 @@ def test_paths_property(sample_config):
 
 def test_get_path(sample_config):
     expected_local_path = str(Path(__file__).parent.parent / "data")
-    expected_path = '/content/drive/MyDrive/Crossreads B D1/crossreads_petrography_data' if IN_COLAB else expected_local_path
+    expected_path = '/content/drive/MyDrive/Crossreads B D1/crossreads_petrography_data' if in_colab() else expected_local_path
     actual_path = sample_config.get_path('root')
     assert actual_path == expected_path, f"Actual path: {actual_path} does not match expected path: {expected_path}"
 
@@ -62,11 +62,11 @@ def test_placeholder_expansion(sample_config):
     assert sample_config['paths.metadata.local'] == str(Path(__file__).parent.parent / "data" / "Metadata")
 
 def test_colab_specific_value(sample_config):
-    # Mocking IN_COLAB as True
+    # Mocking in_colab() as True
     import crossreads_petrography.constants
-    crossreads_petrography.constants.IN_COLAB = True
+    crossreads_petrography.constants.in_colab() = True
     
     assert sample_config.get('paths.root') == "/content/drive/MyDrive/Crossreads B D1/crossreads_petrography_data"
 
-    # Reset IN_COLAB to False
-    crossreads_petrography.constants.IN_COLAB = False
+    # Reset in_colab() to False
+    crossreads_petrography.constants.in_colab() = False

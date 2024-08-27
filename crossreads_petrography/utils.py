@@ -6,7 +6,7 @@ auth = None
 drive = None
 default = None
 
-if IN_COLAB:
+if in_colab():
     try:
         from google.colab import auth, drive
         from google.auth import default
@@ -56,7 +56,7 @@ def get_spreadsheet(spreadsheet_url, credentials_path: Optional[str] = None):
         raise ValueError("No credentials available. Unable to access spreadsheet.")
     
     creds = None
-    if IN_COLAB:
+    if in_colab():
         creds = authenticate_colab()
     else:
         creds_path = credentials_path or Path(config.paths['credentials'])
@@ -161,7 +161,7 @@ def read_input_data_folder(folder: str, sep=',') -> pd.DataFrame:
     """
     logger.debug(f"Reading spreadsheet data from {os.path.basename(folder)}")
 
-    if IN_COLAB:
+    if in_colab():
         if drive is None:
             raise ImportError("Failed to import google.colab.drive")
         drive.mount('/content/drive')
@@ -183,7 +183,7 @@ def read_input_data_folder_txt(folder:str, as_list=False) -> str:
     """
     logger.debug(f"Reading txt data from {folder}")
 
-    if IN_COLAB:
+    if in_colab():
         if drive is None:
             raise ImportError("Failed to import google.colab.drive")
         drive.mount('/content/drive')
@@ -213,7 +213,7 @@ def show_img(path):
 
 
 def has_credentials():
-    return IN_COLAB or Path(config.paths['credentials']).exists()
+    return in_colab() or Path(config.paths['credentials']).exists()
 
 def get_path(paths):
     return Path(config.get_path(paths))

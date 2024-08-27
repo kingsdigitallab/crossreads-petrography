@@ -1,12 +1,12 @@
 from . import *
 
-try:
-    from google.colab import auth, drive
-    from google.auth import default
-
-    IN_COLAB = True
-except ImportError:
-    IN_COLAB = False
+def in_colab():
+    try:
+        from google.colab import auth, drive
+        from google.auth import default
+        return True
+    except ImportError:
+        return False
 
 
 PATH_HERE = Path(__file__).parent.resolve()

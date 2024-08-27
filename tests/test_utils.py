@@ -35,7 +35,7 @@ def test_read_crossreads_spreadsheet(mock_read_path, mock_df):
     mock_read_path.assert_called_once_with('metadata.metamorphic')
     pd.testing.assert_frame_equal(result, mock_df.set_index(mock_df.columns[0]))
 
-@patch('crossreads_petrography.utils.IN_COLAB', False)
+@patch('crossreads_petrography.utils.in_colab()', False)
 @patch('crossreads_petrography.utils.Path')
 @patch('crossreads_petrography.utils.authenticate_service_account')
 @patch('crossreads_petrography.utils.gspread.authorize')
@@ -57,7 +57,7 @@ def test_get_spreadsheet(mock_has_credentials, mock_authorize, mock_authenticate
     mock_authorize.assert_called_once_with(mock_creds)
     mock_gc.open_by_url.assert_called_once_with('mock_url')
 
-@patch('crossreads_petrography.utils.IN_COLAB', False)
+@patch('crossreads_petrography.utils.in_colab()', False)
 @patch('crossreads_petrography.utils.has_credentials')
 def test_get_spreadsheet_no_credentials(mock_has_credentials):
     mock_has_credentials.return_value = False
@@ -67,7 +67,7 @@ def test_get_spreadsheet_no_credentials(mock_has_credentials):
     
     assert str(excinfo.value) == "No credentials available. Unable to access spreadsheet."
 
-@patch('crossreads_petrography.utils.IN_COLAB', False)
+@patch('crossreads_petrography.utils.in_colab()', False)
 @patch('crossreads_petrography.utils.Path')
 @patch('crossreads_petrography.utils.has_credentials')
 def test_get_spreadsheet_credentials_not_found(mock_has_credentials, mock_path):
@@ -81,7 +81,7 @@ def test_get_spreadsheet_credentials_not_found(mock_has_credentials, mock_path):
     mock_path.assert_called_once_with('mock_credentials_path')
     mock_path.return_value.exists.assert_called_once()
 
-@patch('crossreads_petrography.utils.IN_COLAB', True)
+@patch('crossreads_petrography.utils.in_colab()', True)
 @patch('crossreads_petrography.utils.has_credentials')
 @patch('crossreads_petrography.utils.authenticate_colab')
 @patch('crossreads_petrography.utils.gspread.authorize')
@@ -183,14 +183,14 @@ def test_read_input_data_folder(mock_read_df, mock_listdir):
         pd.DataFrame({'header1': ['row2col1'], 'header2': ['row2col2']})
     ]
 
-    with patch('crossreads_petrography.utils.IN_COLAB', False):
+    with patch('crossreads_petrography.utils.in_colab()', False):
         df = read_input_data_folder('mock_folder')
         assert isinstance(df, pd.DataFrame)
         assert len(df) == 2
         assert df.iloc[0].tolist() == ['row1col1', 'row1col2']
         assert df.iloc[1].tolist() == ['row2col1', 'row2col2']
 
-@patch('crossreads_petrography.utils.IN_COLAB', True)
+@patch('crossreads_petrography.utils.in_colab()', True)
 @patch('crossreads_petrography.utils.gspread.authorize')
 @patch('crossreads_petrography.utils.auth', MagicMock())
 @patch('crossreads_petrography.utils.default', MagicMock(return_value=(MagicMock(), None)))
@@ -206,7 +206,7 @@ def test_get_spreadsheet_colab(mock_authorize):
     mock_authorize.assert_called_once()
     mock_gc.open_by_url.assert_called_once_with('mock_url')
 
-@patch('crossreads_petrography.utils.IN_COLAB', True)
+@patch('crossreads_petrography.utils.in_colab()', True)
 @patch('crossreads_petrography.utils.os.listdir')
 @patch('crossreads_petrography.utils.read_df')
 @patch('crossreads_petrography.utils.drive', MagicMock())
@@ -241,7 +241,7 @@ def test_read_df_unsupported_format():
     with pytest.raises(ValueError):
         read_df('unsupported_file.txt')
 
-@patch('crossreads_petrography.utils.IN_COLAB', False)
+@patch('crossreads_petrography.utils.in_colab()', False)
 @patch('crossreads_petrography.utils.os.listdir')
 @patch('builtins.open', new_callable=unittest.mock.mock_open, read_data="Sample text data")
 def test_read_input_data_folder_txt(mock_open, mock_listdir):
@@ -250,7 +250,7 @@ def test_read_input_data_folder_txt(mock_open, mock_listdir):
     assert isinstance(result, str)
     assert result == "Sample text data\n\n\n\nSample text data"
 
-@patch('crossreads_petrography.utils.IN_COLAB', False)
+@patch('crossreads_petrography.utils.in_colab()', False)
 @patch('crossreads_petrography.utils.Path')
 @patch('crossreads_petrography.utils.has_credentials')
 def test_get_spreadsheet_credentials_not_found(mock_has_credentials, mock_path):

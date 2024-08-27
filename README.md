@@ -134,7 +134,7 @@ isotope_converter = IsotopeConverter()
 The class pulls polygon data locally or from Google Drive if on Colab:
 
 ```python
-print(f'In Colab? {IN_COLAB}')
+print(f'In Colab? {in_colab()}')
 print(f'Isotope input data path is: {get_path("isotopes.polygons")}')
 ```
 
