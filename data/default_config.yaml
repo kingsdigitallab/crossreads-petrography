@@ -13,8 +13,8 @@ paths:
     colab: "{paths.root.colab}"
 
   metadata:
-    local: "{paths.root.local}/metadata"
-    colab: "{paths.root.colab}/metadata"
+    local: "{paths.root.local}/Metadata"
+    colab: "{paths.root.colab}/Metadata"
 
     metamorphic:
       local: "{paths.metadata.local}/Metamorphic.xlsx"
