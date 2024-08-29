@@ -49,6 +49,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
     def df_parsed(self, verbose=False):
         logger.info("Parsing pXRF standards data")
         txts = self.txt_input
+        df_standards = self.df_standards
         
         o = []
         for filename,txt in txts:
@@ -103,7 +104,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                     print()
                     
                 
-                df_this_standard = self.df_standards[[standard_key]].copy()
+                df_this_standard = df_standards[[standard_key]].copy()
                 df_this_standard.columns = ['standard_val']
                 df_this_standard['standard_key'] = standard_key
                 df_this_standard['source_name'] = src
@@ -288,7 +289,8 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
     def plot(self):
         # @title Plot linear regressions
         import plotnine as p9
-        df=self.df_parsed[~self.df_parsed.Mass_fraction.isna()]
+        df_parsed = self.df_parsed
+        df=df_parsed[~df_parsed.Mass_fraction.isna()]
         df=df[~df.standard_val.isna()]
         fig=p9.ggplot(df.reset_index(), p9.aes(x='Mass_fraction', y='standard_val', color='standard_group'))
         fig+=p9.geom_point()
