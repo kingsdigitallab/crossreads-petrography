@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from crossreads_petrography import *
 from unittest.mock import patch, PropertyMock
 import pandas as pd
-logger.setLevel(logging.DEBUG)
+# logger.setLevel(logging.DEBUG)
 
 @pytest.fixture
 def mgs_converter():
