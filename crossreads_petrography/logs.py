@@ -30,4 +30,4 @@ def setup_logger():
     return logger
 
 logger = setup_logger()
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.INFO)
