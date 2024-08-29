@@ -62,10 +62,10 @@ class Config(UserDict):
             return os.path.abspath(res)
 
         if in_colab():
-            logger.debug(f"Checking for Colab-specific value for key {key}")
+            # logger.debug(f"Checking for Colab-specific value for key {key}")
             if key + ".colab" in self.data:
                 colab_value = self.data[key + ".colab"]
-                logger.debug(f"Using Colab-specific value for key {key}: {colab_value}")
+                # logger.debug(f"Using Colab-specific value for key {key}: {colab_value}")
                 return os.path.abspath(colab_value)
 
         for suffix in [".url.prod", ".url.dev", ".url", ".local"]:
