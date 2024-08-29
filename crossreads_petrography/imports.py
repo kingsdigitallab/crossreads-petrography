@@ -7,7 +7,6 @@ from functools import cached_property
 import csv
 import pandas as pd
 import numpy as np
-import gspread
 from google.oauth2 import service_account
 import sys
 import json
@@ -17,12 +16,10 @@ from shapely.geometry import Point, Polygon
 import plotly.graph_objects as go
 from scipy.interpolate import splprep, splev
 from sklearn.linear_model import LinearRegression
-import gspread
 from google.oauth2 import service_account
 from collections import UserDict
 from functools import cached_property, lru_cache
 fcache = lru_cache(maxsize=None)
-from gspread.exceptions import APIError
 from pathlib import Path
 from functools import cached_property
 import logging

@@ -12,7 +12,7 @@ import pandas as pd
 def converter():
     return IsotopeConverter()
 
-def mock_read_crossreads_spreadsheet():
+def mock_read_metadata():
     return pd.DataFrame({
         'isotopes delta13C': [1, 2, 3],
         'isotopes delta18O': [4, 5, 6],
@@ -36,9 +36,9 @@ def test_df_curves(mock_read_folder, converter, numrows):
     assert 'y' in result.columns
     assert len(result) == numrows
 
-@patch('crossreads_petrography.isotopes.read_crossreads_spreadsheet')
-def test_df_points(read_crossreads_spreadsheet, converter):
-    read_crossreads_spreadsheet.return_value = mock_read_crossreads_spreadsheet()
+@patch('crossreads_petrography.isotopes.read_metadata')
+def test_df_points(read_metadata, converter):
+    read_metadata.return_value = mock_read_metadata()
     
     result = converter.df_points
     print(result)
@@ -69,10 +69,10 @@ def test_df_intersections(mock_df_points, mock_df_curves, converter):
     assert result.loc['ISic001', 'marble_type1'] == '✔️'
     assert result.loc['ISic002', 'marble_type1'] == '✖️'
 
-@patch('crossreads_petrography.isotopes.read_crossreads_spreadsheet')
+@patch('crossreads_petrography.isotopes.read_metadata')
 @patch('crossreads_petrography.isotopes.plot_curves')
 def test_plot(mock_plot_curves, mock_read_crossreads, converter):
-    mock_read_crossreads.return_value = mock_read_crossreads_spreadsheet()
+    mock_read_crossreads.return_value = mock_read_metadata()
     print(mock_read_crossreads.return_value)
 
     mock_plot_curves.return_value = 'mock_figure'
@@ -81,19 +81,17 @@ def test_plot(mock_plot_curves, mock_read_crossreads, converter):
     mock_plot_curves.assert_called_once()
 
 @patch('crossreads_petrography.isotopes.IsotopeConverter.df_intersections', new_callable=PropertyMock)
-@patch('crossreads_petrography.isotopes.IsotopeConverter.df_intersections_mgs', new_callable=PropertyMock)
 @patch('crossreads_petrography.isotopes.IsotopeConverter.plot')
-def test_save(mock_plot, mock_df_intersections_mgs, mock_df_intersections, converter):
+def test_save(mock_plot, mock_df_intersections, converter):
     mock_df = pd.DataFrame({'Sample': ['ISic001', 'ISic002']})
     mock_df_intersections.return_value = mock_df
-    mock_df_intersections_mgs.return_value = mock_df
     mock_plot.return_value = MagicMock()
     
     with patch('pandas.DataFrame.to_excel') as mock_to_excel, \
          patch('plotly.graph_objects.Figure.write_image') as mock_write_image, \
          patch('plotly.graph_objects.Figure.write_html') as mock_write_html:
         converter.save()
-        assert mock_to_excel.call_count == 2  # Called for both intersections and mgs
+        assert mock_to_excel.call_count == 1
         mock_plot.assert_called_once()
 
 def test_plot_curves():

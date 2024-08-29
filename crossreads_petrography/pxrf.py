@@ -1,10 +1,8 @@
 from . import *
 
 
-class PXRFConverter:
-    def __init__(self):
-        logger.info("Initializing PXRFConverter")
-        self.input_folder = get_path('pxrf.input')
+class PXRFConverter(CrossreadsPetrographyTool)  :
+    name = "pxrf"
 
     @property
     def df_standards(self):

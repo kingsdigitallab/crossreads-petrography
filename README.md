@@ -69,8 +69,8 @@ logger.remove()
 ### Metadata
 
 ```python
-from crossreads_petrography.utils import read_crossreads_spreadsheet
-df_meta = read_crossreads_spreadsheet()
+from crossreads_petrography.utils import read_metadata
+df_meta = read_metadata()
 ```
 
 ### Isotope Processing
