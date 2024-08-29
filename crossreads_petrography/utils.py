@@ -96,7 +96,8 @@ def read_input_data_folder_txt(folder:str, as_list=False) -> str:
     if in_colab():
         if drive is None:
             raise ImportError("Failed to import google.colab.drive")
-        drive.mount('/content/drive')
+        if not os.path.exists('/content/drive/MyDrive'):
+            drive.mount('/content/drive')
         folder = os.path.join('/content/drive/MyDrive', folder)
 
     o=[]
