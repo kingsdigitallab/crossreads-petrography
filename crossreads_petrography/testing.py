@@ -8,7 +8,7 @@ def run_tests(verbosity_str="q"):
     logger.setLevel(logging.CRITICAL + 1)
     try:
         exit_code = pytest.main(testcmd)
-        logger.setLevel(logging.INFO)
+        logger.setLevel(logging.WARNING)
         if exit_code == 0:
             logger.info("\nAll tests passed")
             return True
@@ -16,6 +16,6 @@ def run_tests(verbosity_str="q"):
             logger.error("\nSome tests failed")
             return False
     except Exception as e:
-        logger.setLevel(logging.INFO)
+        logger.setLevel(logging.WARNING)
         logger.error(f"Testing error: {e}")
         return False
