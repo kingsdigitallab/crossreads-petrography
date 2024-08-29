@@ -39,7 +39,7 @@ class ColoredFormatter(logging.Formatter):
 
 def setup_logger():
     logger = logging.getLogger('crossreads_petrography')
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     logger.propagate = False  # Prevent propagation to root logger
 
     # Remove existing handlers
