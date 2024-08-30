@@ -48,6 +48,7 @@ class IsotopeConverter(CrossreadsPetrographyTool):
         logger.info("Generating isotope plot")
         fig = plot_curves(self.df_curves, self.df_points)
         if output_folder:
+            output_folder = Path(output_folder)
             ofn_png=output_folder / 'isotope_graph.png'
             ofn_html=output_folder / 'isotope_graph.html'
             ofn_pdf=output_folder / 'isotope_graph.pdf'
