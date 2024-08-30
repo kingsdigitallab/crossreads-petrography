@@ -87,14 +87,29 @@ class MgsConverter(CrossreadsPetrographyTool):
         
         for coltype, col in cols:
             for isic, value in df_microscopy[col].items():
+                if pd.isna(value):
+                    continue
                 for subtype, row in df_ranges.iterrows():
-                    if row['wh_min'] <= value <= row['wh_max'] or row['box_min'] <= value <= row['box_max']:
+                    intersection = ''
+                    if row['wh_min'] <= value <= row['wh_max']:
+                        intersection += symbols[coltype]
+                    if row['box_min'] <= value <= row['box_max']:
+                        intersection += symbols[coltype]
+                    
+                    if intersection:
                         if isic not in df.index:
                             df.loc[isic] = [''] * len(df.columns)
                         if subtype not in df.columns:
                             df[subtype] = ''
-                        df.loc[isic, subtype] += symbols[coltype]
-                        logger.debug(f"Intersection found: ISIC={isic}, subtype={subtype}, coltype={coltype}")
+                        df.loc[isic, subtype] += intersection
+                    
+                    if isic == 'ISic000097' and subtype in ['Docimium', 'Paros-1']:
+                        print(f"Checking {isic} with {coltype} value: {value}")
+                        print(f"  Comparing with {subtype}:")
+                        print(f"    Whisker: {row['wh_min']} <= {value} <= {row['wh_max']}")
+                        print(f"    Box: {row['box_min']} <= {value} <= {row['box_max']}")
+                        print(f"    Intersection: {intersection}")
+                        print(f"    Current cell value: {df.loc[isic, subtype]}")
 
         df['has_optical'] = df.apply(lambda row: symbols['optical'] in ''.join(row), axis=1)
         logger.debug(f"Added 'has_optical' column. True count: {df['has_optical'].sum()}")
