@@ -289,6 +289,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
     def plot(self):
         # @title Plot linear regressions
         import plotnine as p9
+        p9.options.figure_size = (12, 8)
         df_parsed = self.df_parsed
         df=df_parsed[~df_parsed.Mass_fraction.isna()]
         df=df[~df.standard_val.isna()]
