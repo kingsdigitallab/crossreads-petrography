@@ -301,10 +301,10 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
     def save(self, output_folder=None):
         logger.info("Saving pXRF processed data")
         output_folder = output_folder or self.output_path_now
-        if not output_folder.exists():
-            output_folder.mkdir(exist_ok=True)
         df = self.df_adjusted
-        output_file = output_folder / 'pXRF_calculated_fractions.xlsx'
+        output_file = Path(output_folder) / 'pXRF_calculated_fractions.xlsx'
+        # Ensure the parent directory of the output file exists
+        output_file.parent.mkdir(parents=True, exist_ok=True)
         df.to_excel(output_file)
         logger.info(f"Saved: {output_file}")
 

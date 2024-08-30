@@ -108,6 +108,7 @@ class MgsConverter(CrossreadsPetrographyTool):
     def save(self, output_folder=None):
         logger.info("Saving MGS intersections")
         output_folder = output_folder or self.output_path_now
+        os.makedirs(output_folder,exist_ok=True)
         ofn = Path(output_folder) / 'mgs_intersections.xlsx'
         ofn.parent.mkdir(parents=True, exist_ok=True)
         logger.debug(f"Saving to file: {ofn}")

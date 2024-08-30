@@ -65,6 +65,7 @@ class IsotopeConverter(CrossreadsPetrographyTool):
         logger.info(f"Using output folder: {output_folder}")
         
         ofn=Path(output_folder) / 'isotope_intersections.xlsx'
+        ofn.parent.mkdir(parents=True, exist_ok=True)
         self.df_intersections.to_excel(ofn)
         logger.info(f'Saved isotope intersections: {ofn}')
 

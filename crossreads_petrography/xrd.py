@@ -84,6 +84,7 @@ class XRDConverter(CrossreadsPetrographyTool):
         logger.info("Postprocessing XRD data")
         output_folder = output_folder or self.output_path_now
         ofn = Path(output_folder) / "xrd_data_postprocessed.xlsx"
+        ofn.parent.mkdir(parents=True, exist_ok=True)
         self.df_xrd.to_excel(ofn)
         logger.info(f"Saved: {ofn}")
 
