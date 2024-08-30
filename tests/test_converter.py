@@ -8,7 +8,6 @@ import pandas as pd
 import os
 import numpy as np
 import plotnine as p9
-import abc
 from datetime import datetime
 from crossreads_petrography.isotopes import plot_curves, determine_polygon_intersections
 
@@ -18,7 +17,6 @@ class TestConverterBase:
         pass
 
     @property
-    @abc.abstractmethod
     def expected_output_files(self):
         pass
     
