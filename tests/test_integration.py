@@ -51,26 +51,6 @@ class TestMGSIntegration:
                 assert v.count('🔍')<=2, 'Too many symbols'
                 assert v.count('🔬')<=2, 'Too many symbols'
 
-    # def test_xrd_data_for_ISic000097(self, xrd):
-    #     result = xrd.df_output
-
-    #     assert 'ISic000097' in result.index, "ISic000097 not found in the XRD results"
-
-    #     # Check individual mineral contents
-    #     assert np.isclose(result.loc['ISic000097', 'XRD calcite content (%)'], 3.0, atol=0.1)
-    #     assert np.isclose(result.loc['ISic000097', 'XRD dolomite content (%)'], 94.4, atol=0.1)
-    #     assert np.isclose(result.loc['ISic000097', 'XRD magnesite content (%)'], 2.5, atol=0.1)
-
-    #     # Check total calcite content (CaCO3 + Ca,MgCO3)
-    #     total_calcite = result.loc['ISic000097', 'XRD calcite content (%)'] + result.loc['ISic000097', 'XRD dolomite content (%)']
-    #     assert np.isclose(total_calcite, 97.4, atol=0.1)
-
-    #     # Print values for debugging
-    #     print(f"ISic000097 XRD calcite content: {result.loc['ISic000097', 'XRD calcite content (%)']}")
-    #     print(f"ISic000097 XRD dolomite content: {result.loc['ISic000097', 'XRD dolomite content (%)']}")
-    #     print(f"ISic000097 XRD magnesite content: {result.loc['ISic000097', 'XRD magnesite content (%)']}")
-    #     print(f"ISic000097 XRD total calcite content: {total_calcite}")
-
     def test_multiple_samples(self, mgs):
         result = mgs.df_output
 
@@ -88,3 +68,19 @@ class TestMGSIntegration:
         assert set(expected_columns) - set(result.columns) == set(), "Columns in the result do not match expected columns"
 
     
+
+class TestXRDIntegration:
+    @pytest.fixture
+    def xrd(self):
+        return XRDConverter()
+    
+    def test_xrd_data_for_ISic000097(self, xrd):
+        result = xrd.df_output
+        isic = 'ISic000097p'
+
+        assert isic in result.index, f"{isic} not found in the XRD results"
+        # Check individual mineral contents
+        assert round(result.loc[isic, 'XRD calcite content (%)']) == 97
+        assert round(result.loc[isic, 'XRD dolomite content (%)']) == 3
+
+
