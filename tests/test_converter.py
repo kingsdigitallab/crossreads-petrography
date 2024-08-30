@@ -12,9 +12,8 @@ import abc
 from datetime import datetime
 from crossreads_petrography.isotopes import plot_curves, determine_polygon_intersections
 
-class TestConverterBase(abc.ABC):
+class TestConverterBase:
     @property
-    @abc.abstractmethod
     def converter_class(self):
         pass
 
@@ -63,7 +62,7 @@ class TestConverterBase(abc.ABC):
         mock_to_excel.assert_called_once()
         assert Path(mock_to_excel.call_args[0][0]).samefile(expected_path), f"Expected file {expected_file} was not created"
 
-
+TestConverterBase.__test__ = False
 
 @pytest.mark.usefixtures("converter")
 class TestMgsConverter(TestConverterBase):
@@ -436,6 +435,10 @@ class TestIsotopeConverter(TestConverterBase):
         assert len(result) == 2
         assert result.loc['ISic001', 'type1'] == '✔️'
         assert result.loc['ISic002', 'type1'] == '✖️'
+
+
+for cls in [TestMgsConverter, TestXRDConverter, TestPXRFConverter, TestIsotopeConverter]:
+    cls.__test__ = True
 
 if __name__ == '__main__':
     pytest.main()
