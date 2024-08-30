@@ -305,7 +305,7 @@ class TestXRDConverter(TestConverterBase):
             'category': ['', '']
         })
         
-        result = converter.df_xrd
+        result = converter.df_output
         
         assert isinstance(result, pd.DataFrame)
         assert 'XRD calcite content (%)' in result.columns

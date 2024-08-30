@@ -19,18 +19,24 @@ class XRDConverter(CrossreadsPetrographyTool):
     
     @property
     def df_mineral_types(self):
-        return read_path('xrd.mineral_types')
+        return read_path('xrd.mineral_types').fillna('')
     
     @property
-    def df_xrd(self):
-        logger.debug("Reading XRD data")
-        df = self.df_input
-        paramcol = "Parameter, Goal"
-        df = df[~df[paramcol].isin(COLS_TO_IGNORE)]
+    def df_params(self):
+        logger.debug("Processing mineral types data")
         df_params = self.df_mineral_types
         df_params["subtype"] = df_params["subtype"].apply(lambda x: x.lower())
         df_params = df_params.drop_duplicates("subtype")
         df_params = df_params.set_index("subtype")
+        return df_params
+
+    @property
+    def df_reformatted(self):
+        logger.debug("Preprocessing XRD data")
+        df = self.df_input
+        paramcol = "Parameter, Goal"
+        df = df[~df[paramcol].isin(COLS_TO_IGNORE)]
+        df_params = self.df_params
 
         data = defaultdict(dict)
         extra = defaultdict(set)
@@ -64,6 +70,14 @@ class XRDConverter(CrossreadsPetrographyTool):
         odf[extra_col] = extra_str
         odf[extra_col] = odf[extra_col].fillna("")
 
+        return odf.sort_index().fillna("")
+
+    @property
+    def df_output(self):
+        logger.debug("Generating final XRD data")
+        odf = self.df_reformatted
+        df_params = self.df_params
+
         for cat, cat_df in df_params[df_params.category != ""].groupby("category"):
             cat_subtypes = cat_df.colname
             cat_colname = f"XRD {cat}"
@@ -73,24 +87,32 @@ class XRDConverter(CrossreadsPetrographyTool):
                 row_sum = 0
                 for col in set(cat_subtypes):
                     val = row.get(col, 0)
-                    if not np.isnan(val) and val:
+                    if not is_nan(val) and val:
                         row_sum += val
                 cat_sums.append(row_sum)
             odf[cat_colname] = cat_sums
 
-        return odf.sort_index().fillna("")
+        return odf
+    
+    df_xrd = df_output
+
 
     def save(self, output_folder=None):
         logger.info("Postprocessing XRD data")
         output_folder = output_folder or self.output_path_now
         ofn = Path(output_folder) / "xrd_data_postprocessed.xlsx"
         ofn.parent.mkdir(parents=True, exist_ok=True)
-        self.df_xrd.to_excel(ofn)
+        self.df_output.to_excel(ofn)
         logger.info(f"Saved: {ofn}")
 
     def run(self):
         self.save()
 
+def is_nan(x):
+    try:
+        return np.isnan(x)
+    except TypeError:
+        return False
 
 def try_float(x):
     try:

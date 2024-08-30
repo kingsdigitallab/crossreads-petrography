@@ -225,7 +225,7 @@ xrd_converter.df_mineral_types
 </div>
 
 ```python
-xrd_converter.df_xrd
+xrd_converter.df_output
 ```
 
 <div>
