@@ -300,7 +300,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
 
     def save(self, output_folder=None):
         logger.info("Saving pXRF processed data")
-        output_folder = Path(output_folder or get_path('pxrf.output'))
+        output_folder = output_folder or self.output_path_now
         if not output_folder.exists():
             output_folder.mkdir(exist_ok=True)
         df = self.df_adjusted

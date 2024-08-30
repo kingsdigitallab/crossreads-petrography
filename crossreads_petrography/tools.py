@@ -1,5 +1,5 @@
 from . import *
-
+from datetime import datetime
 
 class CrossreadsPetrographyTool:
     name=None
@@ -41,6 +41,9 @@ class CrossreadsPetrographyTool:
         pathstr = '\n'.join([f'    {k} = "{v}",' for k, v in paths.items()])
         return f"{self.__class__.__name__}(\n{pathstr}\n)"
 
+    @property
+    def output_path_now(self):
+        return os.path.join(self.paths['output'], datetime.now().strftime('%Y-%m-%d'))
     
     def run(self):
         raise NotImplementedError("Subclass must implement abstract method")

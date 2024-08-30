@@ -61,7 +61,7 @@ class IsotopeConverter(CrossreadsPetrographyTool):
 
     def save(self, output_folder=None):
         logger.info("Generating isotope outputs")        
-        output_folder = output_folder or get_path('isotopes.output')
+        output_folder = output_folder or self.output_path_now
         logger.info(f"Using output folder: {output_folder}")
         
         ofn=Path(output_folder) / 'isotope_intersections.xlsx'

@@ -1,6 +1,9 @@
 from . import *
 
 class MgsConverter(CrossreadsPetrographyTool):
+    col_optical = 'optical microscopy MGS (mm)'
+    col_digital = 'digital microscopy MGS (mm)'
+
     name = "mgs"
 
     @property
@@ -13,7 +16,7 @@ class MgsConverter(CrossreadsPetrographyTool):
 
     @property
     def df_ranges(self):
-        logger.info("Calculating MGS ranges")
+        logger.info("Calculating MGS ranges from input data")
         df_mgs = self.df_input
         
         df_mgs['value_mm'] = pd.to_numeric(df_mgs['value_mm'], errors='coerce')
@@ -47,21 +50,21 @@ class MgsConverter(CrossreadsPetrographyTool):
         column_order = ['wh_min', 'wh_max', 'box_min', 'box_max']
         df_ranges = df_ranges.reindex(columns=column_order)
 
-        logger.debug(f"Created df_ranges: {df_ranges}")
+        logger.debug(f"Created df_ranges with {len(df_ranges)} rows: {df_ranges}")
         return df_ranges
 
     @property
     def df_microscopy(self):
-        logger.info("Creating microscopy DataFrame")
+        logger.info("Creating microscopy DataFrame from Metamorphic metadata")
         df_big = read_metadata(metamorphic=True)
         logger.debug(f"Metadata shape: {df_big.shape}")
 
-        col_optical = 'optical microscopy MGS (mm)'
-        col_digital = 'digital microscopy MGS (mm)'
         
-        df_microscopy = df_big[[col_optical, col_digital]].dropna(how='all')
+        
+        df_microscopy = df_big[[self.col_optical, self.col_digital]].dropna(how='all')
         df_microscopy = df_microscopy.apply(pd.to_numeric, errors='coerce')
-        logger.debug(f"Created df_microscopy with shape: {df_microscopy.shape}")
+        logger.info(f'{len(df_microscopy)} samples with microscopy data')
+        logger.debug(f"Created df_microscopy with {len(df_microscopy)} rows")
         return df_microscopy
 
     @property
@@ -71,8 +74,8 @@ class MgsConverter(CrossreadsPetrographyTool):
         df_ranges = self.df_ranges
         df_microscopy = self.df_microscopy
 
-        col_optical = 'optical microscopy MGS (mm)'
-        col_digital = 'digital microscopy MGS (mm)'
+        col_optical = self.col_optical
+        col_digital = self.col_digital
         cols = [('optical', col_optical), ('digital', col_digital)]
         
         df = pd.DataFrame(index=df_microscopy.index, columns=df_ranges.index)
@@ -102,9 +105,10 @@ class MgsConverter(CrossreadsPetrographyTool):
         logger.debug(f"Final DataFrame shape: {df.shape}")
         return df.drop('has_optical', axis=1).set_index('ISic')
 
-    def save(self):
+    def save(self, output_folder=None):
         logger.info("Saving MGS intersections")
-        ofn = Path(self.path_output) / 'mgs_intersections.xlsx'
+        output_folder = output_folder or self.output_path_now
+        ofn = Path(output_folder) / 'mgs_intersections.xlsx'
         ofn.parent.mkdir(parents=True, exist_ok=True)
         logger.debug(f"Saving to file: {ofn}")
         self.df_output.to_excel(ofn)

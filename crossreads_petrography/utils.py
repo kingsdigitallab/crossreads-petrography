@@ -20,8 +20,11 @@ def get_crossreads_spreadsheet(key='petrography'):
     
 
 def read_metadata(metamorphic=True):
-    df = read_path('metadata.metamorphic' if metamorphic else 'metadata.sedimentary')
+    pathx='metadata.metamorphic' if metamorphic else 'metadata.sedimentary'
+    logger.info(f"Reading metadata from {get_path(pathx)}")
+    df = read_path(pathx)
     df=df.set_index(df.columns[0])
+    logger.info(f"Read {len(df)} rows from metadata")
     return df
 
 def read_df(filename: str, sep=',') -> pd.DataFrame:
