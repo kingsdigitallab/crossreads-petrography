@@ -1,5 +1,5 @@
 from . import *
-
+WARNED = False
 COLS_TO_IGNORE = {"Rwp", "Rexp", "Chi2", "GOF"}
 
 class XRDConverter(CrossreadsPetrographyTool):
@@ -32,6 +32,7 @@ class XRDConverter(CrossreadsPetrographyTool):
 
     @property
     def df_reformatted(self):
+        global WARNED
         logger.debug("Preprocessing XRD data")
         df = self.df_input
         paramcol = "Parameter, Goal"
@@ -50,7 +51,7 @@ class XRDConverter(CrossreadsPetrographyTool):
             esd = row["ESD"]
             if type(esd) is str and esd.endswith(","):
                 esd = pd.to_numeric(esd[:-1])
-            if esd > val:
+            if not WARNED and esd > val:
                 logger.warning(
                     f"ESD ({esd}) is larger than value ({val}) for {sample} on {param}"
                 )
@@ -70,6 +71,7 @@ class XRDConverter(CrossreadsPetrographyTool):
         odf[extra_col] = extra_str
         odf[extra_col] = odf[extra_col].fillna("")
 
+        WARNED = True
         return odf.sort_index().fillna("")
 
     @property
