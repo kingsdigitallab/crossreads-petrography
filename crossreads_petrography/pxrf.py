@@ -3,6 +3,7 @@ from . import *
 PATCHES = [
     ('Pb', 'Hg'), # Pb copied to new Hg
     ('Zn', 'As'), # Zn copied to new As
+    ('Pb', 'Au') # Pb copied to new Au
 ]
 DISCARD_ELEMENTS = {'Ba','Cr','La','Ni','V','Ce'}
 
@@ -38,6 +39,15 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
         odf.columns = cols
         return odf
     
+    def get_description(self, isic, isic_letter):
+        df=self.df_descriptions
+        df=df[df.Isic.str.lower()==isic.lower()]
+        return '; '.join(df[isic_letter].dropna().apply(str).unique()) if len(df) else ''
+    
+    def get_description_category(self, isic, isic_letter):
+        desc = self.get_description(isic, isic_letter)
+        return desc.split(',')[0].strip() if ',' in desc else ''
+
     @cached_property
     def txt_input(self):
         return read_path('pxrf.input', as_list=True)
@@ -279,13 +289,10 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                     #     print('isic',isic)
                     #     print('isic_letter',isic_letter)
                     df['Isic'] = isic
+                    df['Isic_letter'] = isic_letter
 
-                    desc_rows = df_desc[df_desc.Isic == isic]
-                    # print('desc_rows',desc_rows)
-                    desc_col = desc_rows[isic_letter]
-                    # print('desc_cols',desc_col)
-
-                    desc = '; '.join(desc_col)
+                    df['desc'] = self.get_description(isic, isic_letter)
+                    df['desc_category'] = self.get_description_category(isic, isic_letter)
                     # if not is_mk: 
                     #     print(desc)
                     #     print()
@@ -295,8 +302,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                     logger.warning(f'[{filename}] Could not find {repr(isic_letter)} in logbook columns ({list(desc_rows.columns)})')
                     desc = '?'
 
-                df['desc'] = desc
-                df['desc_category'] = desc.split(',')[0] if ',' in desc else ''
+                
                 # df['filename'] = filename
                 o.append(df)
         
@@ -305,8 +311,10 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
         
         gby=['Isic', 'Element', 'desc_category']
         odf = odf.set_index(gby)
-        for c in odf: odf[c] = pd.to_numeric(odf[c], errors='coerce')
-        odf = odf.groupby(gby).agg('mean' if not agg_stdev else 'std').reset_index()
+        odf = odf.groupby(gby).agg({
+            'desc': 'first',
+            **{col: 'mean' if not agg_stdev else 'std' for col in odf.columns if col != 'desc' and pd.api.types.is_numeric_dtype(odf[col])}
+        }).reset_index()
         
         ld=[]
         els={'SiO2','K2O','CaO','Fe2O3'}
