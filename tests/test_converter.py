@@ -57,7 +57,7 @@ class TestConverterBase:
             expected_path = expected_dir / expected_file
             assert expected_path.exists(), f"{expected_file} not found in {expected_dir}"
         
-        mock_to_excel.assert_called_once()
+        assert mock_to_excel.call_count == len(self.expected_output_files)
         assert Path(mock_to_excel.call_args[0][0]).samefile(expected_path), f"Expected file {expected_file} was not created"
 
 TestConverterBase.__test__ = False
@@ -108,7 +108,7 @@ class TestMgsConverter(TestConverterBase):
 @pytest.mark.usefixtures("converter")
 class TestPXRFConverter(TestConverterBase):
     converter_class = PXRFConverter
-    expected_output_files = ['pXRF_calculated_fractions.xlsx']
+    expected_output_files = ['pXRF_calculated_fractions_mean.xlsx','pXRF_calculated_fractions_std.xlsx']
 
     @patch('crossreads_petrography.pxrf.read_path')
     def test_df_standards(self, mock_read_path, converter):
@@ -146,7 +146,7 @@ class TestPXRFConverter(TestConverterBase):
         })
         mock_read_path.return_value = mock_df
 
-        result = converter.df_descriptions
+        result = converter.df_descriptions.reset_index()
         
         assert isinstance(result, pd.DataFrame)
         assert 'Isic' in result.columns
@@ -176,7 +176,7 @@ class TestPXRFConverter(TestConverterBase):
 
     @patch('crossreads_petrography.pxrf.PXRFConverter.txt_input', new_callable=PropertyMock)
     @patch('crossreads_petrography.pxrf.PXRFConverter.df_standards', new_callable=PropertyMock)
-    def test_df_parsed(self, mock_df_standards, mock_txt_input, converter):
+    def test_df_standards_parsed(self, mock_df_standards, mock_txt_input, converter):
         mock_txt_input.return_value = [
             ("file1.csv", "Sample: t0-10CC-1.csv\nKey: Value\nElement Mass_fraction\nFe 0.5\nCa 0.3"),
             ("file2.csv", "Sample: t0-50CC-1.csv\nKey: Value\nElement Mass_fraction\nFe 0.4\nCa 0.2")
@@ -186,7 +186,7 @@ class TestPXRFConverter(TestConverterBase):
             '50CC': [3.0, 4.0]
         }, index=['Fe', 'Ca'])
         
-        result = converter.df_parsed
+        result = converter.df_standards_parsed
         
         assert isinstance(result, pd.DataFrame)
         assert 'Mass_fraction' in result.columns
@@ -194,15 +194,15 @@ class TestPXRFConverter(TestConverterBase):
         assert 'standard_group' in result.columns
         assert 'filename' in result.columns
 
-    @patch('crossreads_petrography.pxrf.PXRFConverter.df_parsed', new_callable=PropertyMock)
-    def test_df_linreg(self, mock_df_parsed, converter):
+    @patch('crossreads_petrography.pxrf.PXRFConverter.df_standards_parsed', new_callable=PropertyMock)
+    def test_df_linreg(self, mock_df_standards_parsed, converter):
         mock_df = pd.DataFrame({
             'Element': ['Fe', 'Ca', 'Fe', 'Ca'],
             'standard_group': ['10-50', '10-50', '50-100', '50-100'],
             'Mass_fraction': [0.5, 0.3, 0.4, 0.2],
             'standard_val': [1.0, 2.0, 3.0, 4.0]
         })
-        mock_df_parsed.return_value = mock_df
+        mock_df_standards_parsed.return_value = mock_df
         
         result = converter.df_linreg
         
@@ -228,22 +228,22 @@ class TestPXRFConverter(TestConverterBase):
             'q': [0.0, 0.0, 0.0]
         })
 
-        result = converter.df_adjusted
+        result = converter.df_adjusted.reset_index()
 
         assert isinstance(result, pd.DataFrame)
         assert 'Calc_fraction' in result.columns
         assert 'desc' in result.columns
-        assert result.index.names == ['source_name', 'Element']
+        # assert result.index.names == ['source_name', 'Element']
 
-    @patch('crossreads_petrography.pxrf.PXRFConverter.df_parsed', new_callable=PropertyMock)
-    def test_plot(self, mock_df_parsed, converter):
+    @patch('crossreads_petrography.pxrf.PXRFConverter.df_standards_parsed', new_callable=PropertyMock)
+    def test_plot(self, mock_df_standards_parsed, converter):
         mock_df = pd.DataFrame({
             'Element': ['Fe', 'Ca', 'Si', 'Fe', 'Ca', 'Si'],
             'Mass_fraction': [0.5, 0.3, 0.2, 0.4, 0.2, 0.4],
             'standard_val': [1.0, 2.0, 1.5, 3.0, 4.0, 3.5],
             'standard_group': ['10-50', '10-50', '10-50', '50-100', '50-100', '50-100']
         })
-        mock_df_parsed.return_value = mock_df
+        mock_df_standards_parsed.return_value = mock_df
 
         result = converter.plot()
 

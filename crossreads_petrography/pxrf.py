@@ -1,10 +1,15 @@
 from . import *
 
+PATCHES = [
+    ('Pb', 'Hg'), # Pb copied to new Hg
+    ('Zn', 'As'), # Zn copied to new As
+]
+DISCARD_ELEMENTS = {'Ba','Cr','La','Ni','V','Ce'}
 
 class PXRFConverter(CrossreadsPetrographyTool)  :
     name = "pxrf"
 
-    @property
+    @cached_property
     def df_standards(self):
         logger.info("Loading pXRF standard values")
         df = read_path('pxrf.standards')
@@ -12,7 +17,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
         df = df.T.rename_axis('Element')
         return df[list(reversed(df.columns))]
 
-    @property
+    @cached_property
     def df_descriptions(self):
         logger.info("Loading pXRF descriptions")
         odf = read_path('pxrf.descriptions').fillna('')
@@ -26,16 +31,18 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
         odf['Isic'] = odf['Isic'].apply(fix_isic)
         # odf = odf.set_index(odf.columns[0])
         # odf=odf.T
+
+        odf = odf.set_index(odf.columns[0])
         cols = [c for c in odf]
         cols = [c.split("=")[0].strip() for c in cols]
         odf.columns = cols
         return odf
     
-    @property
+    @cached_property
     def txt_input(self):
         return read_path('pxrf.input', as_list=True)
     
-    @property
+    @cached_property
     def df_input(self):
         return pd.DataFrame([
             {
@@ -45,9 +52,9 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
             for fn,txt in self.txt_input
         ])
 
-    @property
-    def df_parsed(self, verbose=False):
-        logger.info("Parsing pXRF standards data")
+    @cached_property
+    def df_standards_parsed(self, verbose=False):
+        # logger.info("Parsing pXRF standards data")
         txts = self.txt_input
         df_standards = self.df_standards
         
@@ -96,7 +103,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                     df['Element']=df['Element'].apply(rename)
 
                 # ignoring elements that don't regress well
-                df=df[~df.Element.isin({'Ba','Cr','La','Ni','V','Ce'})]
+                df=df[~df.Element.isin(DISCARD_ELEMENTS)]
                 df=df.set_index('Element')
 
                 if verbose: 
@@ -108,6 +115,9 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                 df_this_standard.columns = ['standard_val']
                 df_this_standard['standard_key'] = standard_key
                 df_this_standard['source_name'] = src
+                df_this_standard['source_text'] = srctxt
+                df_this_standard['is_standard'] = is_standard
+                df_this_standard['filename'] = filename
                 
                 if verbose:
                     print('Matching standards data (x)CC')
@@ -128,7 +138,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
         df['standard_val'] = pd.to_numeric(df['standard_val'], errors='coerce')
 
         def get_standard_group(element,row):
-            if element in {'SiO2','K2O','CaO','Fe2O3', 'Si', 'K', 'Ca', 'Fe'}:
+            if element in {'SiO2','K2O','CaO','Fe2O3'}:
                 x=row.standard_key
                 if not x:
                     return ''
@@ -140,10 +150,10 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
         df['standard_group'] = [get_standard_group(element,row) for element,row in df.fillna('').iterrows()]
         return df[df.standard_key != '0CC']
     
-    @property
+    @cached_property
     def df_linreg(self):
         logger.info("Calculating linear regressions for standard values")
-        df = self.df_parsed
+        df = self.df_standards_parsed
         df = df[~df.Mass_fraction.isna()]
         df = df[~df.standard_val.isna()]
         ld = []
@@ -161,17 +171,22 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
             d['q'] = q
             ld.append(d)
 
-        ## mercury patch
-        pb_l = [d for d in ld if d['Element']=='Pb']
-        if pb_l:
-            hg = {**pb_l[0]}
-            hg['Element'] = 'Hg'
-            ld.append(hg)
+        ## mercury/zinc patch
+        for old,new in PATCHES:
+            old_l = [d for d in ld if d['Element']==old]
+            if old_l:
+                new_l = {**old_l[0]}
+                new_l['Element'] = new
+                ld.append(new_l)
 
         return pd.DataFrame(ld)
+    
+    @cached_property
+    def valid_elements(self):
+        return set(self.df_linreg.Element.unique())
 
-    @property
-    def df_adjusted(self, verbose=False):
+    # @cached_property
+    def get_df_adjusted(self, verbose=False, agg_stdev=False):
         logger.info("Parsing pXRF measurements and calculating new fractions")
         sdf = self.df_linreg
         df_desc = self.df_descriptions
@@ -214,7 +229,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                         if x=='Si': return 'SiO2'
                         if x=='K': return 'K2O'
                         if x=='Ca': return 'CaO'
-                        if x=='Fe': return 'Fe2O3'
+                        if x=='Fe' and is_mk: return 'Fe2O3'
                     
                     df['Element']=df['Element'].apply(rename)
 
@@ -234,7 +249,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                     standard_group = '(all)'
                 
                 df['standard_group'] = standard_group
-                df = df.merge(sdf, on=['Element', 'standard_group'], how='inner')
+                df = df.merge(sdf, on=['Element', 'standard_group'], how='outer')
                 df['y'] = (df['m'] * df['Mass_fraction']) + df['q']
                 if is_mk:
                     df['Calc_fraction'] = df['y'] / df['y'].sum() * 100
@@ -263,7 +278,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                     #     print('src to parse into logbook column name',src)
                     #     print('isic',isic)
                     #     print('isic_letter',isic_letter)
-
+                    df['Isic'] = isic
 
                     desc_rows = df_desc[df_desc.Isic == isic]
                     # print('desc_rows',desc_rows)
@@ -281,17 +296,43 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                     desc = '?'
 
                 df['desc'] = desc
+                df['desc_category'] = desc.split(',')[0] if ',' in desc else ''
                 # df['filename'] = filename
                 o.append(df)
         
-        return pd.concat(o).set_index(['source_name', 'Element']).round(2) if o else pd.DataFrame()
+        odf = pd.concat(o) if o else pd.DataFrame()
+        odf = odf[odf.Element.isin(self.valid_elements)]
+        
+        gby=['Isic', 'Element', 'desc_category']
+        odf = odf.set_index(gby)
+        for c in odf: odf[c] = pd.to_numeric(odf[c], errors='coerce')
+        odf = odf.groupby(gby).agg('mean' if not agg_stdev else 'std').reset_index()
+        
+        ld=[]
+        els={'SiO2','K2O','CaO','Fe2O3'}
+        for g,gdf in odf.groupby(['Isic','desc_category']):
+            gld = gdf.to_dict(orient='records')
+            sumval = sum(d.get('Calc_fraction',0) for d in gld if d.get('Element') in els)
+            for d in gld:
+                if d.get('Element') in els: 
+                    d['Calc_fraction'] = d['Calc_fraction'] / sumval * 100 if sumval else 0
+                ld.append(d)
+        odf = pd.DataFrame(ld)
+        return odf
+    
+    @cached_property
+    def df_adjusted(self):
+        return self.get_df_adjusted()
+    
+
+
 
     def plot(self):
         # @title Plot linear regressions
         import plotnine as p9
         p9.options.figure_size = (12, 8)
-        df_parsed = self.df_parsed
-        df=df_parsed[~df_parsed.Mass_fraction.isna()]
+        df_standards_parsed = self.df_standards_parsed
+        df=df_standards_parsed[~df_standards_parsed.Mass_fraction.isna()]
         df=df[~df.standard_val.isna()]
         fig=p9.ggplot(df.reset_index(), p9.aes(x='Mass_fraction', y='standard_val', color='standard_group'))
         fig+=p9.geom_point()
@@ -299,17 +340,31 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
         fig+=p9.facet_wrap('Element', scales='free')
         return fig
 
-    def save(self, output_folder=None):
+    def save(self, output_folder=None, pivot_table=True):
         logger.info("Saving pXRF processed data")
         output_folder = output_folder or self.output_path_now
-        df = self.df_adjusted
-        output_file = Path(output_folder) / 'pXRF_calculated_fractions.xlsx'
-        # Ensure the parent directory of the output file exists
-        output_file.parent.mkdir(parents=True, exist_ok=True)
-        df.to_excel(output_file)
-        logger.info(f"Saved: {output_file}")
+        df_mean = self.get_df_adjusted(agg_stdev=False).reset_index()
+        df_std = self.get_df_adjusted(agg_stdev=True).reset_index()
+        if pivot_table:
+            df_mean = df_mean.pivot(index=['Isic', 'desc_category'], columns='Element', values='Calc_fraction').reset_index()
+            df_std = df_std.pivot(index=['Isic', 'desc_category'], columns='Element', values='Calc_fraction').reset_index()
 
-    def run(self, output_folder=None):
+            df_mean = df_mean.replace({0:''})
+            df_std = df_std.replace({0:''})
+            prefcols = ['Isic','desc_category','SiO2','K2O','CaO','Fe2O3']
+            df_mean = df_mean[[c for c in prefcols if c in df_mean] + [c for c in df_mean if c not in prefcols]]
+            df_std = df_std[[c for c in prefcols if c in df_std] + [c for c in df_std if c not in prefcols]]
+        
+        output_file_mean = Path(output_folder) / 'pXRF_calculated_fractions_mean.xlsx'
+        output_file_std = Path(output_folder) / 'pXRF_calculated_fractions_std.xlsx'
+        # Ensure the parent directory of the output file exists
+        output_file_mean.parent.mkdir(parents=True, exist_ok=True)
+        df_mean.to_excel(output_file_mean)
+        df_std.to_excel(output_file_std)
+        logger.info(f"Saved: {output_file_mean}")
+        logger.info(f"Saved: {output_file_std}")
+
+    def run(self, output_folder=None, pivot_table=True):
         logger.info("Processing pXRF data")
-        self.save(output_folder)
+        self.save(output_folder, pivot_table=pivot_table)
 

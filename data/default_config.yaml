@@ -77,8 +77,8 @@ paths:
       colab: "{paths.pxrf.colab}/pXRF Standards.xlsx"
 
     descriptions:
-      local: "{paths.pxrf.local}/pXRF Logbook.xlsx"
-      colab: "{paths.pxrf.colab}/pXRF Logbook.xlsx"
+      local: "{paths.pxrf.local}/pXRF Logbook new.xlsx"
+      colab: "{paths.pxrf.colab}/pXRF Logbook new.xlsx"
       
     output:
       local: "{paths.pxrf.local}/output"
