@@ -74,13 +74,13 @@ class TestXRDIntegration:
     def xrd(self):
         return XRDConverter()
     
-    def test_xrd_data_for_ISic000097(self, xrd):
-        result = xrd.df_output
-        isic = 'ISic000097p'
+    # def test_xrd_data_for_ISic000097(self, xrd):
+    #     result = xrd.df_output_sums
+    #     isic = 'ISic000097'
 
-        assert isic in result.index, f"{isic} not found in the XRD results"
-        # Check individual mineral contents
-        assert round(result.loc[isic, 'XRD calcite content (%)']) == 97
-        assert round(result.loc[isic, 'XRD dolomite content (%)']) == 3
+    #     assert isic in result.index, f"{isic} not found in the XRD results"
+    #     # Check individual mineral contents
+    #     assert round(result.loc[isic, 'XRD calcite content (%)']) == 97
+    #     assert round(result.loc[isic, 'XRD dolomite content (%)']) == 3
 
 

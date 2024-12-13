@@ -57,8 +57,8 @@ paths:
       colab: "{paths.xrd.colab}/input"
 
     mineral_types:
-      local: "{paths.xrd.local}/Mineral Categories.xlsx"
-      colab: "{paths.xrd.colab}/Mineral Categories.xlsx"
+      local: "{paths.xrd.local}/new colnames.xlsx"
+      colab: "{paths.xrd.colab}/new colnames.xlsx"
 
     output:
       local: "{paths.xrd.local}/output"

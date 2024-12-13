@@ -19,7 +19,12 @@ class XRDConverter(CrossreadsPetrographyTool):
     
     @property
     def df_mineral_types(self):
-        return read_path('xrd.mineral_types').fillna('')
+        df = read_path('xrd.mineral_types').fillna('')
+        header = df.iloc[0].values
+        df = df.iloc[1:]
+        df.columns = header
+        df = df[[c for c in df if c not in {'index'}]]
+        return df
     
     @property
     def df_params(self):
@@ -57,17 +62,17 @@ class XRDConverter(CrossreadsPetrographyTool):
                 )
             if not sample or not param:
                 continue
-            if param in set(df_params.query('colname!=""').index):
-                colname = str(df_params.loc[param]["colname"])
-                data[sample][colname] += try_float(val) * 100
-                data[sample][colname + " ESD"] += try_float(esd) * 100
+            if param in set(df_params.query('category!=""').index):
+                category = str(df_params.loc[param]["category"])
+                data[sample][category] += try_float(val) * 100
+                data[sample][category + " ESD"] += try_float(esd) * 100
             else:
                 extra[sample].add(param.title())
 
         extra_str = {k: sep.join(sorted(v)) for k, v in extra.items()}
         odf = pd.DataFrame(data).T.rename_axis("Sample")
 
-        extra_col = df_params.loc["*"]["colname"]
+        extra_col = df_params.loc["*"]["category"]
         odf[extra_col] = extra_str
         odf[extra_col] = odf[extra_col].fillna("")
 
@@ -75,38 +80,57 @@ class XRDConverter(CrossreadsPetrographyTool):
         return odf.sort_index().fillna("")
 
     @property
-    def df_output(self):
-        logger.debug("Generating final XRD data")
-        odf = self.df_reformatted
-        df_params = self.df_params
+    def df_output_sums(self):
+        df = self.df_reformatted
+        df = df[[c for c in df if not c.endswith(" ESD")]]
+        def get_total(row):
+            return sum(v for v in row.values if isinstance(v, (int, float)))
 
-        for cat, cat_df in df_params[df_params.category != ""].groupby("category"):
-            cat_subtypes = cat_df.colname
-            cat_colname = f"XRD {cat}"
-
-            cat_sums = []
-            for i, row in odf.iterrows():
-                row_sum = 0
-                for col in set(cat_subtypes):
-                    val = row.get(col, 0)
-                    if not is_nan(val) and val:
-                        row_sum += val
-                cat_sums.append(row_sum)
-            odf[cat_colname] = cat_sums
-
-        return odf
+        df['Total']=df.apply(get_total, axis=1)
+        return df
     
-    df_xrd = df_output
+    @property
+    def df_output_esds(self):
+        df = self.df_reformatted
+        return df[[c[:-4] for c in df if c.endswith(" ESD")]]
+    
+    # @property
+    # def df_output(self):
+    #     logger.debug("Generating final XRD data")
+    #     odf = self.df_reformatted
+    #     df_params = self.df_params
+
+    #     for cat, cat_df in df_params[df_params.category != ""].groupby("category"):
+    #         cat_subtypes = cat_df.colname
+    #         cat_colname = f"XRD {cat}"
+
+    #         cat_sums = []
+    #         for i, row in odf.iterrows():
+    #             row_sum = 0
+    #             for col in set(cat_subtypes):
+    #                 val = row.get(col, 0)
+    #                 if not is_nan(val) and val:
+    #                     row_sum += val
+    #             cat_sums.append(row_sum)
+    #         odf[cat_colname] = cat_sums
+
+    #     return odf
+    
+    # df_xrd = df_output
 
 
     def save(self, output_folder=None):
         logger.info("Postprocessing XRD data")
         output_folder = output_folder or self.output_path_now
-        ofn = Path(output_folder) / "xrd_data_postprocessed.xlsx"
+        ofn = Path(output_folder) / "xrd_data_postprocessed_sums.xlsx"
         ofn.parent.mkdir(parents=True, exist_ok=True)
-        self.df_output.to_excel(ofn)
+        self.df_output_sums.to_excel(ofn)
         logger.info(f"Saved: {ofn}")
 
+        ofn_esds = Path(output_folder) / "xrd_data_postprocessed_esds.xlsx"
+        self.df_output_esds.to_excel(ofn_esds)
+
+        logger.info(f"Saved: {ofn_esds}")
     def run(self):
         self.save()
 
