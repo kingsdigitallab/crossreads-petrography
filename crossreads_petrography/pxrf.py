@@ -282,6 +282,8 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                         isic = '-'.join(src.split('-')[:-1]) if '-' in src else src
                     
                     isic_letter = src.split('-')[-1].strip()
+                    if not isic_letter:
+                        print(f'!! {src} has no isic letter !!')
                     if isic_letter[0].isdigit() and isic_letter[-1].lower()=='t':
                         isic_letter = isic_letter[:-1]
                         # print([filename,src,isic,isic_letter,ascii_lowercase[int(isic_letter[:-1])-1]])
