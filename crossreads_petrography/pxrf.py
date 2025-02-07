@@ -247,7 +247,7 @@ class PXRFConverter(CrossreadsPetrographyTool)  :
                     df['Element']=df['Element'].apply(rename)
 
                 # ignoring elements that don't regress well
-                df=df[~df.Element.isin({'Ba','Cr','La','Ni','V','Ce'})]
+                df=df[~df.Element.isin(DISCARD_ELEMENTS)]
                 df=df.set_index('Element')
 
                 for cx in ['Mass_fraction', 'Fit_Area','Sigma_Area']:
