@@ -1,11 +1,14 @@
 from . import *
 
+# Copy data from Hg to Pb, Zn to As, Pb to Au, etc
 PATCHES = [
     ('Pb', 'Hg'), # Pb copied to new Hg
     ('Zn', 'As'), # Zn copied to new As
     ('Pb', 'Au') # Pb copied to new Au
 ]
-DISCARD_ELEMENTS = {'Ba','Cr','La','Ni','V','Ce'}
+
+# Discard elements that don't regress well
+DISCARD_ELEMENTS = {'Ba','La','Ni','V','Ce'}
 
 class PXRFConverter(CrossreadsPetrographyTool)  :
     name = "pxrf"
