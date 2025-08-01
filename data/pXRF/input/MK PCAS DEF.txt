@@ -1021,7 +1021,7 @@ Zr  K  3.915996e+04  1.83e+05  0.07571
 Rh  L  6.179198e+04  4.94e+02  0.1289  
 Pd  L  7.857997e+02  4.78e+02  0.001177  
 
-SOURCE: ISic002713d-MK-1.csv
+SOURCE: ISic002713d-M-1.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 Na  K  0.000000e+00  0.00e+00  0  
@@ -1052,7 +1052,7 @@ Zr  K  1.859944e+05  1.43e+05  0.2473
 Rh  L  4.081126e+04  4.10e+02  0.1103  
 Pd  L  9.164442e+00  3.74e+02  1.76e-05  
 
-SOURCE: ISic002713d-MK-2.csv
+SOURCE: ISic002713d-M-2.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 Na  K  0.000000e+00  0.00e+00  0  
@@ -1083,7 +1083,7 @@ Zr  K  3.122394e+05  1.41e+05  0.3808
 Rh  L  3.141272e+04  3.64e+02  0.08932  
 Pd  L  7.065031e+01  3.53e+02  0.0001425  
 
-SOURCE: ISic002713d-MK-3.csv
+SOURCE: ISic002713d-M-3.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 Na  K  0.000000e+00  0.00e+00  0  
@@ -1114,7 +1114,7 @@ Zr  K  1.146078e+05  1.40e+05  0.1497
 Rh  L  2.803703e+04  3.51e+02  0.07668  
 Pd  L  2.595640e+03  3.60e+02  0.005044  
 
-SOURCE: ISic002713d-MK-4.csv
+SOURCE: ISic002713d-M-4.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 Na  K  0.000000e+00  0.00e+00  0  
