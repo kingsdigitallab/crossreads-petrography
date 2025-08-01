@@ -83,11 +83,11 @@ COEFFICIENTS = {
             "T": {"a": 0.00, "b": 0.00, "c": 191.70, "d": 0.00},
         },
         "Ba": {
-            "thresholds": {"T": 0.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.003, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 3.00e08, "c": 600647.00, "d": 0.00},
         },
         "Co": {
-            "thresholds": {"T": 0.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.0005, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 7.00e08, "c": 150955.00, "d": 0.00},
         },
         "Cr": {
@@ -95,11 +95,11 @@ COEFFICIENTS = {
             "T": {"a": 0.00, "b": 0.00, "c": 993958.00, "d": 0.00},
         },
         "Ni": {
-            "thresholds": {"T": 0.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.002, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 1.00e06, "d": 0.00},
         },
         "Pb": {
-            "thresholds": {"T": 0.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.002, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 102829.00, "d": 0.00},
         },
         "Rb": {
@@ -111,7 +111,7 @@ COEFFICIENTS = {
             "T": {"a": 0.00, "b": 0.00, "c": 130029.00, "d": 0.00},
         },
         "V": {
-            "thresholds": {"T": 0.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.004, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 1.00e06, "d": 0.00},
         },
         "Y": {
@@ -119,7 +119,7 @@ COEFFICIENTS = {
             "T": {"a": 0.00, "b": 0.00, "c": 123407.00, "d": 0.00},
         },
         "Zn": {
-            "thresholds": {"T": 0.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.0008, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 518901.00, "d": 0.00},
         },
         "Zr": {
@@ -127,19 +127,19 @@ COEFFICIENTS = {
             "T": {"a": 0.00, "b": 0.00, "c": 135049.00, "d": 0.00},
         },
         "Au": {
-            "thresholds": {"T": 0.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.002, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 102829.00, "d": 0.00},
         },
         "Hg": {
-            "thresholds": {"T": 0.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.002, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 102829.00, "d": 0.00},
         },
         "As": {
-            "thresholds": {"T": 0.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.0008, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 518901.00, "d": 0.00},
         },
         "Cu": {
-            "thresholds": {"T": 0.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.002, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 1000000.00, "d": 0.00},
         },
     },
@@ -158,6 +158,10 @@ def get_coefficients(input_type, element, value):
     Returns:
         dict: Coefficients {'a', 'b', 'c', 'd'} for the polynomial
     """
+    # Check if value is already an error string
+    if isinstance(value, str):
+        raise ValueError(value)  # Re-raise the error string as ValueError
+
     if input_type not in COEFFICIENTS:
         raise ValueError(f"Invalid input type: {input_type}")
 
@@ -173,13 +177,11 @@ def get_coefficients(input_type, element, value):
         return element_data["U"]
     elif thresholds["V"] > 0 and value <= thresholds["V"]:
         return element_data["V"]
-    else:
-        if "V" in element_data:
-            return element_data["V"]
-        elif "U" in element_data:
-            return element_data["U"]
-        else:
-            return element_data["T"]
+
+    raise ValueError(
+        f"Value {value} is out of range for element {element} in input type {input_type}. "
+        f"Valid range: 0 to {max(thresholds.values())}"
+    )
 
 
 def calculate_corrected_value(input_type, element, value):
@@ -192,12 +194,15 @@ def calculate_corrected_value(input_type, element, value):
         value (float): Input value
 
     Returns:
-        float: Corrected value
+        float or str: Corrected value or error message
     """
-    coeffs = get_coefficients(input_type, element, value)
-    return (
-        coeffs["a"] * value**3
-        + coeffs["b"] * value**2
-        + coeffs["c"] * value
-        + coeffs["d"]
-    )
+    try:
+        coeffs = get_coefficients(input_type, element, value)
+        return (
+            coeffs["a"] * value**3
+            + coeffs["b"] * value**2
+            + coeffs["c"] * value
+            + coeffs["d"]
+        )
+    except ValueError as e:
+        return str(e)  # Return error message as string for logging
