@@ -32,7 +32,7 @@ paths:
       local: "{paths.isotopes.local}/input"
       colab: "{paths.isotopes.colab}/input"
 
-    output: 
+    output:
       local: "{paths.isotopes.local}/output"
       colab: "{paths.isotopes.colab}/output"
 
@@ -44,7 +44,7 @@ paths:
       local: "{paths.mgs.local}/input"
       colab: "{paths.mgs.colab}/input"
 
-    output: 
+    output:
       local: "{paths.mgs.local}/output"
       colab: "{paths.mgs.colab}/output"
 
@@ -77,9 +77,9 @@ paths:
       colab: "{paths.pxrf.colab}/pXRF Standards.xlsx"
 
     descriptions:
-      local: "{paths.pxrf.local}/pXRF Logbook new.xlsx"
-      colab: "{paths.pxrf.colab}/pXRF Logbook new.xlsx"
-      
+      local: "{paths.pxrf.local}/pXRF Logbook.xlsx"
+      colab: "{paths.pxrf.colab}/pXRF Logbook.xlsx"
+
     output:
       local: "{paths.pxrf.local}/output"
       colab: "{paths.pxrf.colab}/output"
