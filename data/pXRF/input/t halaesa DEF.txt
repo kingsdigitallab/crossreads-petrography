@@ -1,4 +1,4 @@
-SOURCE: ISic000584-tK-b.csv
+SOURCE: ISic000584-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.912729e+02  3.24e+01  0.009793  
@@ -31,7 +31,7 @@ Au  L  1.682954e+02  5.43e+01  5.346e-05
 Hg  L  2.224616e+02  5.94e+01  6.623e-05  
 Pb  L  1.110351e+03  1.29e+02  0.0002864  
 
-SOURCE: ISic000584-tK-c.csv
+SOURCE: ISic000584-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  7.446858e+01  3.10e+01  0.003801  
@@ -64,7 +64,7 @@ Au  L  1.728387e+02  5.46e+01  5.481e-05
 Hg  L  2.115873e+02  6.04e+01  6.283e-05  
 Pb  L  1.006901e+03  1.26e+02  0.0002592  
 
-SOURCE: ISic000612-tK-a.csv
+SOURCE: ISic000612-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.360075e+02  3.09e+01  0.006954  
@@ -97,7 +97,7 @@ Au  L  1.816545e+02  5.38e+01  5.765e-05
 Hg  L  1.951758e+02  6.12e+01  5.804e-05  
 Pb  L  1.463729e+03  1.28e+02  0.0003772  
 
-SOURCE: ISic000612-tK-b.csv
+SOURCE: ISic000612-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.173731e+02  3.08e+01  0.00589  
@@ -130,7 +130,7 @@ Au  L  2.483590e+02  5.42e+01  7.863e-05
 Hg  L  2.471008e+02  6.07e+01  7.266e-05  
 Pb  L  9.733508e+02  1.29e+02  0.000249  
 
-SOURCE: ISic000768-tK-a.csv
+SOURCE: ISic000768-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  8.225303e+01  3.23e+01  0.00406  
@@ -163,7 +163,7 @@ Au  L  2.607642e+02  5.42e+01  8.224e-05
 Hg  L  2.778038e+02  5.90e+01  8.091e-05  
 Pb  L  5.537772e+02  1.20e+02  0.0001407  
 
-SOURCE: ISic000768-tK-b.csv
+SOURCE: ISic000768-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.659764e+02  3.52e+01  0.008014  
@@ -196,7 +196,7 @@ Au  L  3.481339e+02  5.81e+01  0.0001093
 Hg  L  3.629131e+02  6.28e+01  0.0001046  
 Pb  L  5.962825e+02  1.28e+02  0.0001503  
 
-SOURCE: ISic000768-tK-c.csv
+SOURCE: ISic000768-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.239669e+02  3.35e+01  0.005954  
@@ -229,7 +229,7 @@ Au  L  2.251198e+02  5.66e+01  7.055e-05
 Hg  L  2.463531e+02  6.04e+01  7.077e-05  
 Pb  L  6.350843e+02  1.28e+02  0.0001596  
 
-SOURCE: ISic000769-tK-a.csv
+SOURCE: ISic000769-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.140703e+02  3.52e+01  0.005615  
@@ -262,7 +262,7 @@ Au  L  3.467632e+02  5.91e+01  0.0001096
 Hg  L  3.072279e+02  6.25e+01  8.952e-05  
 Pb  L  6.781240e+02  1.31e+02  0.0001725  
 
-SOURCE: ISic000769-tK-b.csv
+SOURCE: ISic000769-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  8.578336e+01  3.51e+01  0.004138  
@@ -295,7 +295,7 @@ Au  L  2.561389e+02  5.87e+01  8.06e-05
 Hg  L  2.137086e+02  6.26e+01  6.165e-05  
 Pb  L  6.626510e+02  1.31e+02  0.0001673  
 
-SOURCE: ISic000769-tK-c.csv
+SOURCE: ISic000769-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.905925e+02  3.66e+01  0.009267  
@@ -328,7 +328,7 @@ Au  L  2.454928e+02  5.74e+01  7.734e-05
 Hg  L  3.564583e+02  6.33e+01  0.0001032  
 Pb  L  4.510959e+02  1.28e+02  0.0001141  
 
-SOURCE: ISic000800-tK-a.csv
+SOURCE: ISic000800-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.027183e+02  3.42e+01  0.005124  
@@ -361,7 +361,7 @@ Au  L  2.561234e+02  5.86e+01  8.132e-05
 Hg  L  1.583662e+02  6.23e+01  4.651e-05  
 Pb  L  9.904057e+02  1.28e+02  0.0002535  
 
-SOURCE: ISic000800-tK-b.csv
+SOURCE: ISic000800-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.897698e+02  3.30e+01  0.009555  
@@ -394,7 +394,7 @@ Au  L  2.481281e+02  5.64e+01  7.882e-05
 Hg  L  2.780594e+02  6.36e+01  8.203e-05  
 Pb  L  1.420703e+03  1.32e+02  0.0003646  
 
-SOURCE: ISic000800-tK-c.csv
+SOURCE: ISic000800-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.374033e+02  3.47e+01  0.006898  
@@ -427,7 +427,7 @@ Au  L  2.363965e+02  5.71e+01  7.524e-05
 Hg  L  1.738259e+02  6.31e+01  5.126e-05  
 Pb  L  9.837859e+02  1.30e+02  0.0002527  
 
-SOURCE: ISic000801-tK-a.csv
+SOURCE: ISic000801-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  8.181242e+01  3.43e+01  0.003997  
@@ -460,7 +460,7 @@ Au  L  3.086884e+02  5.79e+01  9.733e-05
 Hg  L  3.510124e+02  6.24e+01  0.0001018  
 Pb  L  7.344184e+02  1.29e+02  0.0001861  
 
-SOURCE: ISic000801-tK-b.csv
+SOURCE: ISic000801-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.763246e+02  3.61e+01  0.008655  
@@ -493,7 +493,7 @@ Au  L  3.137054e+02  5.71e+01  9.907e-05
 Hg  L  2.631256e+02  6.19e+01  7.654e-05  
 Pb  L  6.393407e+02  1.27e+02  0.0001624  
 
-SOURCE: ISic000801-tK-c.csv
+SOURCE: ISic000801-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  9.180665e+01  3.40e+01  0.004497  
@@ -526,7 +526,7 @@ Au  L  2.848603e+02  5.66e+01  8.982e-05
 Hg  L  3.978673e+02  6.30e+01  0.0001155  
 Pb  L  5.928203e+02  1.28e+02  0.0001503  
 
-SOURCE: ISic000802-tK-a.csv
+SOURCE: ISic000802-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  2.047983e+02  3.76e+01  0.01002  
@@ -559,7 +559,7 @@ Au  L  1.722268e+02  5.72e+01  5.442e-05
 Hg  L  3.318883e+02  6.38e+01  9.644e-05  
 Pb  L  5.576728e+02  1.30e+02  0.0001416  
 
-SOURCE: ISic000802-tK-b.csv
+SOURCE: ISic000802-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.697414e+02  3.60e+01  0.008289  
@@ -592,7 +592,7 @@ Au  L  2.682441e+02  5.69e+01  8.461e-05
 Hg  L  2.945367e+02  6.20e+01  8.545e-05  
 Pb  L  5.689536e+02  1.29e+02  0.0001442  
 
-SOURCE: ISic000802-tK-c.csv
+SOURCE: ISic000802-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.624165e+02  3.65e+01  0.008032  
@@ -625,7 +625,7 @@ Au  L  2.596617e+02  5.72e+01  8.222e-05
 Hg  L  1.741786e+02  6.17e+01  5.089e-05  
 Pb  L  5.070179e+02  1.30e+02  0.0001293  
 
-SOURCE: ISic000803-tK-a.csv
+SOURCE: ISic000803-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.790314e+02  3.29e+01  0.009419  
@@ -658,7 +658,7 @@ Au  L  2.043475e+02  5.87e+01  6.482e-05
 Hg  L  8.459779e+01  6.84e+01  2.571e-05  
 Pb  L  5.466969e+03  1.62e+02  0.001425  
 
-SOURCE: ISic000803-tK-b.csv
+SOURCE: ISic000803-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.261090e+02  2.88e+01  0.006342  
@@ -691,7 +691,7 @@ Au  L  1.923686e+02  5.07e+01  6.076e-05
 Hg  L  2.352558e+02  5.81e+01  6.916e-05  
 Pb  L  1.549213e+03  1.22e+02  0.0003958  
 
-SOURCE: ISic000803-tK-c.csv
+SOURCE: ISic000803-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  8.679778e+01  3.18e+01  0.004426  
@@ -724,7 +724,7 @@ Au  L  3.317321e+02  5.79e+01  0.0001055
 Hg  L  1.444393e+02  6.19e+01  4.291e-05  
 Pb  L  1.173698e+03  1.29e+02  0.0003025  
 
-SOURCE: ISic000803-tK-d.csv
+SOURCE: ISic000803-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.495582e+02  2.80e+01  0.007484  
@@ -757,7 +757,7 @@ Au  L  2.380844e+02  5.16e+01  7.492e-05
 Hg  L  1.978796e+02  5.72e+01  5.792e-05  
 Pb  L  4.019935e+03  1.41e+02  0.001023  
 
-SOURCE: ISic000804-tK-a.csv
+SOURCE: ISic000804-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  8.419418e+01  3.18e+01  0.004108  
@@ -790,7 +790,7 @@ Au  L  3.430246e+02  5.56e+01  0.0001079
 Hg  L  1.725973e+02  5.72e+01  4.996e-05  
 Pb  L  4.959168e+02  1.17e+02  0.0001254  
 
-SOURCE: ISic000804-tK-b.csv
+SOURCE: ISic000804-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  2.106250e+02  3.59e+01  0.01022  
@@ -823,7 +823,7 @@ Au  L  3.318188e+02  5.75e+01  0.0001045
 Hg  L  2.147602e+02  6.06e+01  6.21e-05  
 Pb  L  6.045453e+02  1.27e+02  0.0001528  
 
-SOURCE: ISic000804-tK-c.csv
+SOURCE: ISic000804-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  8.250980e+01  3.49e+01  0.004011  
@@ -856,7 +856,7 @@ Au  L  3.994671e+02  5.75e+01  0.0001258
 Hg  L  3.103955e+02  6.17e+01  8.984e-05  
 Pb  L  6.070865e+02  1.27e+02  0.0001536  
 
-SOURCE: ISic000804-tK-d.csv
+SOURCE: ISic000804-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.442874e+02  3.28e+01  0.007056  
@@ -889,7 +889,7 @@ Au  L  1.777141e+02  5.41e+01  5.594e-05
 Hg  L  2.210859e+02  6.01e+01  6.408e-05  
 Pb  L  1.075796e+03  1.25e+02  0.0002723  
 
-SOURCE: ISic000804-tK-e.csv
+SOURCE: ISic000804-t-e.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.317411e+02  2.99e+01  0.006396  
@@ -922,7 +922,7 @@ Au  L  2.144336e+02  5.12e+01  6.712e-05
 Hg  L  4.016324e+02  5.92e+01  0.0001157  
 Pb  L  4.346450e+03  1.45e+02  0.001094  
 
-SOURCE: ISic000804-tK-f.csv
+SOURCE: ISic000804-t-f.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  8.454488e+01  3.10e+01  0.004191  
@@ -955,7 +955,7 @@ Au  L  3.708883e+02  5.77e+01  0.0001169
 Hg  L  2.187167e+02  6.13e+01  6.379e-05  
 Pb  L  8.948087e+03  1.79e+02  0.002274  
 
-SOURCE: ISic000805-tK-a.csv
+SOURCE: ISic000805-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  5.656087e+01  3.30e+01  0.002721  
@@ -988,7 +988,7 @@ Au  L  2.595683e+02  5.63e+01  8.136e-05
 Hg  L  2.794585e+02  6.11e+01  8.034e-05  
 Pb  L  8.904777e+02  1.28e+02  0.0002239  
 
-SOURCE: ISic000805-tK-b.csv
+SOURCE: ISic000805-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  7.154201e+01  3.28e+01  0.0035  
@@ -1021,7 +1021,7 @@ Au  L  3.023739e+02  5.53e+01  9.52e-05
 Hg  L  2.950790e+02  5.98e+01  8.556e-05  
 Pb  L  2.654071e+03  1.40e+02  0.000672  
 
-SOURCE: ISic000805-tK-c.csv
+SOURCE: ISic000805-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.515149e+02  3.56e+01  0.007452  
@@ -1054,7 +1054,7 @@ Au  L  4.087173e+02  5.98e+01  0.0001292
 Hg  L  2.518296e+02  6.22e+01  7.334e-05  
 Pb  L  9.642825e+02  1.34e+02  0.0002452  
 
-SOURCE: ISic000805-tK-d.csv
+SOURCE: ISic000805-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  8.663997e+01  2.92e+01  0.004323  
@@ -1087,7 +1087,7 @@ Au  L  2.189200e+02  5.76e+01  6.911e-05
 Hg  L  2.392845e+02  6.13e+01  7.006e-05  
 Pb  L  2.468464e+03  1.40e+02  0.0006291  
 
-SOURCE: ISic001176-tK-a.csv
+SOURCE: ISic001176-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.018554e+02  3.18e+01  0.005189  
@@ -1120,7 +1120,7 @@ Au  L  2.082085e+02  5.57e+01  6.621e-05
 Hg  L  2.456411e+02  6.23e+01  7.295e-05  
 Pb  L  9.491313e+02  1.25e+02  0.0002446  
 
-SOURCE: ISic001176-tK-b.csv
+SOURCE: ISic001176-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  3.869654e+01  3.19e+01  0.001928  
@@ -1153,7 +1153,7 @@ Au  L  2.047262e+02  5.47e+01  6.486e-05
 Hg  L  2.824556e+02  6.14e+01  8.281e-05  
 Pb  L  7.011127e+02  1.23e+02  0.0001791  
 
-SOURCE: ISic001176-tK-c.csv
+SOURCE: ISic001176-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  6.898220e+01  3.20e+01  0.003441  
@@ -1186,7 +1186,7 @@ Au  L  1.813547e+02  5.51e+01  5.749e-05
 Hg  L  2.503856e+02  6.13e+01  7.347e-05  
 Pb  L  7.950930e+02  1.24e+02  0.0002033  
 
-SOURCE: ISic001177-tK-a.csv
+SOURCE: ISic001177-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.771437e+02  3.36e+01  0.009338  
@@ -1219,7 +1219,7 @@ Au  L  3.648993e+02  5.86e+01  0.0001151
 Hg  L  3.435191e+02  6.07e+01  0.0001046  
 Pb  L  1.057887e+03  1.30e+02  0.0002753  
 
-SOURCE: ISic001177-tK-b.csv
+SOURCE: ISic001177-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.718725e+02  3.52e+01  0.009017  
@@ -1252,7 +1252,7 @@ Au  L  2.940663e+02  5.92e+01  9.332e-05
 Hg  L  3.009287e+02  6.52e+01  9.124e-05  
 Pb  L  8.547604e+02  1.31e+02  0.0002225  
 
-SOURCE: ISic001177-tK-c.csv
+SOURCE: ISic001177-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.915820e+02  3.56e+01  0.01011  
@@ -1285,7 +1285,7 @@ Au  L  3.395415e+02  5.95e+01  0.0001073
 Hg  L  2.420642e+02  6.25e+01  7.378e-05  
 Pb  L  1.093958e+03  1.32e+02  0.000285  
 
-SOURCE: ISic003330-tK-a.csv
+SOURCE: ISic003330-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.084564e+02  3.24e+01  0.00542  
@@ -1318,7 +1318,7 @@ Au  L  2.371533e+02  5.64e+01  7.514e-05
 Hg  L  2.417281e+02  6.11e+01  7.097e-05  
 Pb  L  9.606772e+02  1.26e+02  0.0002456  
 
-SOURCE: ISic003330-tK-b.csv
+SOURCE: ISic003330-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.087196e+02  3.06e+01  0.005449  
@@ -1351,7 +1351,7 @@ Au  L  2.351560e+02  5.28e+01  7.438e-05
 Hg  L  2.516399e+02  5.86e+01  7.391e-05  
 Pb  L  8.472599e+02  1.20e+02  0.0002165  
 
-SOURCE: ISic003330-tK-c.csv
+SOURCE: ISic003330-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  7.607795e+01  3.12e+01  0.003822  
@@ -1384,7 +1384,7 @@ Au  L  2.712743e+02  5.44e+01  8.592e-05
 Hg  L  3.632550e+02  6.03e+01  0.0001069  
 Pb  L  1.012435e+03  1.23e+02  0.0002591  
 
-SOURCE: ISic003337-tK-a.csv
+SOURCE: ISic003337-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.353859e+02  3.23e+01  0.006813  
@@ -1417,7 +1417,7 @@ Au  L  2.245692e+02  5.50e+01  7.107e-05
 Hg  L  2.937527e+02  6.14e+01  8.647e-05  
 Pb  L  9.296758e+02  1.26e+02  0.0002379  
 
-SOURCE: ISic003337-tK-b.csv
+SOURCE: ISic003337-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  7.714306e+01  3.18e+01  0.00388  
@@ -1450,7 +1450,7 @@ Au  L  3.387935e+02  5.61e+01  0.0001072
 Hg  L  3.302544e+02  5.98e+01  9.721e-05  
 Pb  L  9.320592e+02  1.26e+02  0.0002385  
 
-SOURCE: ISic003337-tK-c.csv
+SOURCE: ISic003337-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  6.021188e+01  3.11e+01  0.003021  
@@ -1483,7 +1483,7 @@ Au  L  3.186034e+02  5.71e+01  0.0001008
 Hg  L  3.602604e+02  6.15e+01  0.0001059  
 Pb  L  1.141480e+03  1.27e+02  0.0002919  
 
-SOURCE: ISic003477-tK-a.csv
+SOURCE: ISic003477-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.175548e+02  2.57e+01  0.00591  
@@ -1516,7 +1516,7 @@ Au  L  2.563810e+02  4.79e+01  8.046e-05
 Hg  L  1.237934e+02  5.03e+01  3.628e-05  
 Pb  L  9.714371e+03  1.69e+02  0.002471  
 
-SOURCE: ISic003477-tK-b.csv
+SOURCE: ISic003477-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.454409e+02  3.40e+01  0.007204  
@@ -1549,7 +1549,7 @@ Au  L  3.221032e+02  5.69e+01  0.0001019
 Hg  L  3.456366e+02  6.14e+01  0.000101  
 Pb  L  1.624644e+03  1.32e+02  0.000414  
 
-SOURCE: ISic003477-tK-c.csv
+SOURCE: ISic003477-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.623691e+02  3.38e+01  0.008183  
@@ -1582,7 +1582,7 @@ Au  L  2.100290e+02  5.44e+01  6.657e-05
 Hg  L  2.401565e+02  5.98e+01  7.08e-05  
 Pb  L  2.355427e+03  1.36e+02  0.0006037  
 
-SOURCE: ISic003477-tK-d.csv
+SOURCE: ISic003477-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.356713e+02  2.67e+01  0.006776  
@@ -1615,7 +1615,7 @@ Au  L  2.731838e+02  5.16e+01  8.592e-05
 Hg  L  3.596274e+02  5.97e+01  0.0001051  
 Pb  L  3.942245e+03  1.40e+02  0.001002  
 
-SOURCE: ISic003572-tK-a.csv
+SOURCE: ISic003572-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.025098e+02  3.51e+01  0.00502  
@@ -1648,7 +1648,7 @@ Au  L  3.118913e+02  5.73e+01  9.847e-05
 Hg  L  3.489067e+02  6.23e+01  0.0001014  
 Pb  L  7.670610e+02  1.31e+02  0.0001947  
 
-SOURCE: ISic003572-tK-b.csv
+SOURCE: ISic003572-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.144924e+02  3.61e+01  0.005526  
@@ -1681,7 +1681,7 @@ Au  L  3.487744e+02  5.96e+01  0.0001097
 Hg  L  3.308950e+02  6.31e+01  9.542e-05  
 Pb  L  6.029430e+02  1.29e+02  0.0001521  
 
-SOURCE: ISic003572-tK-c.csv
+SOURCE: ISic003572-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.644584e+02  3.54e+01  0.007993  
@@ -1714,7 +1714,7 @@ Au  L  4.169930e+02  5.87e+01  0.0001312
 Hg  L  2.600191e+02  6.13e+01  7.52e-05  
 Pb  L  6.146992e+02  1.29e+02  0.0001554  
 
-SOURCE: ISic003572-tK-d.csv
+SOURCE: ISic003572-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.341016e+02  3.13e+01  0.006905  
@@ -1747,7 +1747,7 @@ Au  L  2.352629e+02  5.72e+01  7.459e-05
 Hg  L  2.026777e+02  6.24e+01  6.053e-05  
 Pb  L  4.224330e+03  1.51e+02  0.001091  
 
-SOURCE: ISic003573-tK-a.csv
+SOURCE: ISic003573-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.100099e+02  3.08e+01  0.00566  
@@ -1780,7 +1780,7 @@ Au  L  1.699141e+02  5.45e+01  5.378e-05
 Hg  L  2.600856e+02  6.01e+01  7.759e-05  
 Pb  L  2.500417e+03  1.37e+02  0.0006446  
 
-SOURCE: ISic003573-tK-b.csv
+SOURCE: ISic003573-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  9.097759e+01  3.14e+01  0.004678  
@@ -1813,7 +1813,7 @@ Au  L  3.193036e+02  5.69e+01  0.0001013
 Hg  L  1.821334e+02  5.98e+01  5.434e-05  
 Pb  L  2.067819e+03  1.35e+02  0.0005336  
 
-SOURCE: ISic003574-tK-a.csv
+SOURCE: ISic003574-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.057280e+02  3.32e+01  0.005134  
@@ -1846,7 +1846,7 @@ Au  L  2.514439e+02  5.73e+01  7.902e-05
 Hg  L  3.546781e+02  6.23e+01  0.0001024  
 Pb  L  5.882464e+02  1.27e+02  0.0001485  
 
-SOURCE: ISic003574-tK-b.csv
+SOURCE: ISic003574-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.456497e+02  3.45e+01  0.007574  
@@ -1879,7 +1879,7 @@ Au  L  2.211083e+02  5.83e+01  7.049e-05
 Hg  L  2.583422e+02  6.43e+01  7.782e-05  
 Pb  L  6.389200e+02  1.30e+02  0.0001661  
 
-SOURCE: ISic003574-tK-c.csv
+SOURCE: ISic003574-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.163036e+02  3.56e+01  0.005698  
@@ -1912,7 +1912,7 @@ Au  L  3.569812e+02  5.86e+01  0.0001127
 Hg  L  4.317756e+02  6.29e+01  0.0001255  
 Pb  L  7.410190e+02  1.28e+02  0.0001881  
 
-SOURCE: ISic003575-tK-a.csv
+SOURCE: ISic003575-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.128068e+02  3.44e+01  0.005634  
@@ -1945,7 +1945,7 @@ Au  L  4.565978e+02  6.07e+01  0.0001447
 Hg  L  2.879090e+02  6.24e+01  8.452e-05  
 Pb  L  7.978888e+02  1.29e+02  0.000204  
 
-SOURCE: ISic003575-tK-b.csv
+SOURCE: ISic003575-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.992806e+02  3.73e+01  0.009944  
@@ -1978,7 +1978,7 @@ Au  L  2.227311e+02  5.76e+01  7.073e-05
 Hg  L  3.539136e+02  6.35e+01  0.000104  
 Pb  L  5.707383e+02  1.29e+02  0.0001461  
 
-SOURCE: ISic003575-tK-c.csv
+SOURCE: ISic003575-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.174340e+02  3.34e+01  0.005843  
@@ -2011,7 +2011,7 @@ Au  L  2.177358e+02  5.36e+01  6.888e-05
 Hg  L  3.630168e+02  6.09e+01  0.0001063  
 Pb  L  6.134098e+02  1.22e+02  0.0001565  
 
-SOURCE: ISic003576-tK-a.csv
+SOURCE: ISic003576-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.245907e+02  3.08e+01  0.006156  
@@ -2044,7 +2044,7 @@ Au  L  1.822271e+02  5.74e+01  5.745e-05
 Hg  L  2.125046e+02  6.30e+01  6.191e-05  
 Pb  L  1.183513e+04  1.96e+02  0.003006  
 
-SOURCE: ISic003576-tK-b.csv
+SOURCE: ISic003576-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  9.366458e+01  3.19e+01  0.004795  
@@ -2077,7 +2077,7 @@ Au  L  2.384982e+02  5.88e+01  7.573e-05
 Hg  L  2.262024e+02  6.24e+01  6.733e-05  
 Pb  L  5.232921e+03  1.60e+02  0.001349  
 
-SOURCE: ISic003576-tK-c.csv
+SOURCE: ISic003576-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.030138e+02  3.02e+01  0.005089  
@@ -2110,7 +2110,7 @@ Au  L  1.051335e+02  5.60e+01  3.315e-05
 Hg  L  1.573452e+02  6.46e+01  4.584e-05  
 Pb  L  1.298726e+04  1.99e+02  0.003299  
 
-SOURCE: ISic003577-tK-a.csv
+SOURCE: ISic003577-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  7.470537e+01  2.91e+01  0.00365  
@@ -2143,7 +2143,7 @@ Au  L  2.505641e+02  5.24e+01  7.853e-05
 Hg  L  2.375940e+02  5.57e+01  6.866e-05  
 Pb  L  4.919717e+02  1.13e+02  0.0001241  
 
-SOURCE: ISic003577-tK-b.csv
+SOURCE: ISic003577-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  8.824488e+01  2.61e+01  0.004422  
@@ -2176,7 +2176,7 @@ Au  L  3.583461e+02  5.21e+01  0.0001126
 Hg  L  2.313861e+02  5.44e+01  6.773e-05  
 Pb  L  6.833187e+02  1.10e+02  0.0001738  
 
-SOURCE: ISic003577-tK-c.csv
+SOURCE: ISic003577-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.183260e+02  3.12e+01  0.005921  
@@ -2209,7 +2209,7 @@ Au  L  2.930183e+02  5.45e+01  9.26e-05
 Hg  L  1.748218e+02  5.75e+01  5.128e-05  
 Pb  L  5.934312e+02  1.22e+02  0.0001515  
 
-SOURCE: ISic003579-tK-a.csv
+SOURCE: ISic003579-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.475886e+02  3.29e+01  0.00723  
@@ -2242,7 +2242,7 @@ Au  L  3.074656e+02  5.74e+01  9.676e-05
 Hg  L  2.168312e+02  6.05e+01  6.288e-05  
 Pb  L  3.412650e+03  1.46e+02  0.000864  
 
-SOURCE: ISic003579-tK-b.csv
+SOURCE: ISic003579-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.575986e+02  3.36e+01  0.00769  
@@ -2275,7 +2275,7 @@ Au  L  2.454126e+02  5.52e+01  7.719e-05
 Hg  L  4.416385e+02  6.26e+01  0.0001278  
 Pb  L  3.337091e+03  1.45e+02  0.0008438  
 
-SOURCE: ISic003579-tK-c.csv
+SOURCE: ISic003579-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.037406e+02  3.24e+01  0.005163  
@@ -2308,7 +2308,7 @@ Au  L  2.711788e+02  5.62e+01  8.573e-05
 Hg  L  2.464580e+02  5.89e+01  7.213e-05  
 Pb  L  1.647128e+03  1.32e+02  0.00042  
 
-SOURCE: ISic003579-tK-d.csv
+SOURCE: ISic003579-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.124243e+02  3.06e+01  0.005371  
@@ -2341,7 +2341,7 @@ Au  L  1.621577e+02  5.52e+01  5.056e-05
 Hg  L  8.421001e+02  7.03e+01  0.0002407  
 Pb  L  6.300872e+03  1.63e+02  0.001576  
 
-SOURCE: ISic003580-tK-a.csv
+SOURCE: ISic003580-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  9.575937e+01  3.19e+01  0.004856  
@@ -2374,7 +2374,7 @@ Au  L  2.514079e+02  5.81e+01  7.972e-05
 Hg  L  4.721155e+02  6.50e+01  0.0001397  
 Pb  L  2.082495e+03  1.39e+02  0.0005349  
 
-SOURCE: ISic003580-tK-b.csv
+SOURCE: ISic003580-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.338416e+02  3.10e+01  0.00695  
@@ -2407,7 +2407,7 @@ Au  L  3.064941e+02  5.64e+01  9.704e-05
 Hg  L  2.543815e+02  6.08e+01  7.642e-05  
 Pb  L  1.894380e+03  1.33e+02  0.0004903  
 
-SOURCE: ISic003580-tK-c.csv
+SOURCE: ISic003580-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.562025e+02  3.34e+01  0.008085  
@@ -2440,7 +2440,7 @@ Au  L  2.888791e+02  5.93e+01  9.193e-05
 Hg  L  2.316840e+02  6.38e+01  6.952e-05  
 Pb  L  2.282642e+03  1.40e+02  0.0005918  
 
-SOURCE: ISic003580-tK-d.csv
+SOURCE: ISic003580-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  9.490338e+01  3.12e+01  0.004883  
@@ -2473,7 +2473,7 @@ Au  L  3.358412e+02  5.61e+01  0.0001065
 Hg  L  3.143053e+02  6.00e+01  9.382e-05  
 Pb  L  1.183132e+03  1.27e+02  0.0003054  
 
-SOURCE: ISic003580-tK-e.csv
+SOURCE: ISic003580-t-e.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.664518e+02  3.03e+01  0.008724  
@@ -2506,7 +2506,7 @@ Au  L  2.158357e+00  5.85e+01  6.788e-07
 Hg  L  1.015372e+01  6.32e+01  3.075e-06  
 Pb  L  6.724852e+04  3.37e+02  0.01742  
 
-SOURCE: ISic003581-tK-a.csv
+SOURCE: ISic003581-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.042202e+02  3.17e+01  0.005242  
@@ -2539,7 +2539,7 @@ Au  L  2.385935e+02  5.54e+01  7.554e-05
 Hg  L  3.075188e+02  6.06e+01  9.052e-05  
 Pb  L  2.074381e+03  1.34e+02  0.000531  
 
-SOURCE: ISic003581-tK-b.csv
+SOURCE: ISic003581-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  6.980877e+01  3.13e+01  0.003531  
@@ -2572,7 +2572,7 @@ Au  L  3.215761e+02  5.79e+01  0.0001019
 Hg  L  2.724717e+02  6.20e+01  8.048e-05  
 Pb  L  3.394809e+03  1.46e+02  0.0008709  
 
-SOURCE: ISic003581-tK-c.csv
+SOURCE: ISic003581-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.250526e+02  3.38e+01  0.006154  
@@ -2605,7 +2605,7 @@ Au  L  2.972914e+02  5.62e+01  9.381e-05
 Hg  L  2.761972e+02  6.02e+01  8.037e-05  
 Pb  L  7.045304e+02  1.27e+02  0.0001789  
 
-SOURCE: ISic003581-tK-d.csv
+SOURCE: ISic003581-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.551968e+02  3.04e+01  0.007841  
@@ -2638,7 +2638,7 @@ Au  L  1.633811e+02  5.49e+01  5.163e-05
 Hg  L  2.086670e+02  6.06e+01  6.151e-05  
 Pb  L  2.331984e+04  2.35e+02  0.005969  
 
-SOURCE: ISic003582-tK-a.csv
+SOURCE: ISic003582-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.407253e+02  3.18e+01  0.007169  
@@ -2671,7 +2671,7 @@ Au  L  2.759133e+02  5.58e+01  8.747e-05
 Hg  L  2.569923e+02  6.14e+01  7.622e-05  
 Pb  L  2.101811e+03  1.34e+02  0.0005405  
 
-SOURCE: ISic003582-tK-b.csv
+SOURCE: ISic003582-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.462388e+02  3.23e+01  0.007488  
@@ -2704,7 +2704,7 @@ Au  L  3.033663e+02  5.58e+01  9.621e-05
 Hg  L  3.536464e+02  5.98e+01  0.0001052  
 Pb  L  2.463420e+03  1.38e+02  0.0006348  
 
-SOURCE: ISic003582-tK-c.csv
+SOURCE: ISic003582-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.331734e+02  3.09e+01  0.006687  
@@ -2737,7 +2737,7 @@ Au  L  1.479943e+02  5.22e+01  4.674e-05
 Hg  L  4.743584e+02  6.13e+01  0.0001393  
 Pb  L  2.957624e+03  1.38e+02  0.0007554  
 
-SOURCE: ISic003584-tK-a.csv
+SOURCE: ISic003584-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  6.215907e+01  3.16e+01  0.003041  
@@ -2770,7 +2770,7 @@ Au  L  2.671223e+02  5.49e+01  8.406e-05
 Hg  L  2.379369e+02  5.87e+01  6.897e-05  
 Pb  L  1.932992e+03  1.34e+02  0.0004893  
 
-SOURCE: ISic003584-tK-b.csv
+SOURCE: ISic003584-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.816840e+02  3.36e+01  0.008907  
@@ -2803,7 +2803,7 @@ Au  L  3.445819e+02  5.72e+01  0.0001086
 Hg  L  1.877296e+02  6.04e+01  5.45e-05  
 Pb  L  2.656428e+03  1.41e+02  0.0006732  
 
-SOURCE: ISic003584-tK-c.csv
+SOURCE: ISic003584-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.660294e+02  3.38e+01  0.008371  
@@ -2836,7 +2836,7 @@ Au  L  2.796830e+02  5.56e+01  8.867e-05
 Hg  L  4.065884e+02  6.18e+01  0.0001199  
 Pb  L  8.313162e+02  1.28e+02  0.0002131  
 
-SOURCE: ISic003584-tK-d.csv
+SOURCE: ISic003584-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.500585e+02  3.26e+01  0.00759  
@@ -2869,7 +2869,7 @@ Au  L  2.238374e+02  5.62e+01  7.095e-05
 Hg  L  1.737568e+02  6.06e+01  5.132e-05  
 Pb  L  8.184623e+02  1.25e+02  0.00021  
 
-SOURCE: ISic003585-tK-a.csv
+SOURCE: ISic003585-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.935695e+02  3.29e+01  0.009624  
@@ -2902,7 +2902,7 @@ Au  L  2.354508e+02  5.68e+01  7.433e-05
 Hg  L  1.898841e+02  6.07e+01  5.551e-05  
 Pb  L  3.631916e+03  1.48e+02  0.0009249  
 
-SOURCE: ISic003585-tK-b.csv
+SOURCE: ISic003585-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  3.744781e+01  3.07e+01  0.001866  
@@ -2935,7 +2935,7 @@ Au  L  2.571175e+02  5.58e+01  8.122e-05
 Hg  L  3.488679e+02  6.14e+01  0.0001021  
 Pb  L  3.122405e+03  1.41e+02  0.0007959  
 
-SOURCE: ISic003586-tK-a.csv
+SOURCE: ISic003586-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.862294e+02  3.39e+01  0.009314  
@@ -2968,7 +2968,7 @@ Au  L  1.884105e+02  5.73e+01  5.96e-05
 Hg  L  3.865111e+02  6.37e+01  0.0001134  
 Pb  L  1.539291e+03  1.34e+02  0.0003931  
 
-SOURCE: ISic003586-tK-b.csv
+SOURCE: ISic003586-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.194544e+02  3.21e+01  0.005922  
@@ -3001,7 +3001,7 @@ Au  L  2.412701e+02  5.55e+01  7.613e-05
 Hg  L  2.439370e+02  6.06e+01  7.119e-05  
 Pb  L  3.202497e+03  1.43e+02  0.0008146  
 
-SOURCE: ISic003586-tK-c.csv
+SOURCE: ISic003586-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.677992e+02  3.20e+01  0.008274  
@@ -3034,7 +3034,7 @@ Au  L  2.135529e+02  5.46e+01  6.726e-05
 Hg  L  2.056098e+02  6.04e+01  5.982e-05  
 Pb  L  4.379520e+03  1.52e+02  0.001111  
 
-SOURCE: ISic003586-tK-d.csv
+SOURCE: ISic003586-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.523675e+02  3.30e+01  0.007488  
@@ -3067,7 +3067,7 @@ Au  L  2.747582e+02  5.59e+01  8.65e-05
 Hg  L  2.390058e+02  5.99e+01  6.942e-05  
 Pb  L  2.921293e+03  1.41e+02  0.0007404  
 
-SOURCE: ISic003588-tK-a.csv
+SOURCE: ISic003588-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  5.414971e+01  3.10e+01  0.00276  
@@ -3100,7 +3100,7 @@ Au  L  3.054324e+02  5.64e+01  9.687e-05
 Hg  L  2.900107e+02  6.10e+01  8.606e-05  
 Pb  L  1.059385e+03  1.27e+02  0.0002726  
 
-SOURCE: ISic003589-tK-a.csv
+SOURCE: ISic003589-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.349720e+02  3.20e+01  0.006569  
@@ -3133,7 +3133,7 @@ Au  L  3.119662e+02  5.53e+01  9.794e-05
 Hg  L  4.129983e+02  6.04e+01  0.0001193  
 Pb  L  9.047293e+02  1.25e+02  0.0002283  
 
-SOURCE: ISic003589-tK-b.csv
+SOURCE: ISic003589-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.075859e+02  3.23e+01  0.005281  
@@ -3166,7 +3166,7 @@ Au  L  2.714015e+02  5.63e+01  8.546e-05
 Hg  L  4.371775e+02  6.25e+01  0.0001269  
 Pb  L  6.071638e+02  1.25e+02  0.0001539  
 
-SOURCE: ISic003590-tK-a.csv
+SOURCE: ISic003590-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  8.705791e+01  3.06e+01  0.004439  
@@ -3199,7 +3199,7 @@ Au  L  1.942687e+02  5.61e+01  6.163e-05
 Hg  L  2.805015e+02  6.12e+01  8.326e-05  
 Pb  L  1.268699e+03  1.31e+02  0.0003265  
 
-SOURCE: ISic003590-tK-b.csv
+SOURCE: ISic003590-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  6.613175e+01  3.12e+01  0.003363  
@@ -3232,7 +3232,7 @@ Au  L  4.201928e+02  5.86e+01  0.0001333
 Hg  L  2.816763e+02  6.09e+01  8.348e-05  
 Pb  L  9.485674e+02  1.27e+02  0.0002439  
 
-SOURCE: ISic003590-tK-c.csv
+SOURCE: ISic003590-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  7.682726e+01  3.05e+01  0.003945  
@@ -3265,7 +3265,7 @@ Au  L  1.834642e+02  5.53e+01  5.813e-05
 Hg  L  3.554471e+02  6.19e+01  0.0001059  
 Pb  L  1.063608e+03  1.24e+02  0.0002742  
 
-SOURCE: ISic003590-tK-d.csv
+SOURCE: ISic003590-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.280069e+02  3.01e+01  0.006635  
@@ -3298,7 +3298,7 @@ Au  L  2.568266e+02  5.70e+01  8.131e-05
 Hg  L  2.355562e+02  6.13e+01  7.066e-05  
 Pb  L  2.006200e+03  1.34e+02  0.0005188  
 
-SOURCE: ISic003591-tK-a.csv
+SOURCE: ISic003591-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.095792e+02  3.36e+01  0.005291  
@@ -3331,7 +3331,7 @@ Au  L  4.171187e+02  5.86e+01  0.000131
 Hg  L  2.413786e+02  6.02e+01  6.956e-05  
 Pb  L  6.969835e+02  1.25e+02  0.0001757  
 
-SOURCE: ISic003591-tK-b.csv
+SOURCE: ISic003591-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.169695e+02  3.55e+01  0.00566  
@@ -3364,7 +3364,7 @@ Au  L  3.357183e+02  5.99e+01  0.0001057
 Hg  L  2.196442e+02  6.38e+01  6.345e-05  
 Pb  L  4.970917e+02  1.28e+02  0.0001256  
 
-SOURCE: ISic003591-tK-c.csv
+SOURCE: ISic003591-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.244662e+02  3.43e+01  0.006099  
@@ -3397,7 +3397,7 @@ Au  L  3.837434e+02  5.73e+01  0.0001212
 Hg  L  4.177632e+02  6.24e+01  0.0001215  
 Pb  L  9.063511e+02  1.30e+02  0.0002302  
 
-SOURCE: ISic003658-tK-a.csv
+SOURCE: ISic003658-t-a.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  6.747870e+01  2.61e+01  0.00339  
@@ -3430,7 +3430,7 @@ Au  L  2.432585e+02  5.33e+01  7.667e-05
 Hg  L  2.030032e+02  6.06e+01  5.958e-05  
 Pb  L  2.168525e+03  1.28e+02  0.0005531  
 
-SOURCE: ISic003658-tK-b.csv
+SOURCE: ISic003658-t-b.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.030575e+02  2.97e+01  0.005064  
@@ -3463,7 +3463,7 @@ Au  L  2.756620e+02  5.30e+01  8.667e-05
 Hg  L  1.725518e+02  5.50e+01  5.007e-05  
 Pb  L  7.812914e+02  1.16e+02  0.0001978  
 
-SOURCE: ISic003658-tK-c.csv
+SOURCE: ISic003658-t-c.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.811676e+02  3.38e+01  0.00882  
@@ -3496,7 +3496,7 @@ Au  L  2.306101e+02  5.72e+01  7.26e-05
 Hg  L  2.389167e+02  6.18e+01  6.915e-05  
 Pb  L  7.355610e+02  1.31e+02  0.0001861  
 
-SOURCE: ISic003658-tK-d.csv
+SOURCE: ISic003658-t-d.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  1.173208e+02  3.08e+01  0.00585  
@@ -3529,7 +3529,7 @@ Au  L  2.233198e+02  5.52e+01  7.052e-05
 Hg  L  2.017306e+02  6.07e+01  5.905e-05  
 Pb  L  2.911449e+03  1.42e+02  0.0007421  
 
-SOURCE: ISic003658-tK-e.csv
+SOURCE: ISic003658-t-e.csv
 KEY: 1.1.00001.1
 Element  Group  Fit_Area  Sigma_Area  Mass_fraction  
 S  K  7.618479e+01  2.89e+01  0.003818  
