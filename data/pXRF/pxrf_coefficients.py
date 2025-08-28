@@ -8,56 +8,56 @@ Each element has threshold values (T, U, V) that determine which coefficient ran
 COEFFICIENTS = {
     "M": {
         "Si": {
-            "thresholds": {"T": 100, "U": 0, "V": 0},
+            "thresholds": {"T": 1.0, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": -0.01, "c": 1.69, "d": 0.00},
         },
         "Ti": {
-            "thresholds": {"T": 6.50, "U": 0, "V": 0},
+            "thresholds": {"T": 0.065, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.06, "c": 0.57, "d": 0.00},
         },
         "Fe": {
-            "thresholds": {"T": 75, "U": 0, "V": 0},
+            "thresholds": {"T": 0.75, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 0.53, "d": 0.00},
         },
         "Mn": {
-            "thresholds": {"T": 2.00, "U": 0, "V": 0},
+            "thresholds": {"T": 0.02, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 0.52, "d": 0.00},
         },
         "Ca": {
-            "thresholds": {"T": 100, "U": 0, "V": 0},
+            "thresholds": {"T": 1.0, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 0.56, "d": 0.00},
         },
         "K": {
-            "thresholds": {"T": 31, "U": 0, "V": 0},
+            "thresholds": {"T": 0.31, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 0.61, "d": 0.00},
         },
     },
     "MK": {
         "Si": {
-            "thresholds": {"T": 15, "U": 100, "V": 0},
+            "thresholds": {"T": 0.15, "U": 1.0, "V": 0},
             "T": {"a": 0.00, "b": -0.22, "c": 7.12, "d": 0.00},
             "U": {"a": 0.00, "b": -0.01, "c": 1.25, "d": 38.81},
         },
         "Ti": {
-            "thresholds": {"T": 3.20, "U": 0, "V": 0},
+            "thresholds": {"T": 0.032, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.07, "c": 0.18, "d": 0.00},
         },
         "Fe": {
-            "thresholds": {"T": 90, "U": 0, "V": 0},
+            "thresholds": {"T": 0.90, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": -0.01, "c": 0.40, "d": 0.00},
         },
         "Mn": {
-            "thresholds": {"T": 3.50, "U": 0, "V": 0},
+            "thresholds": {"T": 0.035, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 0.31, "d": 0.00},
         },
         "Ca": {
-            "thresholds": {"T": 31, "U": 90, "V": 100},
+            "thresholds": {"T": 0.31, "U": 0.90, "V": 1.00},
             "T": {"a": 0.00, "b": 0.01, "c": 0.27, "d": 0.00},
             "U": {"a": 0.00, "b": 0.02, "c": -1.72, "d": 50.17},
             "V": {"a": 0.00, "b": 0.27, "c": -47.18, "d": 2129.00},
         },
         "K": {
-            "thresholds": {"T": 55, "U": 0, "V": 0},
+            "thresholds": {"T": 0.55, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 0.37, "d": 0.00},
         },
     },
@@ -66,9 +66,13 @@ COEFFICIENTS = {
             "thresholds": {"T": 0.02, "U": 0, "V": 0},
             "T": {"a": 0.00, "b": 0.00, "c": 371.72, "d": 0.00},
         },
-        "Fe": {
+        "Fe2O3 (t)": {
             "thresholds": {"T": 0.07, "U": 0, "V": 0},
-            "T": {"a": 0.00, "b": 949.05, "c": 280.88, "d": 0.00},
+            "T": {"a": 0.00, "b": 949.05, "c": 326.21, "d": 0.00},
+        },
+        "Fe (ppm)": {
+            "thresholds": {"T": 0.07, "U": 0, "V": 0},
+            "T": {"a": 0.00, "b": 0.00, "c": 2000000.00, "d": 0.00},
         },
         "Mn": {
             "thresholds": {"T": 0.01, "U": 0, "V": 0},
@@ -180,7 +184,7 @@ def get_coefficients(input_type, element, value):
 
     raise ValueError(
         f"Value {value} is out of range for element {element} in input type {input_type}. "
-        f"Valid range: 0 to {max(thresholds.values())}"
+        f"Valid range: 0 to {max(thresholds.values())}."
     )
 
 
