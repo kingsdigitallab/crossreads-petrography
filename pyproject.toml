@@ -1,18 +1,39 @@
-[build-system]
-requires = ["setuptools>=62.6", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "crossreads_petrography"
 version = "0.2.0"
 description = "A package for petrography analysis in the Crossreads project"
-authors = [{name = "Ryan Heuser", email = "ryan.heuser@kcl.ac.uk"}]
-readme = "README.md"
+authors = [{ name = "Ryan Heuser", email = "ryan.heuser@kcl.ac.uk" }]
 requires-python = ">=3.7"
-dynamic = ["dependencies"]
+readme = "README.md"
+dependencies = [
+    "pandas",
+    "gspread",
+    "google-auth",
+    "loguru",
+    "shapely",
+    "plotly",
+    "scipy",
+    "openpyxl",
+    "nbformat>=4.2.0",
+    "ipython",
+    "kaleido",
+    "scikit-learn",
+    "plotnine",
+    "pyyaml",
+]
 
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+
+[build-system]
+requires = ["setuptools>=62.6", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv]
+package = false
 
 [tool.setuptools]
 packages = ["crossreads_petrography"]
@@ -20,6 +41,3 @@ include-package-data = true
 
 [tool.setuptools.package-data]
 "crossreads_petrography" = ["../data/**/*"]
-
-[project.optional-dependencies]
-dev = ['pytest', 'pytest-cov']
