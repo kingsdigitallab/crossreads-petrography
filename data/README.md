@@ -63,7 +63,7 @@ The main data directory is located at:
 ```
 
 
-### MGS (Magnetic Grain Size)
+### MGS (Maximum Grain Size)
 
 
 ```39:49:data/default_config.yaml
