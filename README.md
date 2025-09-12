@@ -86,7 +86,7 @@ The data and tools are divided according to the type of analysis (Isotopes, MGS,
 
 ### Metadata
 
-The Metadata folder at https://drive.google.com/drive/folders/1fbNOQ7jdiKMMyUddN24kz3-5CBOEc-s5?role=writer contains two spreadsheets, called Sedimentary and Metamorphic, dedicated to the two types of rocks. Only a few ancient Sicilian inscriptions are on Igneous rocks, so a dedicated spreadsheet was not created. The rows (i.e. ISic numbers) are added manually to the two spreadsheets, after checking if the inscription’s support belongs to one or the other category.
+The Metadata folder contains two spreadsheets, called Sedimentary and Metamorphic, dedicated to the two types of rocks. Only a few ancient Sicilian inscriptions are on Igneous rocks, so a dedicated spreadsheet was not created. The rows (i.e. ISic numbers) are added manually to the two spreadsheets, after checking if the inscription’s support belongs to one or the other category.
 The general layout of the spreadsheets is the same: 
 - the column "ISic", containing the ISic code,
 - a set of columns with a selection of metadata from the I.Sicily database to facilitate data interpretation (filled in automatically by reading the corpus),
@@ -114,11 +114,11 @@ It has been demonstrated that the stable isotopes of carbon and oxygen can be su
 Delta18O or d18O or δ18O is the x; delta13C or d13C or δ13C is the y. Values are expressed as per mille (‰). Values are only present in the Metamorphic spreadsheet, as they are only used for marble.
 
 Input data: 
--	The spreadsheet Metamorphic.xlsx at https://docs.google.com/spreadsheets/d/1zFqqg7u9HtTv3rE-B2zYRBc4F9M3IGlE/edit?gid=1016769757#gid=1016769757 (in the Metadata folder at https://drive.google.com/drive/folders/1fbNOQ7jdiKMMyUddN24kz3-5CBOEc-s5?role=writer) contains isotopic values of the ISic samples in columns “isotopes delta13C” and “isotopes delta18O”, as provided from an external laboratory. 
--	The folder https://drive.google.com/drive/folders/1gelAn7pF-9tIvJWMospY-akikk3f-vdR?role=writer contains spreadsheets with x, y coordinates of the contours of reference isotopic ranges from literature, i.e. polygons. The coordinates have been extracted using PlotDigitizer — Extract Data from Graph Image Online on published graphs. Such coordinates are saved in columns, whose headers are MarbleType1_x, MarbleType1_y, MarbleType2_x, MarbleType2_y, etc. It is possible to have multiple spreadsheets in the folder. 
+-	The spreadsheet Metamorphic.xlsx in the Metadata folder contains isotopic values of the ISic samples in columns “isotopes delta13C” and “isotopes delta18O”, as provided from an external laboratory. 
+-	The folder Isotopes/input contains spreadsheets with x, y coordinates of the contours of reference isotopic ranges from literature, i.e. polygons. The coordinates have been extracted using PlotDigitizer — Extract Data from Graph Image Online on published graphs. Such coordinates are saved in columns, whose headers are MarbleType1_x, MarbleType1_y, MarbleType2_x, MarbleType2_y, etc. It is possible to have multiple spreadsheets in the folder. 
 
-Output data: https://drive.google.com/drive/folders/1_ia9EHZ13_aDJuqd2760RyibQDqvCJVo?role=writer
-Dated folders contain:
+Output data: 
+Dated folders in Isotopes/output contain:
 -	A graphical representation of the isotope curves, portrayed as smoothed polygons, over which the marble sample values are displayed as points. The individual marble types can be selected for display. 
 -	A tabular representation of which marble polygons a given marble sample is contained within, indicated by a tick mark. 
 
@@ -143,12 +143,11 @@ The Maximum Grain Size or MGS is the result of metamorphic processes, and as dif
 The MGS can be measured on marbles either by digital or optical microscopy, and is expressed in mm. MGS is only listed in the Metamorphic spreadsheet.
 
 Input data:
--	The spreadsheet Metamorphic.xlsx at https://docs.google.com/spreadsheets/d/1zFqqg7u9HtTv3rE-B2zYRBc4F9M3IGlE/edit?gid=1016769757#gid=1016769757 (in the Metadata folder at Google Drive: Sign-in) contains MGS of the samples in columns “digital microscopy MGS (mm)” and “optical microscopy MGS (mm)”, as observed in respective microscopic images. 
--	The folder https://drive.google.com/drive/folders/1EfS7LivydfwRqrFcWnQzEoszZMCQ4Uyw?role=writer contains a spreadsheet where the minimum and maximum values of the box and whiskers for each marble type, as well as the median value, are collected from the literature. 
+-	The spreadsheet Metamorphic.xlsx in the Metadata folder contains MGS of the samples in columns “digital microscopy MGS (mm)” and “optical microscopy MGS (mm)”, as observed in respective microscopic images. 
+-	The folder MGS/input contains a spreadsheet where the minimum and maximum values of the box and whiskers for each marble type, as well as the median value, are collected from the literature. 
 
 Output data:
-https://drive.google.com/drive/folders/1N68hGn6hrCStNXjKLGHGm7q0el_Co8VG?role=writer
-Dated folders contain:
+Dated folders in MGS/output contain:
 -	A tabular representation of which marbles are compatible with the values for each sample: 
   -	If the value falls in the whiskers range, one symbol is provided, while two symbols are printed if it falls in the box;
   -	If the value was obtained with the digital microscope, the symbol is a magnifying glass, while the microscope icon indicates optical microscopy. 
@@ -170,16 +169,16 @@ The goal of this tool is to reshape and reorganize the output of Profex-processe
 X-ray diffractometry yields the mineralogical composition of samples, analysed as powders in a diffractometer. Profex is used to unravel the mineralogical composition of samples by using an internal database of mineral species, with very precise compositions and code names. Such individual species can be grouped into higher levels (and their respective compositions summed accordingly), so that the results become easier to manage and interpret. 
 
 Input data:
--	The folder https://drive.google.com/drive/folders/1Poh6B6EYUMneLdBcT5gIXVbA5ZFItWRu?role=writer contains the spreadsheet “new colnames.xlsx” https://docs.google.com/spreadsheets/d/1bs89PMcpnwmJQpmvS15QYTSyCiIfpR6x/edit?gid=1246641509#gid=1246641509 with the correspondences of Profex individual subtypes with sub-categories and categories. This is editable to maintain as much detail as needed. 
--	The input folder https://drive.google.com/drive/folders/13wNLWoo0zcXZqYG1fI-qbics8sfRM6xu?role=writer contains the .csv outputs of exporting GLOBAL GOALS from batch processing in Profex. 
+-	The folder XRD contains the spreadsheet “new colnames.xlsx” with the correspondences of Profex individual subtypes with sub-categories and categories. This is editable to maintain as much detail as needed. 
+-	The input folder contains the .csv outputs of exporting GLOBAL GOALS from batch processing in Profex. 
 
 Output data:
-https://drive.google.com/drive/folders/17Hr9bethVTNgslpR37y3wQSFZPMILV9V?role=writer 
--	Dated folders with reformatted table of samples’ compositions, with columns interoperable with those in Metamorphic and Sedimentary spreadsheets in the Metadata folder https://drive.google.com/drive/folders/1fbNOQ7jdiKMMyUddN24kz3-5CBOEc-s5?role=writer
+
+-	Dated folders in XRD/output contain the reformatted table of samples’ compositions, with columns interoperable with those in Metamorphic and Sedimentary spreadsheets in the Metadata folder.
 
 The XRD.ipynb notebook (`XRDConverter` class in `xrd.py`) handles the processing of X-ray Diffraction (XRD) data. It performs the following tasks:  
 -	Reads data from Input folder
--	Reads the correspondence between the mineralogical species and subcategories/categories as stated in newcolnames.xlsx 
+-	Reads the correspondence between the mineralogical species and subcategories/categories as stated in new colnames.xlsx 
 -	Calculates combined columns for mineral categories by summing the mineralogical species and expresses them as %
 -	Generates two files in the Output folder: one for the sums and one with the analytical errors
 -	Writes the sums in the Metamorphic/Sedimentary spreadsheets, based on the ISic codes and on the matching column headers, duplicating lines if needed.  
@@ -200,14 +199,14 @@ Furthermore, the obtained mass fractions are standardized thanks to correction c
 Finally, in order to account for rocks variability and the presence of pigments, multiple analyses (in general 3, with two different measuring setups each) have been acquired on different areas of the same object, to calculate averages. 
 
 Input data:
--	The folder https://drive.google.com/drive/folders/1btBiCAoGwg4yWpa324B17WzZmJYfUCmk?role=writer contains 
+-	The folder pXRF contains 
   -	pxrf_coefficients.py, that summarizes the standardization coefficients and their validity ranges for a selection of elements and oxides, based on reference materials of known composition. 
   -	pXRF Logbook.xlsx, with the description of every individual region of interest (1 = a, 2 = b, etc.) in the format “description, other details”. The text before the comma is used to establish what to average together. 
-- The input folder https://drive.google.com/drive/folders/13lJS0Q2HDCItCUiKYGeZDNkWjvP-M9R-?role=writer contains the .txt files obtained from batch processing of spectra in PyMCA with an adapted configuration file. Filenames indicate the settings that were used for acquisition (M for light elements with the original vacuum window, MK for light elements with the replacement window, t for heavier elements). 
+- The input folder pXRF/input contains the .txt files obtained from batch processing of spectra in PyMCA with an adapted configuration file. Filenames indicate the settings that were used for acquisition (M for light elements with the original vacuum window, MK for light elements with the replacement window, t for heavier elements). 
 
 Output data:
-https://drive.google.com/drive/folders/1Hw0ptsXg7FtzpGPcBWN-ekx-FDdhXEhy?role=writer 
--	Dated folders with:
+
+-	Dated folders in pXRF/output with:
   -	pXRF_corrected_values.csv with the corrected PyMCA mass fractions according to the established coefficients for individual regions of interest 
   -	pXRF_corrected_values_with_descriptions.csv displaying the descriptions from the pXRF Logbook
   -	pXRF_corrected_values_with descriptions_mean.csv averaging the values from different regions of interest sharing the same colour. 
