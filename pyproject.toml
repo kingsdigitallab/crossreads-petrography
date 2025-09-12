@@ -41,3 +41,9 @@ include-package-data = true
 
 [tool.setuptools.package-data]
 "crossreads_petrography" = ["../data/**/*"]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.16.2",
+    "pip>=24.0",
+]
