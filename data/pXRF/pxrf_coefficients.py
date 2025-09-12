@@ -160,32 +160,39 @@ def get_coefficients(input_type, element, value):
         value (float): The input value (percentage or mass fraction)
 
     Returns:
-        dict: Coefficients {'a', 'b', 'c', 'd'} for the polynomial
+        tuple: (dict: Coefficients {'a', 'b', 'c', 'd'} for the polynomial, str: error message)
     """
     # Check if value is already an error string
     if isinstance(value, str):
-        raise ValueError(value)  # Re-raise the error string as ValueError
+        return (None, value)
 
     if input_type not in COEFFICIENTS:
-        raise ValueError(f"Invalid input type: {input_type}")
+        return (None, f"Invalid input type: {input_type}")
 
     if element not in COEFFICIENTS[input_type]:
-        raise ValueError(f"Element {element} not found for input type {input_type}")
+        return (None, f"Element {element} not found for input type {input_type}")
 
     element_data = COEFFICIENTS[input_type][element]
     thresholds = element_data["thresholds"]
 
-    if value <= thresholds["T"]:
-        return element_data["T"]
-    elif thresholds["U"] > 0 and value <= thresholds["U"]:
-        return element_data["U"]
-    elif thresholds["V"] > 0 and value <= thresholds["V"]:
-        return element_data["V"]
+    value_error = ""
 
-    raise ValueError(
+    if value <= thresholds["T"]:
+        return (element_data["T"], value_error)
+    elif thresholds["U"] > 0 and value <= thresholds["U"]:
+        return (element_data["U"], value_error)
+    elif thresholds["V"] > 0 and value <= thresholds["V"]:
+        return (element_data["V"], value_error)
+
+    value_error = (
         f"Value {value} is out of range for element {element} in input type {input_type}. "
         f"Valid range: 0 to {max(thresholds.values())}."
     )
+
+    if input_type == "t":
+        return (element_data["T"], value_error)
+
+    return (None, value_error)
 
 
 def calculate_corrected_value(input_type, element, value):
@@ -200,13 +207,15 @@ def calculate_corrected_value(input_type, element, value):
     Returns:
         float or str: Corrected value or error message
     """
-    try:
-        coeffs = get_coefficients(input_type, element, value)
+    coeffs, error = get_coefficients(input_type, element, value)
+
+    if coeffs:
         return (
             coeffs["a"] * value**3
             + coeffs["b"] * value**2
             + coeffs["c"] * value
-            + coeffs["d"]
+            + coeffs["d"],
+            error,
         )
-    except ValueError as e:
-        return str(e)  # Return error message as string for logging
+
+    return (None, error)
