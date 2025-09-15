@@ -1131,6 +1131,9 @@ dev = [
     { name = "pip", version = "24.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.8'" },
     { name = "pip", version = "25.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.8.*'" },
     { name = "pip", version = "25.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
+    { name = "pytest", version = "7.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.8'" },
+    { name = "pytest", version = "8.3.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.8.*'" },
+    { name = "pytest", version = "8.4.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
 ]
 
 [package.metadata]
@@ -1158,6 +1161,7 @@ provides-extras = ["dev"]
 dev = [
     { name = "ipykernel", specifier = ">=6.16.2" },
     { name = "pip", specifier = ">=24.0" },
+    { name = "pytest", specifier = ">=7.4.4" },
 ]
 
 [[package]]
