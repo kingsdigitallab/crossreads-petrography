@@ -31,7 +31,7 @@ Project structure:
 
 ## Install
 
-Install the package directly from GitHub using pip:
+Install the package in Google Colab (or Jupyter) directly from GitHub using `pip` in a notebook cell:
 
 ```python
 !pip install -qU git+https://github.com/kingsdigitallab/crossreads-petrography
