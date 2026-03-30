@@ -37,7 +37,7 @@ Install the package directly from GitHub using pip:
 !pip install -qU git+https://github.com/kingsdigitallab/crossreads-petrography
 ```
 
-For development or local modifications, clone the repo and install via `pip install -e ". [dev]"`.
+For development or local modifications, clone the repo and install via `pip install -e ".[dev]"`.
 
 ### Configure
 
