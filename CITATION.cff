@@ -1,0 +1,13 @@
+authors:
+- family_names: Heuser
+  given_names: Ryan
+- family_names: Vieira
+  given_names: Miguel
+- family_names: Coccato
+  given_names: Alessia
+cff_version: 1.2.0
+message: If you use this software, please cite it using these metadata.
+repository: https://github.com/kingsdigitallab/crossreads-petrography
+title: CROSSREADS Petrography
+type: software
+
