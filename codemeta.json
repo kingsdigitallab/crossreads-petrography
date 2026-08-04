@@ -1,0 +1,51 @@
+{
+    "@context": "https://w3id.org/codemeta/3.0",
+    "@type": [
+        "SoftwareSourceCode",
+        "SoftwareApplication"
+    ],
+    "applicationCategory": "Petrography",
+    "author": [
+        {
+            "email": "ryan.heuser@kcl.ac.uk",
+            "familyName": "Heuser",
+            "givenName": "Ryan",
+            "name": "Ryan Heuser",
+            "@id": "_:author_1",
+            "@type": "Person"
+        },
+        {
+            "familyName": "Vieira",
+            "givenName": "Miguel",
+            "@id": "_:author_2",
+            "@type": "Person"
+        },
+        {
+            "familyName": "Coccato",
+            "givenName": "Alessia",
+            "@id": "_:author_3",
+            "@type": "Person"
+        }
+    ],
+    "codeRepository": "https://github.com/kingsdigitallab/crossreads-petrography",
+    "dateCreated": "2024-07-16",
+    "dateModified": "2026-03-30",
+    "datePublished": "2026-08-04",
+    "description": "This project provides tools and scripts supporting (geo)chemical, mineralogic and petrographic analyses as part of the Crossreads Project (Faculty of Classics, University of Oxford), in collaboration with King's Digital Lab of King's College London and the Department of Biological, Geological and Environmental Sciences at the University of Catania. \n\nWithin Crossreads, the identification of stone supports used for inscriptions of Ancient Sicily is obtained through a multi-analytical approach combining both non-invasive, non-destructive and destructive methodologies.\n\nThe tools developed in this project include functionalities for pre- and post-processing, as well as utilities for interacting with Google Sheets for data storage and retrieval of different types of (geo)chemical, mineralogical and petrographic data deriving from the analysis of rocks. Different analytical techniques require different strategies to obtain usable data for comparisons within the dataset and/or with the literature. To facilitate the interpretation of complex data, the developed tools generate self-standing outputs, which are also consolidated into two separate spreadsheets, one for Metamorphic and one for Sedimentary rocks.",
+    "downloadUrl": "https://github.com/kingsdigitallab/crossreads-petrography/releases",
+    "funder": {
+        "name": "European Research Council (ERC) ",
+        "@type": "Organization"
+    },
+    "isPartOf": "https://crossreads.site.ox.ac.uk/",
+    "name": "CROSSREADS Petrography",
+    "programmingLanguage": [
+        "HTML",
+        "Jupyter Notebook"
+    ],
+    "runtimePlatform": "Python>=3.7",
+    "version": "v1.0.0",
+    "continuousIntegration": "https://raw.githubusercontent.com/kingsdigitallab/crossreads-petrography/main/.github/workflows/CI.yml",
+    "developmentStatus": "inactive",
+    "funding": "Horizon 2020 Grant agreement No. 885040"
+}
