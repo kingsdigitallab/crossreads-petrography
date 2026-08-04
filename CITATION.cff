@@ -1,13 +1,37 @@
+abstract: "This project provides tools and scripts supporting (geo)chemical, mineralogic
+  and petrographic analyses as part of the Crossreads Project (Faculty of Classics,
+  University of Oxford), in collaboration with King's Digital Lab of King's College
+  London and the Department of Biological, Geological and Environmental Sciences at
+  the University of Catania. \n\nWithin Crossreads, the identification of stone supports
+  used for inscriptions of Ancient Sicily is obtained through a multi-analytical approach
+  combining both non-invasive, non-destructive and destructive methodologies.\n\n\
+  The tools developed in this project include functionalities for pre- and post-processing,
+  as well as utilities for interacting with Google Sheets for data storage and retrieval
+  of different types of (geo)chemical, mineralogical and petrographic data deriving
+  from the analysis of rocks. Different analytical techniques require different strategies
+  to obtain usable data for comparisons within the dataset and/or with the literature.
+  To facilitate the interpretation of complex data, the developed tools generate self-standing
+  outputs, which are also consolidated into two separate spreadsheets, one for Metamorphic
+  and one for Sedimentary rocks."
 authors:
-- family_names: Heuser
+- email: ryan.heuser@kcl.ac.uk
+  family_names: Heuser
   given_names: Ryan
 - family_names: Vieira
   given_names: Miguel
 - family_names: Coccato
   given_names: Alessia
 cff_version: 1.2.0
+date_released: '2026-08-04'
+identifiers:
+- description: Part of
+  type: url
+  value: https://crossreads.site.ox.ac.uk/
 message: If you use this software, please cite it using these metadata.
-repository: https://github.com/kingsdigitallab/crossreads-petrography
+repository_artifact: 
+  https://github.com/kingsdigitallab/crossreads-petrography/releases
+repository_code: https://github.com/kingsdigitallab/crossreads-petrography
 title: CROSSREADS Petrography
 type: software
+version: v1.0.0
 
