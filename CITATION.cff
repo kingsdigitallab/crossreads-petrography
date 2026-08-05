@@ -15,22 +15,22 @@ abstract: "This project provides tools and scripts supporting (geo)chemical, min
   and one for Sedimentary rocks."
 authors:
 - email: ryan.heuser@kcl.ac.uk
-  family_names: Heuser
-  given_names: Ryan
-- family_names: Vieira
-  given_names: Miguel
-- family_names: Coccato
-  given_names: Alessia
-cff_version: 1.2.0
-date_released: '2026-08-04'
+  family-names: Heuser
+  given-names: Ryan
+- family-names: Vieira
+  given-names: Miguel
+- family-names: Coccato
+  given-names: Alessia
+cff-version: 1.2.0
+date-released: '2026-08-04'
 identifiers:
 - description: Part of
   type: url
   value: https://crossreads.site.ox.ac.uk/
 message: If you use this software, please cite it using these metadata.
-repository_artifact: 
+repository-artifact: 
   https://github.com/kingsdigitallab/crossreads-petrography/releases
-repository_code: https://github.com/kingsdigitallab/crossreads-petrography
+repository-code: https://github.com/kingsdigitallab/crossreads-petrography
 title: CROSSREADS Petrography
 type: software
 version: v1.0.0
