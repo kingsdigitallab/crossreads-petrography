@@ -237,7 +237,14 @@ pxrf_converter.run()
 ## How to cite
 
 ```bibtext
-Heuser, R., Vieira, M., & Coccato, A. (2026). CROSSREADS Petrography (Version v1.0.0) [Computer software]. https://github.com/kingsdigitallab/crossreads-petrography
+@software{Heuser_CROSSREADS_Petrography_2026,
+author = {Heuser, Ryan and Vieira, Miguel and Coccato, Alessia},
+month = aug,
+title = {{CROSSREADS Petrography}},
+url = {https://github.com/kingsdigitallab/crossreads-petrography},
+version = {v1.0.0},
+year = {2026}
+}
 ```
 
 (Generated from codemeta.json)
