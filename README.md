@@ -236,7 +236,7 @@ pxrf_converter.run()
 
 ## How to cite
 
-```bibtext
+```bibtex
 @software{Heuser_CROSSREADS_Petrography_2026,
 author = {Heuser, Ryan and Vieira, Miguel and Coccato, Alessia},
 month = aug,
