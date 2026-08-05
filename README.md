@@ -233,3 +233,11 @@ from crossreads_petrography.pxrf import PXRFConverter
 pxrf_converter = PXRFConverter()
 pxrf_converter.run()
 ```
+
+## How to cite
+
+```bibtext
+Heuser, R., Vieira, M., & Coccato, A. (2026). CROSSREADS Petrography (Version v1.0.0) [Computer software]. https://github.com/kingsdigitallab/crossreads-petrography
+```
+
+(Generated from codemeta.json)
